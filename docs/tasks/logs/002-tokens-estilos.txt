@@ -1,0 +1,20 @@
+﻿Done. All acceptance criteria met.
+
+**Archivos tocados**
+- `src/styles/tokens.css` (crear)
+- `src/styles/base.css` (crear)
+- `tests/tokens.test.js` (crear)
+- `src/main.js` (modificar: importar los dos CSS)
+
+**Decisiones**
+- Tokens no de color (fuentes, `--fs-*`, `--sp-*`, forma, animaci├│n, `--z-header`) en bloque `:root` gen├®rico; los 7 colores en bloque oscuro `:root, :root[data-theme="dark"]` y claro `:root[data-theme="light"]`, m├ís el `@media (prefers-color-scheme: light)` con `:root:not([data-theme])` para evitar destello.
+- `base.css` solo usa `var(--...)` para color/tipo/espaciado; reset m├¡nimo, `.contenedor`, `.sr-only`, transici├│n de tema en `body`, y `prefers-reduced-motion` a `0ms`.
+- Test extrae el bloque oscuro y el claro por selector y verifica los 7 tokens de color en cada uno, m├ís `--sp-*`/`--fs-*`/`--dur-*`.
+
+**Validaci├│n**
+- `npm test`: 6 passed
+- `npm run build`: OK
+- `base.css`: sin hex ni `rgb(`
+
+**Dudas**: ninguna.
+

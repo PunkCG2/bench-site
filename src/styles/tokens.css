@@ -1,0 +1,78 @@
+/* Tokens de diseño. Los valores viven solo aquí; el resto usa var(--...). */
+
+:root {
+  /* Tipografía */
+  --font-title: 'Space Grotesk', sans-serif;
+  --font-text: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --fs-14: 14px;
+  --fs-16: 16px;
+  --fs-20: 20px;
+  --fs-28: 28px;
+  --fs-44: 44px;
+  --fs-72: 72px;
+
+  /* Espaciado: el número es el valor en px */
+  --sp-4: 4px;
+  --sp-8: 8px;
+  --sp-12: 12px;
+  --sp-16: 16px;
+  --sp-24: 24px;
+  --sp-32: 32px;
+  --sp-48: 48px;
+  --sp-64: 64px;
+
+  /* Forma */
+  --r-card: 10px;
+  --r-btn: 6px;
+  --maxw: 1100px;
+
+  /* Animación */
+  --dur-counter: 900ms;
+  --dur-bar: 700ms;
+  --dur-theme: 200ms;
+  --dur-reveal: 400ms;
+  --stagger-bar: 80ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* El header queda por encima de todo el contenido */
+  --z-header: 100;
+}
+
+/* Tema oscuro (por defecto) */
+:root,
+:root[data-theme="dark"] {
+  --c-local: #3DD68C;
+  --c-pareja: #4DA3FF;
+  --c-claude: #E5534B;
+  --bg: #14161A;
+  --surface: #1C1F24;
+  --text: #E8E6E1;
+  --muted: #8A8F98;
+}
+
+/* Tema claro */
+:root[data-theme="light"] {
+  --c-local: #1E9E63;
+  --c-pareja: #1F6FD1;
+  --c-claude: #C0392B;
+  --bg: #F4F2EE;
+  --surface: #FFFFFF;
+  --text: #1C1F24;
+  --muted: #5C626B;
+}
+
+/* Antes de que el JS fije el tema, seguir la preferencia del sistema
+   para evitar un destello del tema equivocado. */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    --c-local: #1E9E63;
+    --c-pareja: #1F6FD1;
+    --c-claude: #C0392B;
+    --bg: #F4F2EE;
+    --surface: #FFFFFF;
+    --text: #1C1F24;
+    --muted: #5C626B;
+  }
+}

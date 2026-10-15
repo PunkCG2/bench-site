@@ -1,0 +1,54 @@
+/* Estilos base: reset mínimo y estilos globales.
+   Colores, tipografías y espaciados solo vía var(--...) de tokens.css. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  /* Fondo liso: sin cuadrícula ni texturas */
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-text);
+  font-size: var(--fs-16);
+  transition: background-color var(--dur-theme), color var(--dur-theme);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-title);
+  font-weight: 600;
+}
+
+.contenedor {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding-left: var(--sp-16);
+  padding-right: var(--sp-16);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0ms;
+    animation-duration: 0ms;
+  }
+}
