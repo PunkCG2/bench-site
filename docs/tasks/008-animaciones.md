@@ -1,6 +1,6 @@
 ---
 id: 008
-estado: en-curso
+estado: hecha
 ejecuta: local
 depende: [002]
 rondas: 0
@@ -48,4 +48,4 @@ Aplica docs/diseno.md §Animación.
 - [ ] `animate.css` solo usa valores vía `var(--...)` salvo `12px`, `0` y `1` del desplazamiento y la opacidad
 
 ## Notas de revisión
-(las escribe Claude al aprobar)
+Worker local cumplió a la primera. 72 tests y build verificados; animate.css solo con var(--...) salvo 12px, 0 y 1.
