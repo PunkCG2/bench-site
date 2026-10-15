@@ -63,9 +63,7 @@ def sin_razonamiento(payload):
     if isinstance(system, list):
         payload["system"] = system + [{"type": "text", "text": "/no_think"}]
     elif isinstance(system, str) and system:
-        payload["system"] = system + "
-
-/no_think"
+        payload["system"] = system + " /no_think"
     else:
         payload["system"] = "/no_think"
     return payload
