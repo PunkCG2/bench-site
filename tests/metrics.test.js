@@ -9,8 +9,8 @@ import {
   cambioPorRevision,
 } from '../src/lib/metrics.js'
 
-const gemma = data.modelos.find((m) => m.etiqueta === 'Gemma')
-const qwen = data.modelos.find((m) => m.etiqueta === 'Qwen')
+const gemma = data.modelos.find((m) => m.id === 'gemma-4-26b-a4b-qat')
+const qwen = data.modelos.find((m) => m.id === 'qwen3.8-27b')
 
 function modeloTodoDiez() {
   return {

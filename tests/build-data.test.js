@@ -1,5 +1,5 @@
 import { describe, it, expect, afterAll } from 'vitest'
-import { readFileSync, writeFileSync, mkdtempSync, rmSync } from 'node:fs'
+import { readFileSync, readdirSync, writeFileSync, mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -26,13 +26,20 @@ function escribe(dir, nombre, texto) {
 }
 
 describe('buildData', () => {
-  it('devuelve 2 modelos con 13 tareas cada uno', () => {
+  it('devuelve un modelo por cada reporte de data/raw, cada uno con tareas', () => {
     const data = buildData(rawDir)
+    const reportes = readdirSync(rawDir).filter((f) => f.endsWith('.txt'))
     expect(data.version).toBe(1)
-    expect(data.modelos).toHaveLength(2)
+    expect(data.modelos).toHaveLength(reportes.length)
+    expect(data.modelos.length).toBeGreaterThanOrEqual(2)
     for (const m of data.modelos) {
-      expect(m.tareas).toHaveLength(13)
+      expect(m.tareas.length).toBeGreaterThan(0)
     }
+  })
+
+  it('las etiquetas de los modelos son únicas', () => {
+    const etiquetas = buildData(rawDir).modelos.map((m) => m.etiqueta)
+    expect(new Set(etiquetas).size).toBe(etiquetas.length)
   })
 
   it('un reporte nuevo aparece sin cambios de código', () => {

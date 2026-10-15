@@ -41,7 +41,7 @@ describe('columnas', () => {
   })
   it('la columna local de Gemma muestra costo —', () => {
     handle = renderColumnas(contenedor, datos)
-    setModelo(datos.modelos.find((m) => m.etiqueta === 'Gemma').id)
+    setModelo(datos.modelos.find((m) => m.id === 'gemma-4-26b-a4b-qat').id)
     const costo = contenedor.querySelector('.columna[data-modo="local"]').querySelectorAll('.tarjeta')[3].querySelector('.tarjeta__valor')
     expect(costo.textContent).toBe('—')
   })
