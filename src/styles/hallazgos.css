@@ -1,0 +1,25 @@
+/* Hallazgos y metodología del modelo activo. Solo variables de tokens.css. */
+
+.hallazgos,
+.metodologia {
+  padding-block: var(--sp-32);
+}
+
+.hallazgos__lista {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-16);
+  margin: 0;
+  padding: 0;
+}
+
+.hallazgo {
+  background: var(--surface);
+  border-radius: var(--r-card);
+  padding: var(--sp-16);
+}
+
+.metodologia__texto {
+  color: var(--muted);
+}

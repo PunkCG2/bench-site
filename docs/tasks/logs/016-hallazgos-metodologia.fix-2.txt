@@ -1,0 +1,5 @@
+﻿Creado `tests/hallazgos.test.js` (75 l├¡neas, una Write): 4 tests ÔÇö hallazgos por modelo, claves de `elegirVariantes` con `mk`, cambio de modelo, idioma en + metodolog├¡a.
+`npm test`: 97/97 pasan (13 archivos). `npm run build`: OK.
+Sin cambios fuera del alcance; sin cifras literales (todo desde `benchmarks.json`/`metrics.js`).
+Dudas: ninguna.
+

@@ -1,0 +1,6 @@
+﻿Archivos: `src/i18n/sections/hallazgos.js`, `src/styles/hallazgos.css`, `src/components/hallazgos.js` (creados).
+Decisi├│n: `elegirVariantes(modelo)` devuelve las 4 claves i18n completas (p. ej. `hallazgos.tokens.mas`), no solo el nombre de variante; `mas_rapida` usa `n = Math.round(claude.tiempo_s / pareja.tiempo_s)`.
+Sin cifras literales; CSS solo `var(--...)`; paridad es-en verificada por el test de i18n.
+Validaci├│n: `npm test` 93/93 pasa; `npm run build` OK.
+Duda: `elegirVariantes` devuelve claves completas (lectura literal de "las 4 claves"); si los tests esperan solo el nombre de variante, se ajusta ah├¡.
+
