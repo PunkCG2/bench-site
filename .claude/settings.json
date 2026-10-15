@@ -15,7 +15,6 @@
     ],
     "deny": [
       "Edit(data/raw/**)",
-      "Write(data/raw/**)",
       "Bash(git push*)",
       "Bash(git reset --hard*)"
     ]
