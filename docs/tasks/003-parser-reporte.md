@@ -1,6 +1,6 @@
 ---
 id: 003
-estado: en-curso
+estado: hecha
 ejecuta: local
 depende: [001]
 rondas: 0
@@ -84,4 +84,4 @@ Pruebas (cifras tomadas de los reportes reales; es válido escribirlas en tests)
       sobre `id`, `nombre` y `etiqueta`
 
 ## Notas de revisión
-(las escribe Claude al aprobar)
+Primer intento del worker agotó tokens de salida sin producir nada; segundo intento correcto. Fallo menor aceptado: líneas de resumen mal formadas lanzan TypeError en vez de Error con mensaje (los reportes son fijos).
