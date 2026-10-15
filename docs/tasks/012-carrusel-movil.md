@@ -1,6 +1,6 @@
 ---
 id: 012
-estado: en-curso
+estado: hecha
 ejecuta: claude
 depende: [011]
 rondas: 0
@@ -51,4 +51,4 @@ gesto (umbrales de arrastre, snap, foco), difícil de dar como especificación c
       (verificado en el navegador; el carrusel no declara `z-index`)
 
 ## Notas de revisión
-(las escribe Claude al aprobar)
+Implementada por Claude. 108 tests y build verificados. PENDIENTE: los criterios de navegador (800 px una columna, arrastre con mouse, flechas, scroll bajo el header) solo se pueden comprobar con la página ensamblada: verificar en la tarea 017/018.
