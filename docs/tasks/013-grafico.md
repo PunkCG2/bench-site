@@ -1,6 +1,6 @@
 ---
 id: 013
-estado: en-curso
+estado: hecha
 ejecuta: claude
 depende: [007, 008, 009]
 rondas: 0
@@ -55,4 +55,4 @@ exagerarla) pide criterio visual.
 - [ ] `grafico.css` no contiene hexadecimales ni `z-index`
 
 ## Notas de revisión
-(las escribe Claude al aprobar)
+Implementada por Claude con barras CSS (ancho proporcional, escala 0 a 10 en precision y maximo del grafico en el resto). 113 tests y build verificados. Verificacion visual pendiente hasta ensamblar la pagina (017/018).
