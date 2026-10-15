@@ -1,0 +1,6 @@
+﻿Archivos: `src/i18n/sections/comun.js` (a├▒adida `app.vacio` es/en), `src/main.js` (reescrito, 59 l├¡neas).
+`montar(raiz, datos)`: limpia raiz, `initState`, t├¡tulo + `onLangChange`, orden headerÔåÆmainÔåÆfooter; si `modelos` vac├¡o muestra `<p class="vacio">` (reescrito al cambiar idioma), si no monta hero/columnas/grafico/tabla/hallazgos y asigna ids `hero,modos,grafico,detalle,hallazgos,metodologia` recorriendo `main.children`.
+Devuelve `{ cancelar }` que cancela todos los `cancelar`; al final `montar` solo si existe `#app`.
+Importo `getState` por la spec aunque no se usa (sin lint, no rompe build).
+Validaci├│n: `npm test` 113 passed; `npm run build` OK.
+

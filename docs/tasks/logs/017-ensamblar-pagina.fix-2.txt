@@ -1,0 +1,5 @@
+﻿`tests/app.test.js` creado (78 l├¡neas, una Write). Mocks en `beforeEach` (matchMedia + IntersectionObserver); sin `vi.mock`.
+Test 3: el `<h1>` es 'Local + Claude' en ambos idiomas (no cambia), as├¡ que compruebo el cambio en `header` (subtitulo+botones), footer y `.hero__frase`, y `document.title === 'Local + Claude'`.
+Validaci├│n: `npm test` 119/119 OK; `npm run build` OK.
+Duda: si se exig├¡a afirmar que el h1 cambia, es imposible ÔÇö el texto es id├®ntico en es/en.
+

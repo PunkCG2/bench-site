@@ -7,6 +7,7 @@ export default {
     'modo.local': 'Modelo local solo',
     'modo.pareja': 'Pareja (local + revisión)',
     'modo.claude': 'Claude solo',
+    'app.vacio': 'No hay resultados de benchmark para mostrar.',
   },
   en: {
     'titulo': 'Local + Claude',
@@ -15,5 +16,6 @@ export default {
     'modo.local': 'Local model only',
     'modo.pareja': 'Pair (local + review)',
     'modo.claude': 'Claude only',
+    'app.vacio': 'There are no benchmark results to show.',
   },
 }
