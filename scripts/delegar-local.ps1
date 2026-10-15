@@ -42,13 +42,16 @@ $logDir = "docs/tasks/logs"
 New-Item -ItemType Directory -Force -Path $logDir | Out-Null
 $log = Join-Path $logDir ([System.IO.Path]::GetFileNameWithoutExtension($TaskFile) + ".txt")
 
-$out = Get-Content $TaskFile -Raw -Encoding UTF8 | claude -p `
+# Las instrucciones del worker van al inicio del prompt de usuario, no en --append-system-prompt:
+# la plantilla Jinja del modelo en LM Studio rechaza un segundo mensaje de sistema
+# ("System message must be at the beginning").
+$prompt = $worker + "`n`n" + (Get-Content $TaskFile -Raw -Encoding UTF8)
+$out = $prompt | claude -p `
     --model $Model `
     --max-turns $MaxTurns `
     --permission-mode acceptEdits `
     --allowedTools "Read,Edit,Write,Glob,Grep,Bash(npm *)" `
-    --strict-mcp-config `
-    --append-system-prompt $worker | Out-String
+    --strict-mcp-config | Out-String
 $out | Set-Content -Path $log -Encoding UTF8
 Write-Output $out
 
