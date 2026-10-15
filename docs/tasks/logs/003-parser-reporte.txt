@@ -1,0 +1,19 @@
+﻿Done. Parser completo y validado.
+
+**Archivos tocados** (solo en alcance):
+- `scripts/parse-report.js` (crear) ÔÇö `parseReport(texto)` pura, `export`, sin dependencias
+- `tests/parse-report.test.js` (crear) ÔÇö 14 tests contra los dos reportes reales
+
+**Decisiones**:
+- Filas RESUMEN por posici├│n (local/pareja/claude), ignora etiquetas "Qwen solo" ÔåÆ bug no se propaga
+- Fila RESUMEN se lee de derecha a izquierda (costoÔåÆtokensÔåÆtiempoÔåÆnota), cada campo con formato propio
+- `ambito` por prefijo del id; `quien` de fallos: "Claude solo"ÔåÆclaude, "pareja"ÔåÆpareja, else local
+- Errores nombran la secci├│n faltante (cabecera / RESUMEN / DETALLE)
+
+**Validaci├│n**:
+- `npm test` ÔåÆ 20 passed (3 archivos)
+- `npm run build` ÔåÆ Ô£ô built
+- 13 tareas por reporte; Gemma `id/nombre/etiqueta` sin "Qwen" (verificado con `JSON.stringify(...).includes('Qwen')`)
+
+**Dudas**: ninguna. `data/raw/` solo le├¡do, no tocado.
+
