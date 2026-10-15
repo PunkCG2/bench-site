@@ -1,0 +1,16 @@
+﻿Tarea 001 lista.
+
+Archivos: `package.json`, `vite.config.js`, `index.html`, `src/main.js`, `tests/smoke.test.js` (creados). `package-lock.json` sale de `npm install`.
+
+Decisiones:
+- `npm install -D vite vitest jsdom` fija versiones: vite ^8.3.4, vitest ^5.0.5, jsdom ^30.1.3. Solo esas 3 en devDependencies.
+- `index.html`: lang="es", title "Local + Claude", `#app`, script module, preconnect + Google Fonts (Space Grotesk 600, Inter 400, JetBrains Mono 400/500).
+- `vite.config.js`: solo `test.environment: 'jsdom'`, sin `base`.
+
+Validaci├│n:
+- `npm install` OK, sin errores.
+- `npm test` ÔåÆ 1 passed.
+- `npm run build` ÔåÆ OK, crea `dist/index.html`.
+
+Duda: `package-lock.json` no est├í en la lista de alcance; lo dej├® (byproduct est├índar de npm install). No toqu├® `docs/` ni `data/raw/`.
+
