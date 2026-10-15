@@ -1,9 +1,9 @@
 ---
 id: 010
-estado: en-curso
+estado: hecha
 ejecuta: local
 depende: [005, 008, 009]
-rondas: 0
+rondas: 1
 ---
 # Construir el hero con cifras animadas
 
@@ -52,4 +52,4 @@ negativa, el factor es 1 o la nota no sube (usa `−`/`+` según el signo y vari
 - [ ] Las claves de `sections/hero.js` tienen paridad es-en (lo verifica la prueba de i18n)
 
 ## Notas de revisión
-(las escribe Claude al aprobar)
+Worker agotó tokens de salida dos veces (solo dejó i18n). Ronda 1 con fix-1 que divide el trabajo en archivos cortos: correcta. 81 tests y build verificados; sin cifras literales.
