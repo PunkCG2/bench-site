@@ -99,7 +99,12 @@ export function crearCarrusel(rejilla, columnas, etiquetas) {
     if (!arrastrando && Math.abs(dx) > UMBRAL_ARRASTRE) {
       arrastrando = true
       rejilla.classList.add('carrusel--arrastrando')
-      rejilla.setPointerCapture?.(e.pointerId)
+      try {
+        // Sigue el arrastre aunque el puntero salga de la rejilla.
+        rejilla.setPointerCapture?.(e.pointerId)
+      } catch {
+        // Un puntero sin captura posible no debe romper el arrastre.
+      }
     }
     if (arrastrando) rejilla.scrollLeft = inicioScroll - dx
   }
