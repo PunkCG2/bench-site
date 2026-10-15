@@ -1,6 +1,6 @@
 ---
 id: 001
-estado: en-curso
+estado: hecha
 ejecuta: local
 depende: []
 rondas: 0
@@ -43,4 +43,4 @@ Existe un proyecto Vite con JavaScript vanilla, Vitest con entorno jsdom, y los 
 - [ ] `npm run build` termina sin errores y crea `dist/index.html`
 
 ## Notas de revisión
-(las escribe Claude al aprobar)
+Worker local cumplió a la primera. npm test y build verificados; package-lock.json aceptado (efecto de npm install).
