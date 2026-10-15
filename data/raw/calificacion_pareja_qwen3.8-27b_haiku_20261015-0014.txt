@@ -1,0 +1,57 @@
+============================================================================================
+  BENCHMARK PAREJA — modelo local escribe, Claude revisa
+============================================================================================
+  Modelo local:  qwen3.8-27b (IQ3_XXS)
+  Revisor:       Claude haiku (tu suscripción, vía Claude Code)
+  Fecha:         2026-10-15 00:14    Benchmark: v1    Tareas: 13
+
+  RESUMEN
+  ----------------------------------------------------------------------------------------
+                                nota   tiempo/tarea   tokens Claude/tarea   costo API equiv.
+  Qwen solo                      9.6          129 s                     0                  —
+  Qwen + revisión haiku          9.5          217 s                19,113             0.004$
+  Claude haiku solo             10.0           32 s                85,852             0.005$
+
+  La revisión mejoró 0 tarea(s), empeoró 1 y 8 quedaron aprobadas en la primera revisión.
+  Tokens de Claude = entrada + salida + caché. Con suscripción no pagas por token: cuentan contra tus límites
+  de uso; el costo es solo una referencia de lo que valdría por API.
+
+  LECTURA RÁPIDA
+  ----------------------------------------------------------------------------------------
+  · La pareja usa 78% menos tokens de Claude que dejar a Claude hacerlo solo, con 0.5 puntos menos de nota.
+  · En tiempo: pareja 217 s vs Claude solo 32 s por tarea.
+  · La revisión aporta -0.1 puntos sobre Qwen solo.
+
+  DETALLE POR TAREA
+  ----------------------------------------------------------------------------------------
+  tarea      Qwen solo   pareja  rondas  tok Claude  Claude solo  tok Claude
+  T-101           10.0     10.0       0      19,731         10.0      69,771
+  T-102           10.0     10.0       1      40,236         10.0      87,573
+      · revisión 1: [Assets/Scripts/Items/Inventory.cs] `ItemStack.Count` tiene setter público (`{ get; set; }`). Eso incumple la convención 2 ("expón datos
+  T-103           10.0     10.0       0      20,601         10.0      96,816
+  T-104           10.0     10.0       0      19,159         10.0      72,997
+  W-201           10.0     10.0       0      10,193         10.0      75,247
+  W-202           10.0     10.0       0      11,042         10.0      88,642
+  W-203           10.0     10.0       0      10,849         10.0      72,034
+  W-204           10.0     10.0       0       9,078         10.0      53,509
+  CPP-301         10.0     10.0       0       8,026          9.8      73,458
+  UE-302          10.0     10.0       2      30,077          9.8     165,910
+      · revisión 1: [Source/Arena/Components/HealthComponent.cpp] En ApplyDamage, OnHealthChanged.Broadcast se ejecuta antes de marcar bIsDead = true. Si un listener 
+      · revisión 1: [Source/Arena/Components/HealthComponent.h] CurrentHealth se inicializa en 0.f, no en MaxHealth. Cualquier ApplyDamage antes de BeginPlay deja l
+      · revisión 2: [Source/Arena/Components/HealthComponent.cpp] `BeginPlay` restablece `CurrentHealth = MaxHealth` pero no restablece `bIsDead`. `ArenaCharacter::Be
+  RS-401          10.0     10.0       2      18,418         10.0      81,679
+      · revisión 1: [src/save.rs] En el bloque de `item`, `current + qty` puede desbordar `u32`. `current` nunca supera 99, pero `qty`
+      · revisión 2: [src/save.rs] El parseo de `item=` usa `value.split_once(':')`, así que un nombre de objeto que contiene ':' (p. e
+  NET-501          4.2      3.2       2      26,008         10.0      90,807
+      · revisión 1: [Endpoints/ScoreEndpoints.cs] Ambos endpoints inyectan `ILogger` (no genérico). Ese servicio no está registrado en el contenedor d
+      · revisión 1: [Endpoints/ScoreEndpoints.cs] La expresión regular `^[A-Za-z0-9_-]+$` usa `$`, que en .NET también acepta un salto de línea final.
+      · revisión 2: [Endpoints/ScoreEndpoints.cs] En POST /api/scores, si el cuerpo tiene tipos incorrectos (por ejemplo "score": "abc", "score": 1.5,
+  FB-601          10.0     10.0       2      25,053         10.0      87,631
+      · revisión 1: [src/migrate.ts] migrateLastLogin llama a new Date(raw).toISOString() con cualquier entero finito. Si el ms queda fue
+      · revisión 1: [src/migrate.ts] En migrateScore, una cadena vacía o solo con espacios ("" o "   ") pasa por Number(raw.trim()) y se 
+      · revisión 1: [src/migrate.ts] migrateDisplayName recorta con trimmed.slice(0, 24), que cuenta unidades UTF-16. Si el nombre contie
+      · revisión 2: [src/migrate.ts] En `migrateUsers`, `users[uid] = migrateUser(...)` usa un objeto literal `{}` como diccionario. Si u
+      · revisión 2: [src/migrate.ts] `migrateLastLogin` trata `null` como dato inválido y registra un error `field: "lastLogin"`. La espe
+
+  Nota: cada tarea usa los mismos tests reales del benchmark de agente. 'Qwen solo' es la primera pasada de la
+  pareja (antes de la revisión), así que ambas notas salen de la misma ejecución.

@@ -1,0 +1,64 @@
+============================================================================================
+  BENCHMARK PAREJA — modelo local escribe, Claude revisa
+============================================================================================
+  Modelo local:  google/gemma-4-26b-a4b-qat (Q4_0)
+  Revisor:       Claude haiku (tu suscripción, vía Claude Code)
+  Fecha:         2026-10-15 02:29    Benchmark: v1    Tareas: 13
+
+  RESUMEN
+  ----------------------------------------------------------------------------------------
+                                nota   tiempo/tarea   tokens Claude/tarea   costo API equiv.
+  Qwen solo                      8.8          184 s                     0                  —
+  Qwen + revisión haiku         10.0          290 s                23,786             0.005$
+  Claude haiku solo              9.9           31 s                88,790             0.006$
+
+  La revisión mejoró 4 tarea(s), empeoró 0 y 3 quedaron aprobadas en la primera revisión.
+  Tokens de Claude = entrada + salida + caché. Con suscripción no pagas por token: cuentan contra tus límites
+  de uso; el costo es solo una referencia de lo que valdría por API.
+
+  LECTURA RÁPIDA
+  ----------------------------------------------------------------------------------------
+  · La pareja usa 73% menos tokens de Claude que dejar a Claude hacerlo solo, con 0.0 puntos más de nota.
+  · En tiempo: pareja 290 s vs Claude solo 31 s por tarea.
+  · La revisión aporta +1.1 puntos sobre Qwen solo.
+
+  DETALLE POR TAREA
+  ----------------------------------------------------------------------------------------
+  tarea      Qwen solo   pareja  rondas  tok Claude  Claude solo  tok Claude
+  T-101           10.0     10.0       0      19,689         10.0      77,113
+  T-102           10.0     10.0       1      40,141         10.0      85,374
+      · revisión 1: [Assets/Scripts/Items/Inventory.cs] `ItemStack.Count` tiene setter público (`{ get; set; }`) y `Slots` expone esos stacks mutables. Cual
+  T-103           10.0     10.0       1      42,168         10.0      83,727
+      · revisión 1: [Assets/Scripts/Combat/Projectile.cs] El daño está escrito a mano como 10 (`_damage = 10`), aunque GameBalance.ProjectileDamage ya define 
+      · revisión 1: [Assets/Scripts/Combat/Projectile.cs] Destroy(gameObject) no elimina el objeto de inmediato, sino al final del frame. Si el proyectil toca
+  T-104           10.0     10.0       0      18,785         10.0      70,492
+  W-201           10.0     10.0       0      10,386         10.0      77,287
+  W-202           10.0     10.0       1      22,400          9.4     104,930
+      · revisión 1: [src/ui/searchBox.ts] Condición de carrera: si una búsqueda anterior termina después de una posterior (o después de que el
+      ✗ Claude solo falla: debounce: varias teclas → una sola búsqueda con el último texto
+  W-203           10.0     10.0       1      20,555         10.0      70,343
+      · revisión 1: [src/api/products.ts] La validación numérica usa Number(), que acepta formatos que no son enteros decimales: espacios (" 5
+  W-204           10.0     10.0       1      18,652         10.0      63,424
+      · revisión 1: [public/contact.html] El bloque BEM `contact-form` no aparece en el marcado: el `<form id="contact-form">` no tiene la cla
+  CPP-301          9.4     10.0       1      19,941          9.8      70,041
+      · revisión 1: [src/event_queue.hpp] En push() con la cola llena, 'm_items.back() = std::move(e);' ya mueve 'e' dentro del vector. Despué
+  UE-302           3.1     10.0       2      28,843         10.0     170,672
+      · revisión 1: [Source/Arena/Components/HealthComponent.h] La línea 7 usa la macro `DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParameters`, que no existe en los stu
+      · revisión 2: [Source/Arena/Components/HealthComponent.h] El constructor público `UHealthComponent()` no tiene comentario de documentación `/** ... */`, lo qu
+  RS-401          10.0     10.0       2      19,759         10.0     102,798
+      · revisión 1: [src/save.rs] En el bloque `item`, `current_qty + qty` puede desbordar u32. `qty` admite hasta 4294967295, así que
+      · revisión 2: [src/save.rs] En el bloque `"item"`, `item_name` y `qty_str` no se recortan. La tarea exige ignorar los espacios a
+      · revisión 2: [src/save.rs] `value.split_once(':')` divide por el primer `:`. Un objeto cuyo nombre contiene `:` se guarda como 
+  NET-501          3.2     10.0       1      23,646         10.0      90,108
+      · revisión 1: [Endpoints/ScoreEndpoints.cs] El build falla (CS1503, línea 39): `Results.ValidationProblem` espera un diccionario de `string[]` p
+      · revisión 1: [Endpoints/ScoreEndpoints.cs] La validación de playerId usa `$` en la regex `^[a-zA-Z0-9_-]+$`, que también acepta un salto de lín
+  FB-601           9.2      9.5       2      24,258         10.0      87,957
+      · revisión 1: [src/migrate.ts] El score fuera de rango se recorta en silencio con Math.min/Math.max. Un valor como 9999999 queda en
+      · revisión 1: [src/migrate.ts] new Date(ms).toISOString() lanza RangeError para Infinity o para valores fuera de rango, como 1e20 o
+      · revisión 1: [src/migrate.ts] En el caso de inventory como objeto, las claves se convierten con parseInt, que acepta sufijos: '1ab
+      · revisión 2: [src/migrate.ts] lastLogin se convierte con Number(rawLastLogin) sin validar el tipo. Cadenas vacías, booleanos y arr
+      · revisión 2: [src/migrate.ts] El recorte de displayName usa trimmed.length y substring, que cuentan unidades UTF-16, no caracteres
+      ✗ tras la pareja sigue fallando: índices: users score DESC + lastLogin DESC
+
+  Nota: cada tarea usa los mismos tests reales del benchmark de agente. 'Qwen solo' es la primera pasada de la
+  pareja (antes de la revisión), así que ambas notas salen de la misma ejecución.
