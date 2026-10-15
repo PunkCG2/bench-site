@@ -4,3 +4,6 @@ dist/
 
 # Salidas de Playwright (capturas y registros)
 .playwright-mcp/
+
+# Python
+__pycache__/

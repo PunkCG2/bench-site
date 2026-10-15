@@ -3,12 +3,13 @@ id: NNN
 estado: pendiente        # pendiente | en-curso | hecha | bloqueada
 ejecuta: local           # local | claude
 depende: []              # ids de tareas que deben estar hechas antes
+hito: M1                 # hito al que pertenece (ver docs/progress/progress.md)
 rondas: 0                # lo llena Claude al aprobar
 ---
-# Título corto en imperativo
+# Titulo corto en imperativo
 
 ## Objetivo
-Una o dos frases: qué debe existir al terminar.
+Una o dos frases: que debe existir al terminar.
 
 ## Archivos en alcance
 - ruta/archivo.js (crear | modificar)
@@ -18,11 +19,12 @@ Una o dos frases: qué debe existir al terminar.
 
 ## Detalles
 Lo que el worker necesita saber para no adivinar: formato de datos, nombres de funciones,
-sección de docs/diseno.md que aplica, etc.
+seccion de docs/diseno.md que aplica, etc. Maximo ~15 lineas y 3 archivos; si no cabe, partir la tarea
+(textos y estilos / componente / pruebas).
 
-## Criterios de aceptación
+## Criterios de aceptacion
 - [ ] `npm test` pasa
-- [ ] (hecho concreto y comprobable)
+- [ ] (hecho concreto y comprobable; contrastalo antes con lo que el diseno ya garantiza)
 
-## Notas de revisión
+## Notas de revision
 (las escribe Claude al aprobar)

@@ -1,39 +1,47 @@
 ---
 name: tarea
-description: Ejecuta una tarea de docs/tasks/ delegando la implementación al modelo local (LM Studio) y revisando, corrigiendo y aprobando con Claude. Úsala cuando el usuario diga /tarea <archivo|siguiente> o pida ejecutar tareas pendientes.
+description: Ejecuta una tarea de docs/tasks/ delegando la implementacion al modelo local y revisando, corrigiendo y aprobando con Claude. Úsala cuando el usuario diga /tarea <archivo|siguiente> o pida ejecutar tareas pendientes.
 ---
 
-# Ciclo: worker local → revisión de Claude
+# Ciclo: worker local → comprobaciones → revisión de Claude
 
-Entrada: ruta de una tarea o `siguiente` (la primera con `estado: pendiente` cuyas dependencias estén `hecha`).
+Entrada: ruta de una tarea o `siguiente` (la primera con `estado: pendiente` cuyas dependencias estén `hecha`, por orden de hito).
 
 ## 1. Preparar
 - Lee la tarea. Si le faltan alcance o criterios verificables, complétalos antes de delegar.
 - `git status` debe estar limpio y en `main`. Si no lo está, detente y avisa.
-- Cambia la tarea a `estado: en-curso`.
-- Rama: `task/NNN-nombre`.
+- Cambia la tarea a `estado: en-curso`, rama `task/NNN-nombre`, y anota la tarea actual en `docs/progress/progress.md`.
 
 ## 2. Delegar (si `ejecuta: local`, no implementes tú)
 ```
 powershell -ExecutionPolicy Bypass -File scripts/delegar-local.ps1 -TaskFile docs/tasks/NNN-nombre.md -Branch task/NNN-nombre
 ```
-Puede tardar varios minutos. Si `ejecuta: claude`, impleméntala tú en la rama y salta al paso 3.
+El script usa el rol de `.harness/roles/implementer.md`, arranca el proxy y, al terminar, corre `scripts/scope-guard.ps1`
+(borra temporales evidentes y avisa de archivos fuera de "Archivos en alcance"; su resultado queda al final del log).
+Puede tardar varios minutos. Si el worker se desbordó o no dejó archivos, no repitas la misma tarea: **pártela** en
+rondas `NNN-nombre.fix-K.md` (código y estilos primero, pruebas después, un archivo por llamada).
+Si `ejecuta: claude`, impleméntala tú en la rama y salta al paso 3.
 
 ## 3. Revisar (barato en tokens)
-- Lee el resumen del worker en `docs/tasks/logs/`.
-- `git diff main...task/NNN-nombre --stat` y luego el diff completo. No releas archivos enteros salvo que el diff no alcance.
-- Ejecuta tú la validación de CLAUDE.md (`npm test`, `npm run build`). No confíes solo en lo que dice el worker.
-- Revisa cada criterio de aceptación y anota si cumple o no.
+- Lee el resumen del worker y el resultado del control de alcance en `docs/tasks/logs/`.
+- `git status` (sin archivos sueltos) y `git diff main...task/NNN-nombre --stat`; el diff completo solo donde las comprobaciones no ven.
+- Ejecuta tú `npm test` y `npm run build`. Si el worker llegó a `max turns` o dio error, juzga por los archivos y las
+  comprobaciones, no por el estado de salida.
+- Revisa cada criterio de aceptación. Si un criterio fallido en realidad estaba mal planteado, corrígelo y anótalo.
 
 ## 4. Corregir (máx. 3 rondas)
-Si algo falla, crea `docs/tasks/NNN-nombre.fix-K.md` con correcciones numeradas y concretas:
-archivo, qué está mal y qué se espera (con fragmento o firma si ayuda). Nada de "mejora el código".
-Vuelve al paso 2 con ese archivo y la misma rama.
-
-Si falla la 3.ª ronda: corrige tú lo que quede si es pequeño. Si no, detente y explícale el bloqueo al usuario.
+Si algo falla, crea `docs/tasks/NNN-nombre.fix-K.md` con correcciones numeradas y concretas (archivo, qué está mal, qué se
+espera). Nada de "mejora el código". Vuelve al paso 2 con ese archivo y la misma rama. Tras la 3.ª ronda corrige tú lo
+pequeño o explícale el bloqueo al usuario.
 
 ## 5. Aprobar
-- `git switch main` y `git merge --squash task/NNN-nombre`, luego `git commit -m "NNN: <resumen>"`
-- `git branch -D task/NNN-nombre`
-- En la tarea: `estado: hecha` y `rondas: K`. Agrega 1–2 líneas en "Notas de revisión".
-- Haz commit de ese cambio. Si el usuario pidió varias tareas, sigue con la siguiente.
+- `git switch main`, `git merge --squash task/NNN-nombre`, `git commit -m "NNN: <resumen>"`, `git branch -D task/NNN-nombre`.
+- En la tarea: `estado: hecha`, `rondas: K` y 1–2 líneas en "Notas de revisión". Commit.
+- **Notas del harness:** si la tarea necesitó más de una ronda, o algo del propio harness falló (worker en bucle, criterio
+  malo, permiso, pregunta que faltaba), añade una entrada a `docs/harness-notes.md`.
+- Actualiza `docs/progress/progress.md`.
+
+## 6. Fin de hito
+Si era la última tarea de un hito: detente, resume lo que ya funciona, repite su **cómo probarlo** y pregunta al usuario si
+seguimos con el siguiente hito o lo dejamos aquí. No arranques el siguiente hito por tu cuenta. Si hay 5 o más notas sin
+subir a la plantilla, menciónalo una vez. Para varias tareas del mismo hito, sigue con la siguiente sin preguntar.

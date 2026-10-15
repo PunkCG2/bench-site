@@ -1,64 +1,57 @@
 # Bench Site: mapa del harness
 
-Este archivo es para ti, no para los modelos. Explica qué hace cada pieza.
+Este archivo es para ti, no para los modelos. Explica qué hace cada pieza. La versión reutilizable de este harness vive en
+`E:\IA\harness-template` (ver su `docs/spec.md`).
 
-## Las tres memorias del proyecto
+## Las memorias del proyecto
 El modelo no recuerda nada entre sesiones. Todo lo que necesita saber está en archivos:
 
 | Memoria | Archivo | ¿Quién lo lee y cuándo? |
 |---|---|---|
 | Reglas permanentes | `CLAUDE.md` | Claude **y** el worker local, automáticamente, en cada sesión |
-| Procedimientos | `.claude/skills/*/SKILL.md` | Solo Claude, cuando invocas `/planificar` o `/tarea` |
-| Estado del trabajo | `docs/` | Quien lo necesite, cuando lo necesite |
+| Procedimientos | `.claude/skills/*/SKILL.md` | Solo Claude, con `/planificar`, `/tarea` o `/resume` |
+| Roles | `.harness/roles/*.md` | El del implementador va como prompt de sistema del worker local |
+| Estado del trabajo | `docs/` (tareas, `progress/progress.md`) | Quien lo necesite |
+| Lo que falló del harness | `docs/harness-notes.md` | Claude lo escribe; `/harvest` en la plantilla lo recoge |
 
 ## Carpeta por carpeta
 ```
 bench-site/
 ├─ LEEME.md              ← este archivo (solo para ti)
 ├─ CLAUDE.md             ← reglas. CORTO: el modelo local lo paga en cada tarea
-├─ .gitignore
 ├─ .claude/
-│  ├─ settings.json      ← permisos: qué ejecuta sin preguntar y qué tiene prohibido
-│  └─ skills/
-│     ├─ planificar/     ← /planificar : spec → archivos de tarea
-│     └─ tarea/          ← /tarea      : delegar → revisar → corregir → aprobar
+│  ├─ settings.json      ← permisos
+│  └─ skills/            ← planificar (spec → tareas e hitos), tarea (delegar → revisar → aprobar), resume
+├─ .harness/roles/       ← implementer, reviewer, planner
 ├─ scripts/
-│  └─ delegar-local.ps1  ← el "puente": lanza Claude Code apuntando a LM Studio
+│  ├─ delegar-local.ps1  ← lanza Claude Code apuntando al servidor local (proxy, rol, control de alcance)
+│  ├─ lm-proxy.py        ← normaliza los mensajes system (y puede quitar thinking)
+│  ├─ scope-guard.ps1    ← borra temporales y avisa de archivos fuera de alcance
+│  ├─ parse-report.js, build-data.js, check-layout.mjs  ← datos del sitio y comprobación de layout
 ├─ docs/
-│  ├─ spec.md            ← QUÉ (borrador con preguntas abiertas)
-│  ├─ diseno.md          ← CÓMO SE VE (borrador)
-│  └─ tasks/
-│     ├─ _plantilla.md   ← forma que debe tener cada tarea
-│     └─ logs/           ← resúmenes del worker (los crea el script)
+│  ├─ spec.md, diseno.md ← qué y cómo se ve
+│  ├─ progress/progress.md  ← hitos y estado
+│  ├─ harness-notes.md   ← notas del harness
+│  └─ tasks/             ← una por archivo (+ logs/ del worker)
 ├─ data/raw/             ← tus reportes originales (prohibido editarlos)
-└─ src/, tests/, package.json  ← todavía no existen: los crea la tarea 001
+└─ src/, tests/, package.json
 ```
 
 ## Quién hace qué
-- **Tú:** cierras la spec y el diseño, apruebas la lista de tareas y pruebas el resultado en el navegador.
-- **Claude (tu suscripción):** planifica, revisa diffs, ejecuta la validación, pide correcciones y aprueba.
-- **Modelo local:** implementa cada tarea y cada corrección. No ve la conversación con Claude,
-  solo la tarea, `CLAUDE.md` y los archivos del proyecto.
+- **Tú:** cierras la spec y el diseño, apruebas tareas e hitos y pruebas cada hito a mano.
+- **Claude (tu suscripción):** planifica, revisa, ejecuta la validación, pide correcciones y aprueba.
+- **Modelo local:** implementa cada tarea y cada corrección. Solo ve la tarea, `CLAUDE.md`, su rol y los archivos.
 
-## Primeros pasos
-1. Verifica que tienes todo instalado: `git --version`, `node -v` (18 o más), `claude --version`.
-2. En una terminal, dentro de esta carpeta:
-   ```
-   git init -b main
-   git add -A
-   git commit -m "inicio: estructura del harness"
-   ```
-3. `claude` y luego, en la fase 0: *"Revisemos docs/spec.md y docs/diseno.md y respondamos las preguntas abiertas"*.
-4. `/planificar` y revisa la tabla de tareas.
-5. Abre LM Studio (no Bionic), carga el modelo e inicia el servidor. Luego ejecuta `/tarea siguiente`.
-
-## Ciclo de vida de una tarea
+## Ciclo de una tarea
 ```
-pendiente ─▶ en-curso ─▶ worker implementa en rama task/NNN
-                              │
-                       Claude revisa diff + npm test/build
-                              │
-                 ¿cumple? ── no ──▶ NNN.fix-1.md ─▶ worker corrige (máx. 3)
+pendiente ─▶ en-curso ─▶ worker implementa en rama task/NNN ─▶ control de alcance
+                                   │
+                       Claude revisa resumen + npm test/build
+                                   │
+                 ¿cumple? ── no ──▶ NNN.fix-K.md ─▶ worker corrige (máx. 3)
                     │
-                   sí ──▶ merge a main ─▶ hecha (rondas: K)
+                   sí ──▶ merge a main ─▶ hecha (rondas: K) ─▶ ¿era el último del hito? ─▶ parar y preguntar
 ```
+
+## Cuando vuelvas al proyecto
+`/resume` dice dónde quedó (hito, tarea a medias, notas sin subir) y retoma desde ahí.

@@ -13,7 +13,8 @@ param(
     [Parameter(Mandatory)][string]$Branch,     # rama de la tarea
     [string]$Model = "qwen3.8-27b",            # identificador EXACTO que muestra LM Studio
     [int]$MaxTurns = 40,
-    [switch]$SinRazonamiento                   # agrega /no_think al prompt (prueba: evita bucles de razonamiento)
+    [switch]$SinRazonamiento,                  # agrega /no_think al prompt (prueba: no evito el desbordamiento)
+    [switch]$QuitarThinking                    # el proxy quita thinking/output_config/context_management (prueba pendiente)
 )
 $ErrorActionPreference = "Stop"
 $OutputEncoding = [System.Text.UTF8Encoding]::new()   # para que las tildes de la tarea lleguen bien al modelo
@@ -30,6 +31,7 @@ if ($LASTEXITCODE -eq 0) { git switch $Branch } else { git switch -c $Branch mai
 # Claude Code mete un mensaje con role "system" dentro de `messages`; la plantilla del modelo lo rechaza
 # ("System message must be at the beginning"). El proxy lo mueve al campo `system` y reenvia lo demas.
 if ($SinRazonamiento) { $env:LM_NO_THINK = "1" } else { Remove-Item Env:LM_NO_THINK -ErrorAction SilentlyContinue }
+if ($QuitarThinking) { $env:LM_STRIP_THINKING = "1" } else { Remove-Item Env:LM_STRIP_THINKING -ErrorAction SilentlyContinue }
 $proxyPort = 1235
 $proxy = Start-Process -FilePath "python" -ArgumentList "scripts/lm-proxy.py", "--port", $proxyPort, "--target", "http://localhost:1234" `
     -WindowStyle Hidden -PassThru
@@ -41,13 +43,16 @@ $env:CLAUDE_CODE_ATTRIBUTION_HEADER = "0"
 # Tope de salida bajo: si el modelo local entra en un bucle, falla rapido (el contexto es de 32k).
 $env:CLAUDE_CODE_MAX_OUTPUT_TOKENS = "16000"
 
-$worker = @"
+# El rol del worker vive en .harness/roles/implementer.md (solo ASCII); si no existe se usa este texto.
+$roleFile = ".harness/roles/implementer.md"
+$workerDefault = @"
 Eres un worker de implementacion. Haz SOLO lo que pide la tarea, sin refactors extra.
 No cambies archivos fuera del alcance indicado. Si algo es ambiguo, elige lo mas simple y anotalo.
 Antes de terminar ejecuta los comandos de validacion de CLAUDE.md y corrige lo que falle.
 Crea cada archivo con una llamada Write separada, con codigo compacto y sin razonar de mas: una respuesta no puede ser larga. Pruebas de maximo 80 lineas.
 Al terminar responde en maximo 10 lineas: archivos tocados, decisiones tomadas, resultado de la validacion y dudas.
 "@
+if (Test-Path $roleFile) { $worker = (Get-Content $roleFile -Raw -Encoding UTF8).Trim() } else { $worker = $workerDefault }
 
 # 4) Ejecutar. Herramientas limitadas: menos esquemas = menos contexto para el modelo local.
 $logDir = "docs/tasks/logs"
@@ -69,6 +74,9 @@ try {
 finally {
     if ($proxy -and -not $proxy.HasExited) { Stop-Process -Id $proxy.Id -Force }
 }
+# Control de alcance: borra temporales evidentes y avisa de archivos fuera de "Archivos en alcance".
+$scope = (powershell -NoProfile -ExecutionPolicy Bypass -File scripts/scope-guard.ps1 -TaskFile $TaskFile -Clean | Out-String)
+$out = $out + "`n" + $scope
 $out | Set-Content -Path $log -Encoding UTF8
 Write-Output $out
 

@@ -8,7 +8,8 @@ Stack: Vite + JavaScript vanilla, CSS sin frameworks, Vitest para tests.
 ## Donde esta cada cosa
 - Que es el sitio: docs/spec.md
 - Como se ve: docs/diseno.md
-- Tareas: docs/tasks/ (una por archivo; el estado va en el frontmatter)
+- Tareas: docs/tasks/ (una por archivo; el estado va en el frontmatter). Progreso e hitos: docs/progress/progress.md
+- Roles del harness: .harness/roles/. Notas de lo que falle del harness: docs/harness-notes.md
 
 ## Reglas
 - Los datos salen solo de src/data/benchmarks.json, que se genera con `npm run data`. Nunca escribas cifras a mano.
@@ -17,6 +18,8 @@ Stack: Vite + JavaScript vanilla, CSS sin frameworks, Vitest para tests.
 - Las animaciones no dependen de `prefers-reduced-motion` (decision del autor): se muestran siempre, son cortas y ninguna va en bucle.
 - Sin dependencias nuevas salvo que la tarea lo indique.
 - Textos visibles del sitio en dos diccionarios (es por defecto, en). Nunca texto fijo en el codigo.
+- Solo los archivos de "Archivos en alcance" de la tarea; nada de archivos temporales o de depuracion.
+- Si el propio harness falla (worker en bucle, criterio malo, permiso), anota una entrada en docs/harness-notes.md.
 
 ## Validacion (antes de dar algo por terminado)
 - `npm test`

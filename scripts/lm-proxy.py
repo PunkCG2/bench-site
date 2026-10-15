@@ -55,8 +55,15 @@ def normalize(payload):
     return payload
 
 
+STRIP_KEYS = ("thinking", "output_config", "context_management")
+
+
 def sin_razonamiento(payload):
-    """Con LM_NO_THINK=1 agrega el interruptor suave /no_think de Qwen3 al prompt de sistema."""
+    """LM_STRIP_THINKING=1 quita los campos que Claude Code manda y el servidor local no necesita.
+    LM_NO_THINK=1 agrega ademas el interruptor suave /no_think de Qwen3 al prompt de sistema."""
+    if os.environ.get("LM_STRIP_THINKING") == "1":
+        for key in STRIP_KEYS:
+            payload.pop(key, None)
     if os.environ.get("LM_NO_THINK") != "1":
         return payload
     system = payload.get("system")
