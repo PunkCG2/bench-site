@@ -1,6 +1,6 @@
 ---
 id: 005
-estado: en-curso
+estado: hecha
 ejecuta: local
 depende: [004]
 rondas: 0
@@ -56,4 +56,4 @@ devuelve todos los ids; `diferencia(0, 88790)` da `{ tipo: 'menos', valor: 100 }
 - [ ] `npm run build` pasa
 
 ## Notas de revisión
-(las escribe Claude al aprobar)
+Worker local cumplió a la primera. Tests y build verificados; sin cifras literales en metrics.js.
