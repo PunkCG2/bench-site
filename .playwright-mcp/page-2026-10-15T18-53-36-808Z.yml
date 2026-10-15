@@ -1,0 +1,285 @@
+- generic [ref=f6e2]:
+  - banner [ref=f6e3]:
+    - generic [ref=f6e4]:
+      - generic [ref=f6e5]:
+        - heading "Local + Claude" [level=1] [ref=f6e6]
+        - paragraph [ref=f6e7]: ¿Vale la pena delegar?
+      - group "Elegir modelo" [ref=f6e8]:
+        - button "Gemma" [pressed] [ref=f6e9] [cursor=pointer]
+        - button "Qwen" [ref=f6e10] [cursor=pointer]
+      - generic [ref=f6e11]:
+        - button "Cambiar a inglés" [ref=f6e12] [cursor=pointer]: EN
+        - button "Cambiar a tema oscuro" [ref=f6e13] [cursor=pointer]: Oscuro
+  - main [ref=f6e14]:
+    - generic [ref=f6e15]:
+      - paragraph [ref=f6e16]: La pareja usa 73 % menos tokens de Claude que Claude solo, es 9× más lenta y sube la nota del modelo local de 8.8 a 10.0.
+      - generic [ref=f6e17]:
+        - generic [ref=f6e18]:
+          - generic [ref=f6e19]: tokens de Claude menos
+          - generic [ref=f6e20]: −5 %
+        - generic [ref=f6e21]:
+          - generic [ref=f6e22]: más lenta que Claude solo
+          - generic [ref=f6e23]: 1×
+        - generic [ref=f6e24]:
+          - generic [ref=f6e25]: nota del modelo local
+          - generic [ref=f6e26]: 8.8 → 10.0
+    - generic [ref=f6e27]:
+      - heading "Tres modos" [level=2] [ref=f6e28]
+      - generic [ref=f6e29]:
+        - generic [ref=f6e30]:
+          - heading "Modelo local solo" [level=3] [ref=f6e31]
+          - generic [ref=f6e32]:
+            - generic [ref=f6e33]: Precisión
+            - generic [ref=f6e34]: "8.8"
+            - generic [ref=f6e35]: 1.1 pts menos que Claude solo
+          - generic [ref=f6e36]:
+            - generic [ref=f6e37]: Velocidad
+            - generic [ref=f6e38]: 184 s
+            - generic [ref=f6e39]: 494 % más que Claude solo
+          - generic [ref=f6e40]:
+            - generic [ref=f6e41]: Tokens de Claude
+            - generic [ref=f6e42]: "0"
+            - generic [ref=f6e43]: 100 % menos que Claude solo
+          - generic [ref=f6e44]:
+            - generic [ref=f6e45]: Costo API
+            - generic [ref=f6e46]: —
+            - generic [ref=f6e47]: —
+        - generic [ref=f6e48]:
+          - heading "Pareja (local + revisión)" [level=3] [ref=f6e49]
+          - generic [ref=f6e50]:
+            - generic [ref=f6e51]: Precisión
+            - generic [ref=f6e52]: "10.0"
+            - generic [ref=f6e53]: 0.1 pts más que Claude solo
+          - generic [ref=f6e54]:
+            - generic [ref=f6e55]: Velocidad
+            - generic [ref=f6e56]: 290 s
+            - generic [ref=f6e57]: 835 % más que Claude solo
+          - generic [ref=f6e58]:
+            - generic [ref=f6e59]: Tokens de Claude
+            - generic [ref=f6e60]: "23.786"
+            - generic [ref=f6e61]: 73 % menos que Claude solo
+          - generic [ref=f6e62]:
+            - generic [ref=f6e63]: Costo API
+            - generic [ref=f6e64]: 0.005 $
+            - generic [ref=f6e65]: 17 % menos que Claude solo
+        - generic [ref=f6e66]:
+          - heading "Claude solo" [level=3] [ref=f6e67]
+          - generic [ref=f6e68]:
+            - generic [ref=f6e69]: Precisión
+            - generic [ref=f6e70]: "9.9"
+            - generic [ref=f6e71]: referencia
+          - generic [ref=f6e72]:
+            - generic [ref=f6e73]: Velocidad
+            - generic [ref=f6e74]: 31 s
+            - generic [ref=f6e75]: referencia
+          - generic [ref=f6e76]:
+            - generic [ref=f6e77]: Tokens de Claude
+            - generic [ref=f6e78]: "88.790"
+            - generic [ref=f6e79]: referencia
+          - generic [ref=f6e80]:
+            - generic [ref=f6e81]: Costo API
+            - generic [ref=f6e82]: 0.006 $
+            - generic [ref=f6e83]: referencia
+      - paragraph [ref=f6e84]: El costo es un equivalente por API y no un gasto real; con suscripción cuentan contra los límites de uso.
+    - generic [ref=f6e85]:
+      - heading "Diferencia entre modos" [level=2] [ref=f6e86]
+      - generic [ref=f6e87]:
+        - 'img "Precisión (nota, de 0 a 10): Modelo local solo 8.8, Pareja (local + revisión) 10.0, Claude solo 9.9" [ref=f6e88]':
+          - heading "Precisión (nota, de 0 a 10)" [level=3] [ref=f6e89]
+          - generic [ref=f6e90]:
+            - generic [ref=f6e91]: Modelo local solo
+            - generic [ref=f6e93]: "8.8"
+          - generic [ref=f6e94]:
+            - generic [ref=f6e95]: Pareja (local + revisión)
+            - generic [ref=f6e97]: "10.0"
+          - generic [ref=f6e98]:
+            - generic [ref=f6e99]: Claude solo
+            - generic [ref=f6e101]: "9.9"
+        - 'img "Velocidad (tiempo por tarea): Modelo local solo 184 s, Pareja (local + revisión) 290 s, Claude solo 31 s" [ref=f6e102]':
+          - heading "Velocidad (tiempo por tarea)" [level=3] [ref=f6e103]
+          - generic [ref=f6e104]:
+            - generic [ref=f6e105]: Modelo local solo
+            - generic [ref=f6e107]: 184 s
+          - generic [ref=f6e108]:
+            - generic [ref=f6e109]: Pareja (local + revisión)
+            - generic [ref=f6e111]: 290 s
+          - generic [ref=f6e112]:
+            - generic [ref=f6e113]: Claude solo
+            - generic [ref=f6e115]: 31 s
+        - 'img "Tokens de Claude por tarea: Modelo local solo 0, Pareja (local + revisión) 23.786, Claude solo 88.790" [ref=f6e116]':
+          - heading "Tokens de Claude por tarea" [level=3] [ref=f6e117]
+          - generic [ref=f6e118]:
+            - generic [ref=f6e119]: Modelo local solo
+            - generic [ref=f6e121]: "0"
+          - generic [ref=f6e122]:
+            - generic [ref=f6e123]: Pareja (local + revisión)
+            - generic [ref=f6e125]: "23.786"
+          - generic [ref=f6e126]:
+            - generic [ref=f6e127]: Claude solo
+            - generic [ref=f6e129]: "88.790"
+        - 'img "Costo API equivalente: Modelo local solo —, Pareja (local + revisión) 0.005 $, Claude solo 0.006 $" [ref=f6e130]':
+          - heading "Costo API equivalente" [level=3] [ref=f6e131]
+          - generic [ref=f6e132]:
+            - generic [ref=f6e133]: Modelo local solo
+            - generic [ref=f6e135]: "— sin costo: corre en local"
+          - generic [ref=f6e136]:
+            - generic [ref=f6e137]: Pareja (local + revisión)
+            - generic [ref=f6e139]: 0.005 $
+          - generic [ref=f6e140]:
+            - generic [ref=f6e141]: Claude solo
+            - generic [ref=f6e143]: 0.006 $
+    - generic [ref=f6e144]:
+      - heading "Detalle por tarea" [level=2] [ref=f6e145]
+      - table [ref=f6e146]:
+        - rowgroup [ref=f6e147]:
+          - row [ref=f6e148]:
+            - columnheader "Tarea" [ref=f6e149]
+            - columnheader "Modelo local solo" [ref=f6e150]
+            - columnheader "Pareja (local + revisión)" [ref=f6e151]
+            - columnheader "Rondas" [ref=f6e152]
+            - columnheader "Tokens de Claude (pareja)" [ref=f6e153]
+            - columnheader "Claude solo" [ref=f6e154]
+            - columnheader "Tokens de Claude (Claude solo)" [ref=f6e155]
+        - rowgroup [ref=f6e156]:
+          - row [ref=f6e157]:
+            - columnheader "Unity" [ref=f6e158]
+          - row [ref=f6e159]:
+            - rowheader "T-101" [ref=f6e160]
+            - cell "10.0" [ref=f6e161]
+            - cell "10.0" [ref=f6e162]
+            - cell "0" [ref=f6e163]
+            - cell "19.689" [ref=f6e164]
+            - cell "10.0" [ref=f6e165]
+            - cell "77.113" [ref=f6e166]
+          - row [ref=f6e167]:
+            - rowheader [ref=f6e168]:
+              - 'button "Ver detalle de la tarea: T-102" [ref=f6e169] [cursor=pointer]': T-102
+            - cell "10.0" [ref=f6e170]
+            - cell "10.0" [ref=f6e171]
+            - cell "1" [ref=f6e172]
+            - cell "40.141" [ref=f6e173]
+            - cell "10.0" [ref=f6e174]
+            - cell "85.374" [ref=f6e175]
+          - row [ref=f6e176]:
+            - rowheader [ref=f6e177]:
+              - 'button "Ver detalle de la tarea: T-103" [ref=f6e178] [cursor=pointer]': T-103
+            - cell "10.0" [ref=f6e179]
+            - cell "10.0" [ref=f6e180]
+            - cell "1" [ref=f6e181]
+            - cell "42.168" [ref=f6e182]
+            - cell "10.0" [ref=f6e183]
+            - cell "83.727" [ref=f6e184]
+          - row [ref=f6e185]:
+            - rowheader "T-104" [ref=f6e186]
+            - cell "10.0" [ref=f6e187]
+            - cell "10.0" [ref=f6e188]
+            - cell "0" [ref=f6e189]
+            - cell "18.785" [ref=f6e190]
+            - cell "10.0" [ref=f6e191]
+            - cell "70.492" [ref=f6e192]
+          - row [ref=f6e193]:
+            - columnheader "Web" [ref=f6e194]
+          - row [ref=f6e195]:
+            - rowheader "W-201" [ref=f6e196]
+            - cell "10.0" [ref=f6e197]
+            - cell "10.0" [ref=f6e198]
+            - cell "0" [ref=f6e199]
+            - cell "10.386" [ref=f6e200]
+            - cell "10.0" [ref=f6e201]
+            - cell "77.287" [ref=f6e202]
+          - row [ref=f6e203]:
+            - rowheader [ref=f6e204]:
+              - 'button "Ver detalle de la tarea: W-202" [ref=f6e205] [cursor=pointer]': W-202
+              - img "La tarea tuvo fallos" [ref=f6e206]: ✗
+            - cell "10.0" [ref=f6e207]
+            - cell "10.0" [ref=f6e208]
+            - cell "1" [ref=f6e209]
+            - cell "22.400" [ref=f6e210]
+            - cell "9.4" [ref=f6e211]
+            - cell "104.930" [ref=f6e212]
+          - row [ref=f6e213]:
+            - rowheader [ref=f6e214]:
+              - 'button "Ver detalle de la tarea: W-203" [ref=f6e215] [cursor=pointer]': W-203
+            - cell "10.0" [ref=f6e216]
+            - cell "10.0" [ref=f6e217]
+            - cell "1" [ref=f6e218]
+            - cell "20.555" [ref=f6e219]
+            - cell "10.0" [ref=f6e220]
+            - cell "70.343" [ref=f6e221]
+          - row [ref=f6e222]:
+            - rowheader [ref=f6e223]:
+              - 'button "Ver detalle de la tarea: W-204" [ref=f6e224] [cursor=pointer]': W-204
+            - cell "10.0" [ref=f6e225]
+            - cell "10.0" [ref=f6e226]
+            - cell "1" [ref=f6e227]
+            - cell "18.652" [ref=f6e228]
+            - cell "10.0" [ref=f6e229]
+            - cell "63.424" [ref=f6e230]
+          - row [ref=f6e231]:
+            - columnheader "C++" [ref=f6e232]
+          - row [ref=f6e233]:
+            - rowheader [ref=f6e234]:
+              - 'button "Ver detalle de la tarea: CPP-301" [ref=f6e235] [cursor=pointer]': CPP-301
+            - cell "9.4" [ref=f6e236]
+            - cell "10.0" [ref=f6e237]
+            - cell "1" [ref=f6e238]
+            - cell "19.941" [ref=f6e239]
+            - cell "9.8" [ref=f6e240]
+            - cell "70.041" [ref=f6e241]
+          - row [ref=f6e242]:
+            - columnheader "Unreal" [ref=f6e243]
+          - row [ref=f6e244]:
+            - rowheader [ref=f6e245]:
+              - 'button "Ver detalle de la tarea: UE-302" [ref=f6e246] [cursor=pointer]': UE-302
+            - cell "3.1" [ref=f6e247]
+            - cell "10.0" [ref=f6e248]
+            - cell "2" [ref=f6e249]
+            - cell "28.843" [ref=f6e250]
+            - cell "10.0" [ref=f6e251]
+            - cell "170.672" [ref=f6e252]
+          - row [ref=f6e253]:
+            - columnheader "Rust" [ref=f6e254]
+          - row [ref=f6e255]:
+            - rowheader [ref=f6e256]:
+              - 'button "Ver detalle de la tarea: RS-401" [ref=f6e257] [cursor=pointer]': RS-401
+            - cell "10.0" [ref=f6e258]
+            - cell "10.0" [ref=f6e259]
+            - cell "2" [ref=f6e260]
+            - cell "19.759" [ref=f6e261]
+            - cell "10.0" [ref=f6e262]
+            - cell "102.798" [ref=f6e263]
+          - row [ref=f6e264]:
+            - columnheader ".NET" [ref=f6e265]
+          - row [ref=f6e266]:
+            - rowheader [ref=f6e267]:
+              - 'button "Ver detalle de la tarea: NET-501" [ref=f6e268] [cursor=pointer]': NET-501
+            - cell "3.2" [ref=f6e269]
+            - cell "10.0" [ref=f6e270]
+            - cell "1" [ref=f6e271]
+            - cell "23.646" [ref=f6e272]
+            - cell "10.0" [ref=f6e273]
+            - cell "90.108" [ref=f6e274]
+          - row [ref=f6e275]:
+            - columnheader "Firebase" [ref=f6e276]
+          - row [ref=f6e277]:
+            - rowheader [ref=f6e278]:
+              - 'button "Ver detalle de la tarea: FB-601" [ref=f6e279] [cursor=pointer]': FB-601
+              - img "La tarea tuvo fallos" [ref=f6e280]: ✗
+            - cell "9.2" [ref=f6e281]
+            - cell "9.5" [ref=f6e282]
+            - cell "2" [ref=f6e283]
+            - cell "24.258" [ref=f6e284]
+            - cell "10.0" [ref=f6e285]
+            - cell "87.957" [ref=f6e286]
+    - generic [ref=f6e287]:
+      - heading "Hallazgos" [level=2] [ref=f6e288]
+      - list [ref=f6e289]:
+        - listitem [ref=f6e290]: La pareja usa 73 % menos tokens de Claude que Claude solo.
+        - listitem [ref=f6e291]: La pareja es 9 veces más lenta que Claude solo.
+        - listitem [ref=f6e292]: La revisión sube la nota del modelo local de 8.8 a 10.0.
+        - listitem [ref=f6e293]: La tarea con menor nota del modelo local solo es UE-302, con 3.1.
+    - generic [ref=f6e294]:
+      - heading "Metodología" [level=2] [ref=f6e295]
+      - paragraph [ref=f6e296]: El benchmark se hizo con 13 tareas reales y el revisor fue Haiku. Las notas salen de los mismos tests reales del benchmark.
+  - contentinfo [ref=f6e297]:
+    - paragraph [ref=f6e298]: Hecho con Claude Code y SDD

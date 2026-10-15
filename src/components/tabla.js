@@ -14,9 +14,9 @@ const COLS = [
   { modo: 'local' },
   { modo: 'pareja' },
   { clave: 'tabla.col.rondas' },
-  { clave: 'tabla.col.tokens' },
+  { clave: 'tabla.col.tokens.pareja' },
   { modo: 'claude' },
-  { clave: 'tabla.col.tokens' },
+  { clave: 'tabla.col.tokens.claude' },
 ]
 
 export function renderTabla(contenedor, datos) {
@@ -185,9 +185,9 @@ export function renderTabla(contenedor, datos) {
         fila.appendChild(celdaNota(tarea.local, t('modo.local')))
         fila.appendChild(celdaNota(tarea.pareja, t('modo.pareja')))
         fila.appendChild(celdaNum(tarea.rondas, t('tabla.col.rondas')))
-        fila.appendChild(celdaNum(tarea.tokens_pareja, t('tabla.col.tokens')))
+        fila.appendChild(celdaNum(tarea.tokens_pareja, t('tabla.col.tokens.pareja')))
         fila.appendChild(celdaNota(tarea.claude, t('modo.claude')))
-        fila.appendChild(celdaNum(tarea.tokens_claude, t('tabla.col.tokens')))
+        fila.appendChild(celdaNum(tarea.tokens_claude, t('tabla.col.tokens.claude')))
 
         tbody.appendChild(fila)
 

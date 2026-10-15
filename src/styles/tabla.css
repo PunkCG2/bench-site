@@ -74,22 +74,31 @@
   cursor: pointer;
 }
 
-/* Indicador de apertura: solo las filas con revisiones o fallos tienen botón. */
+/* Indicador de apertura (un chevron dibujado con bordes): solo las filas con
+   revisiones o fallos tienen botón. */
 .tabla__toggle::before {
-  content: '▸';
+  content: '';
   position: absolute;
   left: var(--sp-8);
-  font-size: var(--fs-16);
-  line-height: 1;
-  color: var(--muted);
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--muted);
+  border-bottom: 2px solid var(--muted);
+  transform: translateY(-70%) rotate(-45deg);
 }
 
 .tabla__toggle[aria-expanded='true']::before {
-  content: '▾';
+  transform: translateY(-50%) rotate(45deg);
 }
 
 .tabla__toggle:hover {
   text-decoration: underline;
+}
+
+/* En la vista móvil las filas son bloques: sin esto, `display: block` anula `hidden`. */
+.tabla__detalle[hidden] {
+  display: none;
 }
 
 .tabla__detalle td {
@@ -219,9 +228,21 @@
     padding: var(--sp-12);
   }
 
-  .tabla td::before {
+  /* Cada dato: etiqueta a la izquierda y valor a la derecha. */
+  .tabla td[data-label] {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--sp-16);
+  }
+
+  .tabla td[data-label]::before {
     content: attr(data-label);
     color: var(--muted);
-    margin-right: var(--sp-8);
+    font-family: var(--font-text);
+  }
+
+  /* La fila de detalle ocupa todo el ancho de la tarjeta. */
+  .tabla__detalle td {
+    padding: var(--sp-12);
   }
 }

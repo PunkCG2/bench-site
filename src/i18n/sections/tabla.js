@@ -1,8 +1,10 @@
 // Textos de la sección "Detalle por tarea". Claves planas con punto.
 export default {
   es: {
+    'tabla.col.tokens.pareja': 'Tokens de Claude (pareja)',
+    'tabla.col.tokens.claude': 'Tokens de Claude (Claude solo)',
     'tabla.ronda_corta': 'Ronda {n}',
-    'tabla.detalle.rondas': '{n} rondas de revisión',
+    'tabla.detalle.rondas': 'Rondas de revisión: {n}',
     'tabla.titulo': 'Detalle por tarea',
     'tabla.col.id': 'Tarea',
     'tabla.col.rondas': 'Rondas',
@@ -26,8 +28,10 @@ export default {
     'tabla.ambito.otro': 'Otro',
   },
   en: {
+    'tabla.col.tokens.pareja': 'Claude tokens (pair)',
+    'tabla.col.tokens.claude': 'Claude tokens (Claude only)',
     'tabla.ronda_corta': 'Round {n}',
-    'tabla.detalle.rondas': '{n} review rounds',
+    'tabla.detalle.rondas': 'Review rounds: {n}',
     'tabla.titulo': 'Per-task detail',
     'tabla.col.id': 'Task',
     'tabla.col.rondas': 'Rounds',

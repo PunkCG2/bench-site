@@ -85,13 +85,16 @@
     grid-template-columns: 1fr;
   }
 
+  /* Etiqueta a la izquierda y valor a la derecha, con la barra debajo. */
   .barra {
-    grid-template-columns: minmax(6rem, 8rem) 1fr;
+    grid-template-columns: 1fr auto;
+    row-gap: var(--sp-4);
+    margin-bottom: var(--sp-12);
   }
 
-  .barra__valor {
+  .barra__pista {
     grid-column: 1 / -1;
-    text-align: left;
+    grid-row: 2;
   }
 }
 
