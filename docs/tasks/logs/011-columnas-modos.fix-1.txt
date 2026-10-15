@@ -1,0 +1,6 @@
+﻿Archivos: `src/i18n/sections/columnas.js`, `src/styles/columnas.css`, `src/components/columnas.js`.
+
+Decisiones: `lineaDiff` chequea `d===null` primero (evita TypeError), luego `tipo==='igual'`ÔåÆ`sin_diferencia`, luego `valor===null`ÔåÆ`ÔÇö`, luego clave `{n}`. Primera vez: texto + `revealStagger`; al cambiar modelo: `animateNumber` solo velocidad/tokens; precisi├│n y costo siempre texto.
+
+Validaci├│n: `npm test` 81/81 OK, `npm run build` OK. CSS solo `var()`, sin hex; componente sin cifras de benchmark literales.
+

@@ -1,0 +1,55 @@
+/* Tres modos: tres columnas, una por modo. Solo variables de tokens.css. */
+
+.columnas__rejilla {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-24);
+}
+
+.columna[data-modo="local"] {
+  --modo-color: var(--c-local);
+}
+
+.columna[data-modo="pareja"] {
+  --modo-color: var(--c-pareja);
+}
+
+.columna[data-modo="claude"] {
+  --modo-color: var(--c-claude);
+}
+
+.columna__titulo {
+  color: var(--modo-color);
+}
+
+.tarjeta {
+  background: var(--surface);
+  border-radius: var(--r-card);
+  border-top: 3px solid var(--modo-color);
+  padding: var(--sp-16);
+}
+
+.tarjeta__etiqueta {
+  font-size: var(--fs-14);
+  color: var(--muted);
+}
+
+.tarjeta__valor {
+  font-family: var(--font-mono);
+}
+
+.tarjeta__diff {
+  font-size: var(--fs-14);
+  color: var(--muted);
+}
+
+.columnas__nota {
+  font-size: var(--fs-14);
+  color: var(--muted);
+}
+
+@media (max-width: 899px) {
+  .columnas__rejilla {
+    grid-template-columns: 1fr;
+  }
+}

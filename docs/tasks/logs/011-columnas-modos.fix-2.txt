@@ -1,0 +1,5 @@
+﻿Archivo: `tests/columnas.test.js` (80 l├¡neas, 7 tests: orden columnas, precisi├│n toFixed(1), costo `ÔÇö` Gemma, diff pareja vs `diferenciaNota`, modelo inventado nota 10 ÔåÆ `sin diferencia`, cambio con `setModelo`, un solo `.columnas__nota`).
+Decisi├│n: sin cifras literales ÔÇö todo se lee de `datos`/`resumen`; `vi.mock` de `animate.js` igual que `hero.test.js`.
+Validaci├│n: `npm test` ÔåÆ 11 archivos, 88 tests, todos pasan; `npm run build` ÔåÆ OK.
+Dudas: ninguna.
+
