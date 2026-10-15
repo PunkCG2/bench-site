@@ -1,9 +1,9 @@
 ---
 id: 017
-estado: en-curso
+estado: hecha
 ejecuta: local
 depende: [007, 009, 010, 011, 012, 013, 015, 016]
-rondas: 0
+rondas: 2
 ---
 # Ensamblar la página completa
 
@@ -45,4 +45,4 @@ metodología, footer).
 - [ ] No hay errores en consola al abrir `npm run preview` (verificado en el navegador)
 
 ## Notas de revisión
-(las escribe Claude al aprobar)
+Repartida en ronda 1 (main.js + clave i18n) y ronda 2 (tests). 119 tests y build verificados. Verificacion en navegador: ver nota de la tarea 018.
