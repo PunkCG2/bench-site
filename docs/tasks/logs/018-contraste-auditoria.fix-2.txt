@@ -1,0 +1,7 @@
+﻿Build passes. Final state:
+
+- **Archivo tocado:** `tests/reglas.test.js` (creado, 80 l├¡neas). No toqu├® `src/` ni `tests/contraste.test.js`.
+- **Validaci├│n:** `npm run build` Ô£ô. `npm test`: 143/144 pasan; **1 falla real** ÔåÆ regla 2: `src/styles/header.css:11,60,88` declara `transition` sin `prefers-reduced-motion` (y no usa solo `transition: none`). La dej├® fallando y no la arregl├®, como pide la tarea.
+- Las otras 4 reglas pasan: sin colores literales fuera de `tokens.css`; sin tildes en literales de `src/components`; paridad es/en en `i18n/sections`; `benchmarks.json` coincide con `buildData('data/raw')`.
+- **Duda:** la regla 2 es m├ís estricta que la del task 018 (que aceptaba el bloque global de `base.css`); segu├¡ tu instrucci├│n literal, por eso `header.css` falla aunque `base.css` cubre el movimiento globalmente.
+
