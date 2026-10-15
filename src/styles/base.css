@@ -45,10 +45,3 @@ h6 {
   white-space: nowrap;
   border: 0;
 }
-
-@media (prefers-reduced-motion: reduce) {
-  * {
-    transition-duration: 0ms;
-    animation-duration: 0ms;
-  }
-}

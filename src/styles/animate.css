@@ -14,11 +14,3 @@
   transform: none;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .revelar,
-  .revelar--visible {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-}

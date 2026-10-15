@@ -31,19 +31,18 @@ describe('reglas del proyecto', () => {
     expect(inc, inc.join('\n')).toEqual([]);
   });
 
-  it('2. base.css apaga transiciones y animaciones con prefers-reduced-motion', () => {
-    // base.css lo hace de forma global (`*`), así que cubre a todos los demás .css.
-    const base = readFileSync(path.join(src, 'styles', 'base.css'), 'utf8');
-    const m = base.match(/@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{([\s\S]*?)\n\}/);
-    const inc = [];
-    if (!m) inc.push('src/styles/base.css:1: falta el bloque prefers-reduced-motion');
-    else {
-      if (!/\*\s*\{/.test(m[1])) inc.push('src/styles/base.css: el bloque no usa el selector *');
-      if (!/transition-duration:\s*0ms/.test(m[1])) inc.push('src/styles/base.css: falta transition-duration: 0ms');
-      if (!/animation-duration:\s*0ms/.test(m[1])) inc.push('src/styles/base.css: falta animation-duration: 0ms');
+  it('2. las animaciones no dependen de prefers-reduced-motion y ninguna va en bucle', () => {
+    // Decisión del autor (2026-10-15): se muestran siempre; por eso deben ser cortas y sin bucles.
+    const inc = []
+    for (const p of [...archivos(src, '.css'), ...archivos(src, '.js')]) {
+      readFileSync(p, 'utf8').split('\n').forEach((l, i) => {
+        if (/prefers-reduced-motion|prefersReducedMotion/.test(l) && !/^\s*(\/\/|\/\*|\*)/.test(l))
+          inc.push(`${rel(p)}:${i + 1}: depende de prefers-reduced-motion`)
+        if (p.endsWith('.css') && /\binfinite\b/.test(l)) inc.push(`${rel(p)}:${i + 1}: animación en bucle`)
+      })
     }
-    expect(inc, inc.join('\n')).toEqual([]);
-  });
+    expect(inc, inc.join('\n')).toEqual([])
+  })
 
   it('3. sin tildes en literales de src/components', () => {
     const inc = [];

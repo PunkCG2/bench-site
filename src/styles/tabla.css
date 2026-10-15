@@ -11,7 +11,11 @@
   text-align: left;
 }
 
+/* Todos los ids dejan el mismo hueco a la izquierda; en las filas expandibles
+   ese hueco lo ocupa el indicador de apertura. */
 .tabla__id {
+  position: relative;
+  padding-left: var(--sp-24);
   font-family: var(--font-mono);
 }
 
@@ -25,8 +29,13 @@
   font-size: var(--fs-14);
 }
 
-.tabla__modo {
-  border-top: 3px solid var(--modo-color);
+/* Raya de color del modo sobre el encabezado, con un pequeño corte a la derecha
+   para que las rayas de columnas vecinas no se vean como una sola. */
+.tabla th.tabla__modo {
+  background-image: linear-gradient(var(--modo-color), var(--modo-color));
+  background-repeat: no-repeat;
+  background-position: left top;
+  background-size: calc(100% - var(--sp-8)) 3px;
 }
 
 .tabla__modo[data-modo="local"] {
@@ -51,12 +60,30 @@
 }
 
 .tabla__toggle {
+  padding: 0;
   background: none;
   border: 0;
   font: inherit;
   font-family: var(--font-mono);
   color: inherit;
+  text-align: left;
   cursor: pointer;
+}
+
+/* Indicador de apertura: solo las filas con revisiones o fallos tienen botón. */
+.tabla__toggle::before {
+  content: '▸';
+  position: absolute;
+  left: var(--sp-8);
+  color: var(--muted);
+}
+
+.tabla__toggle[aria-expanded='true']::before {
+  content: '▾';
+}
+
+.tabla__toggle:hover {
+  text-decoration: underline;
 }
 
 .tabla__detalle td {

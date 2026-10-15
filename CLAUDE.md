@@ -14,7 +14,7 @@ Stack: Vite + JavaScript vanilla, CSS sin frameworks, Vitest para tests.
 - Los datos salen solo de src/data/benchmarks.json, que se genera con `npm run data`. Nunca escribas cifras a mano.
 - No modifiques nada dentro de data/raw/.
 - Colores, tipografias y espaciados solo con las variables de src/styles/tokens.css.
-- Toda animacion respeta `prefers-reduced-motion`.
+- Las animaciones no dependen de `prefers-reduced-motion` (decision del autor): se muestran siempre, son cortas y ninguna va en bucle.
 - Sin dependencias nuevas salvo que la tarea lo indique.
 - Textos visibles del sitio en dos diccionarios (es por defecto, en). Nunca texto fijo en el codigo.
 

@@ -24,7 +24,7 @@
 .barra {
   --modo-color: var(--muted);
   display: grid;
-  grid-template-columns: minmax(7rem, 9rem) 1fr auto;
+  grid-template-columns: minmax(7rem, 12rem) 1fr auto;
   align-items: center;
   gap: var(--sp-12);
   margin-bottom: var(--sp-8);
@@ -94,8 +94,3 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .barra__relleno {
-    transition: none;
-  }
-}

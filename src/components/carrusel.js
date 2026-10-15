@@ -3,8 +3,6 @@
 // navegador); aquí van el arrastre con mouse, los puntos y las flechas.
 // Sin librerías. En escritorio la rejilla no desborda y los puntos se ocultan.
 
-import { prefersReducedMotion } from '../lib/animate.js'
-
 // Pixeles que debe moverse el puntero para contar como arrastre (y no como clic).
 const UMBRAL_ARRASTRE = 5
 
@@ -64,7 +62,7 @@ export function crearCarrusel(rejilla, columnas, etiquetas) {
     marcar()
     rejilla.scrollTo({
       left: indice * paso(),
-      behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+      behavior: 'smooth',
     })
   }
 

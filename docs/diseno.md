@@ -50,7 +50,7 @@ Sección "Tres modos" de la spec. Son tres columnas, una por modo, para el model
   - con indicador de tres puntos (cada uno con la etiqueta de su modo) y con las flechas
     izquierda/derecha del teclado.
 - Implementación: `scroll-snap-type: x mandatory` y eventos de puntero para el arrastre con
-  mouse. Sin librerías. Con `prefers-reduced-motion`, el cambio de columna es inmediato.
+  mouse. Sin librerías. El cambio de columna es siempre suave (no depende de `prefers-reduced-motion`).
 - Al cambiar de modelo, la columna visible se mantiene.
 
 ## Gráfico
@@ -102,8 +102,8 @@ Un modo nunca se identifica solo por color: siempre va con su etiqueta.
 - Barras del gráfico que crecen desde 0 en 700 ms, con 80 ms de retraso entre barras.
 - Tarjetas que aparecen con fade + 12 px hacia arriba, escalonadas.
 - Cambio de modelo: los números transicionan sin recargar la página.
-- Cambio de tema: los colores transicionan en 200 ms. Con `prefers-reduced-motion`, el cambio es inmediato.
-- Nada en bucle. Con `prefers-reduced-motion`, todo aparece en su estado final.
+- Cambio de tema: los colores transicionan en 200 ms. No depende de `prefers-reduced-motion`.
+- Nada en bucle. Las animaciones se muestran siempre, sin depender de `prefers-reduced-motion` (decisión del autor, 2026-10-15).
 - Implementación: IntersectionObserver + CSS transitions. Sin librerías de animación.
 
 ## Responsive

@@ -23,6 +23,11 @@
 }
 
 .tarjeta {
+  /* Etiqueta, valor y diferencia, una debajo de otra. */
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-12);
   background: var(--surface);
   border-radius: var(--r-card);
   border-top: 3px solid var(--modo-color);
@@ -36,6 +41,7 @@
 
 .tarjeta__valor {
   font-family: var(--font-mono);
+  font-size: var(--fs-28);
 }
 
 .tarjeta__diff {
@@ -102,8 +108,3 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .columnas__rejilla {
-    scroll-behavior: auto;
-  }
-}

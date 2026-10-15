@@ -3,7 +3,8 @@
 .hero {
   max-width: var(--maxw);
   margin: 0 auto;
-  padding: var(--sp-48) var(--sp-16);
+  /* El ancho y el margen lateral los pone el contenedor de la página. */
+  padding: var(--sp-48) 0;
 }
 
 .hero__frase {
@@ -14,7 +15,9 @@
 
 .hero__cifras {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  /* Columnas al ancho de su contenido: "8.8 → 10.0" no se parte en dos líneas. */
+  grid-template-columns: repeat(3, auto);
+  justify-content: space-between;
   gap: var(--sp-24);
 }
 
@@ -28,6 +31,14 @@
   font-family: var(--font-mono);
   font-size: var(--fs-72);
   line-height: 1;
+  white-space: nowrap;
+}
+
+/* Pantallas medianas: las tres cifras con la cifra grande más pequeña caben en una fila. */
+@media (max-width: 1100px) {
+  .hero__valor {
+    font-size: var(--fs-44);
+  }
 }
 
 .hero__etiqueta {

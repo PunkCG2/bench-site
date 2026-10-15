@@ -1,23 +1,15 @@
 // Utilidades de animación: contadores y aparición escalonada.
 // Sin librerías: requestAnimationFrame + IntersectionObserver + CSS transitions.
-// Todo respeta prefers-reduced-motion: con reduce, todo queda en su estado final.
+// Las animaciones no dependen de prefers-reduced-motion (decisión del autor): se muestran
+// siempre; son cortas y ninguna va en bucle.
 
 // Estado por elemento: el valor mostrado y el id del requestAnimationFrame
 // activo, para poder cancelar la animación anterior al llamar de nuevo.
 const estado = new WeakMap()
 
-// true si el usuario prefiere menos movimiento; false si matchMedia no existe.
-export function prefersReducedMotion() {
-  if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
-    return false
-  }
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
-}
-
 // Anima el texto de `el` desde su valor actual (0 la primera vez) hasta `valor`
 // en `duracion` ms con ease-out. `formato(n)` devuelve el texto; por defecto
-// `n.toFixed(decimales)`. Con reduced-motion o `duracion <= 0` fija el valor
-// final de inmediato. Llamar de nuevo sobre el mismo `el` cancela la
+// `n.toFixed(decimales)`. Con `duracion <= 0` fija el valor final de inmediato. Llamar de nuevo sobre el mismo `el` cancela la
 // animación anterior. Es lo que usa el cambio de modelo.
 export function animateNumber(el, valor, { duracion = 900, decimales = 0, formato } = {}) {
   const texto = formato ?? ((n) => n.toFixed(decimales))
@@ -26,7 +18,7 @@ export function animateNumber(el, valor, { duracion = 900, decimales = 0, format
 
   const desde = prev?.valor ?? 0
 
-  if (prefersReducedMotion() || duracion <= 0) {
+  if (duracion <= 0) {
     el.textContent = texto(valor)
     estado.set(el, { valor, raf: 0 })
     return
@@ -71,16 +63,10 @@ export function onEnterViewport(el, callback) {
 }
 
 // Agrega `revelar` a cada elemento y después `revelar--visible` con retraso
-// `i * paso` ms vía `style.transitionDelay`. Con reduced-motion agrega
-// `revelar--visible` sin retraso.
+// `i * paso` ms vía `style.transitionDelay`.
 export function revealStagger(elementos, { paso = 80 } = {}) {
-  const reduce = prefersReducedMotion()
   for (const [i, el] of elementos.entries()) {
     el.classList.add('revelar')
-    if (reduce) {
-      el.classList.add('revelar--visible')
-      continue
-    }
     el.style.transitionDelay = `${i * paso}ms`
     requestAnimationFrame(() => requestAnimationFrame(() => {
       el.classList.add('revelar--visible')

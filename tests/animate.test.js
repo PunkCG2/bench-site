@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import {
-  prefersReducedMotion,
   animateNumber,
   onEnterViewport,
   revealStagger,
@@ -30,20 +29,6 @@ afterEach(() => {
   vi.unstubAllGlobals()
 })
 
-describe('prefersReducedMotion', () => {
-  it('false si matchMedia no existe', () => {
-    vi.stubGlobal('matchMedia', undefined)
-    expect(prefersReducedMotion()).toBe(false)
-  })
-
-  it('sigue matchMedia', () => {
-    matchMediaReduce(true)
-    expect(prefersReducedMotion()).toBe(true)
-    matchMediaReduce(false)
-    expect(prefersReducedMotion()).toBe(false)
-  })
-})
-
 describe('animateNumber', () => {
   it('valor final correcto tras la duración', () => {
     const el = document.createElement('div')
@@ -63,11 +48,16 @@ describe('animateNumber', () => {
     expect(el2.textContent).toBe('1234 pts')
   })
 
-  it('reduced-motion fija el valor final al instante', () => {
+  it('con prefers-reduced-motion activo igual anima (decisión del autor)', () => {
     matchMediaReduce(true)
     const el = document.createElement('div')
-    animateNumber(el, 42)
-    expect(el.textContent).toBe('42')
+    animateNumber(el, 100)
+    vi.advanceTimersByTime(48)
+    const parcial = Number(el.textContent)
+    expect(parcial).toBeGreaterThan(0)
+    expect(parcial).toBeLessThan(100)
+    vi.advanceTimersByTime(1000)
+    expect(el.textContent).toBe('100')
   })
 
   it('duracion <= 0 fija el valor final al instante', () => {
@@ -157,14 +147,13 @@ describe('revealStagger', () => {
     }
   })
 
-  it('con reduced-motion agrega revelar--visible sin retraso', () => {
+  it('con prefers-reduced-motion activo igual escalona (decisión del autor)', () => {
     matchMediaReduce(true)
     const els = [1, 2].map(() => document.createElement('div'))
     revealStagger(els)
-    for (const el of els) {
-      expect(el.classList.contains('revelar')).toBe(true)
-      expect(el.classList.contains('revelar--visible')).toBe(true)
-      expect(el.style.transitionDelay).toBe('')
-    }
+    expect(els[1].style.transitionDelay).toBe('80ms')
+    expect(els[0].classList.contains('revelar--visible')).toBe(false)
+    vi.advanceTimersByTime(32)
+    expect(els[0].classList.contains('revelar--visible')).toBe(true)
   })
 })
