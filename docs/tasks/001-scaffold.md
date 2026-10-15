@@ -1,6 +1,6 @@
 ---
 id: 001
-estado: pendiente
+estado: en-curso
 ejecuta: local
 depende: []
 rondas: 0
