@@ -309,6 +309,495 @@
       ]
     },
     {
+      "id": "google/gemma-4-e4b@Q8_0",
+      "nombre": "gemma-4-e4b",
+      "etiqueta": "gemma-4-e4b",
+      "cuantizacion": "Q8_0",
+      "revisor": "haiku",
+      "fecha": "2026-10-15 16:54",
+      "version": "v1",
+      "resumen": {
+        "local": {
+          "nota": 8,
+          "tiempo_s": 107,
+          "tokens_claude": 0,
+          "costo_usd": null
+        },
+        "pareja": {
+          "nota": 8.7,
+          "tiempo_s": 279,
+          "tokens_claude": 27607,
+          "costo_usd": 0.006
+        },
+        "claude": {
+          "nota": 10,
+          "tiempo_s": 30,
+          "tokens_claude": 84292,
+          "costo_usd": 0.005
+        },
+        "revision": {
+          "mejoro": 5,
+          "empeoro": 2,
+          "aprobadas_primera": 1
+        }
+      },
+      "tareas": [
+        {
+          "id": "T-101",
+          "ambito": "unity",
+          "local": 10,
+          "pareja": 7.4,
+          "rondas": 2,
+          "tokens_pareja": 40960,
+          "claude": 10,
+          "tokens_claude": 88259,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "Assets/Scripts/UI/HealthBarUI.cs",
+              "texto": "La tarea exige reflejar la vida actual en `Start`, pero el archivo no tiene método `Start`. La sincr"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Assets/Scripts/UI/HealthBarUI.cs",
+              "texto": "El archivo no declara clase ni namespace: el método Start está a nivel de archivo, lo que causa el e"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Assets/Scripts/UI/HealthBarUI.cs",
+              "texto": "Faltan las referencias asignables en el Inspector: no hay campo para el PlayerHealth ni para la Imag"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Assets/Scripts/UI/HealthBarUI.cs",
+              "texto": "No hay suscripción al evento: faltan OnEnable y OnDisable."
+            },
+            {
+              "ronda": 2,
+              "archivo": "Assets/Scripts/UI/HealthBarUI.cs",
+              "texto": "Start llama a UpdateHealthBar(), método que no está definido, así que no compilará aunque se corrija"
+            }
+          ],
+          "fallos": [
+            {
+              "quien": "pareja",
+              "texto": "tras la pareja sigue fallando: deshabilitado no reacciona, deshabilitado sin suscripciones colgando, una sola suscripción activa"
+            }
+          ]
+        },
+        {
+          "id": "T-102",
+          "ambito": "unity",
+          "local": 9.4,
+          "pareja": 10,
+          "rondas": 1,
+          "tokens_pareja": 40464,
+          "claude": 10,
+          "tokens_claude": 58678,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "Assets/Scripts/Items/Inventory.cs",
+              "texto": "AddItem invoca OnInventoryChanged incondicionalmente al final, aunque no haya cambiado nada (por eje"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Assets/Scripts/Items/Inventory.cs",
+              "texto": "ItemStack.Count tiene setter público (`{ get; set; }`) y Slots expone los ItemStack, así que código"
+            }
+          ],
+          "fallos": []
+        },
+        {
+          "id": "T-103",
+          "ambito": "unity",
+          "local": 3,
+          "pareja": 10,
+          "rondas": 2,
+          "tokens_pareja": 45406,
+          "claude": 10,
+          "tokens_claude": 81045,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "Assets/Scripts/Enemies/EnemyHealth.cs",
+              "texto": "Falla el build (CS0103): `GameBalance` está en `Game.Utils` y el archivo no importa ese namespace."
+            },
+            {
+              "ronda": 1,
+              "archivo": "Assets/Scripts/Enemies/EnemyHealth.cs",
+              "texto": "`TakeDamage` no comprueba si el enemigo ya está muerto. Tras morir, cualquier daño positivo recalcul"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Assets/Scripts/Enemies/EnemyHealth.cs",
+              "texto": "Las propiedades públicas `CurrentHealth` e `IsDead` no tienen comentario `/// <summary>`, exigido po"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Assets/Scripts/Combat/Projectile.cs",
+              "texto": "`OnTriggerEnter` solo busca `IDamageable` en el mismo GameObject del collider (`other.TryGetComponen"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Assets/Scripts/Combat/Projectile.cs",
+              "texto": "Build falla con CS1501 en la línea 30: `GetComponentInParent<IDamageable>(out damageable)` no existe"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Assets/Scripts/Combat/Projectile.cs",
+              "texto": "`TryGetComponent(out damageable)` con un tipo interfaz (`IDamageable`) no funciona en Unity: los mét"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Assets/Scripts/Combat/Projectile.cs",
+              "texto": "Como `Destroy(gameObject)` es diferido hasta el final del frame, si el proyectil toca varios collide"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Assets/Scripts/Combat/Projectile.cs",
+              "texto": "Quedan comentarios de depuración obsoletos: la nota sobre el error de compilación CS1501 (que ya no"
+            }
+          ],
+          "fallos": []
+        },
+        {
+          "id": "T-104",
+          "ambito": "unity",
+          "local": 10,
+          "pareja": 10,
+          "rondas": 0,
+          "tokens_pareja": 19557,
+          "claude": 10,
+          "tokens_claude": 78072,
+          "revisiones": [],
+          "fallos": []
+        },
+        {
+          "id": "W-201",
+          "ambito": "web",
+          "local": 7.9,
+          "pareja": 10,
+          "rondas": 1,
+          "tokens_pareja": 22249,
+          "claude": 10,
+          "tokens_claude": 74795,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "src/lib/cart.ts",
+              "texto": "addToCart usa Math.floor(quantity): 1.5 se convierte en 1 y se agrega, cuando el JSDoc dice que las"
+            },
+            {
+              "ronda": 1,
+              "archivo": "src/lib/cart.ts",
+              "texto": "En cartTotals con cupón, el descuento se calcula sobre `totalBaseCents` (subtotal + envío). El JSDoc"
+            },
+            {
+              "ronda": 1,
+              "archivo": "src/lib/cart.ts",
+              "texto": "El envío se evalúa contra el subtotal antes del descuento (`subtotalCents >= FREE_SHIPPING_THRESHOLD"
+            }
+          ],
+          "fallos": []
+        },
+        {
+          "id": "W-202",
+          "ambito": "web",
+          "local": 10,
+          "pareja": 10,
+          "rondas": 2,
+          "tokens_pareja": 25360,
+          "claude": 10,
+          "tokens_claude": 104340,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "src/ui/searchBox.ts",
+              "texto": "Condición de carrera: si una búsqueda anterior resuelve después de una más reciente (o después de qu"
+            },
+            {
+              "ronda": 1,
+              "archivo": "src/ui/searchBox.ts",
+              "texto": "Define su propio tipo `Product` local (y un bloque @typedef huérfano) en lugar de importar el tipo d"
+            },
+            {
+              "ronda": 1,
+              "archivo": "src/ui/searchBox.ts",
+              "texto": "Deja un console.error de depuración en el código entregado (el propio comentario dice que es tempora"
+            },
+            {
+              "ronda": 1,
+              "archivo": "src/ui/searchBox.ts",
+              "texto": "Usa innerHTML para vaciar la lista (en clearResults, renderResults y handleSearch). La convención 6"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/ui/searchBox.ts",
+              "texto": "El bloque catch de handleSearch no comprueba requestId. Si una búsqueda antigua falla después de que"
+            }
+          ],
+          "fallos": []
+        },
+        {
+          "id": "W-203",
+          "ambito": "web",
+          "local": 10,
+          "pareja": 3.2,
+          "rondas": 2,
+          "tokens_pareja": 23658,
+          "claude": 10,
+          "tokens_claude": 70490,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "src/api/products.ts",
+              "texto": "Las variables `pageSize` y `page` se declaran con `let` aunque nunca se reasignan (solo se asignan u"
+            },
+            {
+              "ronda": 1,
+              "archivo": "src/api/products.ts",
+              "texto": "La validación compara `String(parsed) !== str`, lo que rechaza enteros válidos con ceros a la izquie"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/api/products.ts",
+              "texto": "Las variables `let pageSize: number;` y `let page: number;` se asignan una sola vez en cada rama y n"
+            }
+          ],
+          "fallos": [
+            {
+              "quien": "pareja",
+              "texto": "tras la pareja sigue fallando: pageSize 49 → 400 pageSize, pageSize 0 / abc / 2.5 → 400 pageSize, page 0 / -1 / x / 1.5 → 400 page"
+            }
+          ]
+        },
+        {
+          "id": "W-204",
+          "ambito": "web",
+          "local": 10,
+          "pareja": 10,
+          "rondas": 1,
+          "tokens_pareja": 19552,
+          "claude": 10,
+          "tokens_claude": 54743,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "public/css/contact.css",
+              "texto": "La regla `.contact-form__field label` estiliza la etiqueta por tipo de elemento dentro de un bloque"
+            }
+          ],
+          "fallos": []
+        },
+        {
+          "id": "CPP-301",
+          "ambito": "cpp",
+          "local": 10,
+          "pareja": 10,
+          "rondas": 1,
+          "tokens_pareja": 20617,
+          "claude": 10,
+          "tokens_claude": 77034,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "src/event_queue.hpp",
+              "texto": "El constructor público `EventQueue() = default;` no tiene comentario `///`, y el destructor solo tie"
+            },
+            {
+              "ronda": 1,
+              "archivo": "src/event_queue.hpp",
+              "texto": "Se incumple la convención de mover parámetros no triviales. `push(Event e)` recibe el evento por val"
+            }
+          ],
+          "fallos": []
+        },
+        {
+          "id": "UE-302",
+          "ambito": "unreal",
+          "local": 3,
+          "pareja": 10,
+          "rondas": 2,
+          "tokens_pareja": 31321,
+          "claude": 10,
+          "tokens_claude": 121881,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "Source/Arena/Components/HealthComponent.h",
+              "texto": "Tras el especificador `protected:` no hay ningún `public:`, así que MaxHealth, CurrentHealth, OnHeal"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Source/Arena/Components/HealthComponent.cpp",
+              "texto": "El include `#include \"Arena/Config/ArenaBalance.h\"` no existe en la ruta de include del módulo. Es e"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Source/Arena/Components/HealthComponent.cpp",
+              "texto": "`ARENA_BALANCE.MaxCharacterHealth` no existe. ArenaBalance es un namespace con `DefaultMaxHealth`, a"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Source/Arena/Components/HealthComponent.cpp",
+              "texto": "El Delta se calcula con el valor pedido, no con el cambio real. Si el daño o la curación se recortan"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Source/Arena/Components/HealthComponent.cpp",
+              "texto": "Requisito 2 incumplido: `BeginPlay` no asigna `CurrentHealth = MaxHealth`; solo lo hace el construct"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Source/Arena/Components/HealthComponent.h",
+              "texto": "La declaración adelantada `class UHealthPickup;` apunta a una clase inexistente (la clase real es `A"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Source/Arena/Components/HealthComponent.h",
+              "texto": "Las propiedades y funciones de la clase están sin indentar, mientras que las convenciones piden tabs"
+            }
+          ],
+          "fallos": []
+        },
+        {
+          "id": "RS-401",
+          "ambito": "rust",
+          "local": 9.7,
+          "pareja": 9.7,
+          "rondas": 1,
+          "tokens_pareja": 19958,
+          "claude": 10,
+          "tokens_claude": 88570,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "src/save.rs",
+              "texto": "Un `version=0` explícito se reporta como `MissingField(\"version\")` porque la comprobación usa `data."
+            },
+            {
+              "ronda": 1,
+              "archivo": "src/save.rs",
+              "texto": "`let new_qty = *current_qty + quantity;` puede desbordar `u32` (p. ej. dos líneas `item=a:4294967295"
+            }
+          ],
+          "fallos": []
+        },
+        {
+          "id": "NET-501",
+          "ambito": "dotnet",
+          "local": 3.1,
+          "pareja": 3.1,
+          "rondas": 2,
+          "tokens_pareja": 25902,
+          "claude": 10,
+          "tokens_claude": 92768,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "Endpoints/ScoreEndpoints.cs",
+              "texto": "Errores de compilación: `Results.ValidationProblem` recibe un diccionario, no un array de KeyValuePa"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Endpoints/ScoreEndpoints.cs",
+              "texto": "Límites hardcodeados (50, 10000, 10) en lugar de usar `LeaderboardOptions` vía `IOptions<Leaderboard"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Endpoints/ScoreEndpoints.cs",
+              "texto": "GET /api/scores no limita `top` a MaxTop: si piden más de MaxTop deben devolverse como máximo MaxTop"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Endpoints/ScoreEndpoints.cs",
+              "texto": "Cálculo de posición incorrecto por precedencia de operadores: `e.Score > entry.Score || (e.Score =="
+            },
+            {
+              "ronda": 2,
+              "archivo": "Endpoints/ScoreEndpoints.cs",
+              "texto": "Falta el punto y coma tras la cadena de `app.MapPost(...)` (`.Produces(StatusCodes.Status400BadReque"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Endpoints/ScoreEndpoints.cs",
+              "texto": "La firma `MapScoreEndpoints(this IEndpointRouteBuilder app, IOptions<LeaderboardOptions> opts)` no c"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Endpoints/ScoreEndpoints.cs",
+              "texto": "La regex `^[a-zA-Z0-9_-]+$` acepta un salto de línea final en .NET, porque `$` coincide antes de `\\n"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Endpoints/ScoreEndpoints.cs",
+              "texto": "Un `score` con tipo incorrecto (por ejemplo \"abc\" o 1200.5) falla en el binding JSON antes del handl"
+            }
+          ],
+          "fallos": []
+        },
+        {
+          "id": "FB-601",
+          "ambito": "firebase",
+          "local": 7.8,
+          "pareja": 9.5,
+          "rondas": 2,
+          "tokens_pareja": 23881,
+          "claude": 10,
+          "tokens_claude": 105126,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "firestore.rules",
+              "texto": "El archivo es JSON, no el lenguaje de reglas de Firestore. Falta el encabezado `rules_version = '2';"
+            },
+            {
+              "ronda": 1,
+              "archivo": "firestore.rules",
+              "texto": "Las condiciones de create/update evalúan `resource.data` (el documento existente) en lugar de `reque"
+            },
+            {
+              "ronda": 1,
+              "archivo": "firestore.indexes.json",
+              "texto": "La estructura no es la del formato de Firebase CLI. Tiene una clave `match` en el nivel raíz que no"
+            },
+            {
+              "ronda": 1,
+              "archivo": "src/migrate.ts",
+              "texto": "En la rama numérica de `score` no se comprueba que el número sea entero. Un valor como 12.7 se guard"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/migrate.ts",
+              "texto": "Error de build TS7053 en la línea 36: `usersObject` tiene tipo `{}` tras el type guard `typeof === '"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/migrate.ts",
+              "texto": "El score fuera de rango no se marca como inválido: con números o textos mayores a `USER_SCHEMA.maxSc"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/migrate.ts",
+              "texto": "Si una entrada de `users` es null o un valor no objeto (p. ej. `\"uX\": null`), `userData.banned` y lo"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/migrate.ts",
+              "texto": "El displayName se recorta después del trim, así que puede quedar con espacio final (p. ej. un nombre"
+            }
+          ],
+          "fallos": [
+            {
+              "quien": "pareja",
+              "texto": "tras la pareja sigue fallando: migración: entrada inválida → error users sin lanzar"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "qwen3.8-27b@IQ3_XXS",
       "nombre": "qwen3.8-27b",
       "etiqueta": "qwen3.8-27b",
@@ -572,6 +1061,1095 @@
             }
           ],
           "fallos": []
+        }
+      ]
+    },
+    {
+      "id": "rnj-1-instruct@Q8_0",
+      "nombre": "rnj-1-instruct",
+      "etiqueta": "rnj-1-instruct",
+      "cuantizacion": "Q8_0",
+      "revisor": "haiku",
+      "fecha": "2026-10-15 18:12",
+      "version": "v1",
+      "resumen": {
+        "local": {
+          "nota": 5.1,
+          "tiempo_s": 58,
+          "tokens_claude": 0,
+          "costo_usd": null
+        },
+        "pareja": {
+          "nota": 7.3,
+          "tiempo_s": 295,
+          "tokens_claude": 26540,
+          "costo_usd": 0.006
+        },
+        "claude": {
+          "nota": 10,
+          "tiempo_s": 31,
+          "tokens_claude": 89718,
+          "costo_usd": 0.006
+        },
+        "revision": {
+          "mejoro": 9,
+          "empeoro": 1,
+          "aprobadas_primera": 1
+        }
+      },
+      "tareas": [
+        {
+          "id": "T-101",
+          "ambito": "unity",
+          "local": 3,
+          "pareja": 10,
+          "rondas": 1,
+          "tokens_pareja": 40335,
+          "claude": 10,
+          "tokens_claude": 79826,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "Assets/Scripts/UI/HealthBarUI.cs",
+              "texto": "No compila: `healthImage?.SetFill(FillAmount)` usa un método `SetFill` que no existe en `UnityEngine"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Assets/Scripts/UI/HealthBarUI.cs",
+              "texto": "`playerHealth?.OnHealthChanged += UpdateFill;` y el `-=` de `OnDisable` no son válidos en C#: un acc"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Assets/Scripts/UI/HealthBarUI.cs",
+              "texto": "Incumple la convención 2: los campos `playerHealth` y `healthImage` son `[SerializeField] private` s"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Assets/Scripts/UI/HealthBarUI.cs",
+              "texto": "`Start` llama a `playerHealth.CurrentHealth` sin comprobar null. Si la referencia no está asignada e"
+            }
+          ],
+          "fallos": []
+        },
+        {
+          "id": "T-102",
+          "ambito": "unity",
+          "local": 8.8,
+          "pareja": 9.8,
+          "rondas": 2,
+          "tokens_pareja": 44799,
+          "claude": 10,
+          "tokens_claude": 58973,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "Assets/Scripts/Items/Inventory.cs",
+              "texto": "RemoveItem nunca invoca OnInventoryChanged, aunque quite unidades. Es el síntoma 3 de QA y incumple"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Assets/Scripts/Items/Inventory.cs",
+              "texto": "AddItem invoca OnInventoryChanged siempre que amount > 0, incluso si no se añadió nada (por ejemplo,"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Assets/Scripts/Items/Inventory.cs",
+              "texto": "ItemStack.Count tiene setter público. Cualquier código externo puede modificar cantidades sin dispar"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Assets/Scripts/Items/Inventory.cs",
+              "texto": "Los síntomas 1 (11 slots ocupados) y 2 (RemoveItem quita menos unidades de las pedidas) no tienen ca"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Assets/Scripts/Items/Inventory.cs",
+              "texto": "En el constructor de ItemStack, `Count = count;` asigna a una propiedad de solo lectura (CS0200). Ad"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Assets/Scripts/Items/Inventory.cs",
+              "texto": "ItemStack no tiene métodos Add ni Remove. Las llamadas `stack.Add(add)` (línea 54) y `stack.Remove(t"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Assets/Scripts/Items/Inventory.cs",
+              "texto": "La propiedad pública `Count` de ItemStack no tiene comentario `/// <summary>`. El comentario de docu"
+            }
+          ],
+          "fallos": []
+        },
+        {
+          "id": "T-103",
+          "ambito": "unity",
+          "local": 2.6,
+          "pareja": 3,
+          "rondas": 2,
+          "tokens_pareja": 43343,
+          "claude": 10,
+          "tokens_claude": 79467,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "Assets/Scripts/Player/PlayerHealth.cs",
+              "texto": "currentHealth nunca se inicializa a maxHealth (no hay Awake). Arranca en 0, así que el jugador muere"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Assets/Scripts/Combat/Projectile.cs",
+              "texto": "Destroy(gameObject) se ejecuta siempre, también cuando el collider no es IDamageable. El requisito 4"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Assets/Scripts/Enemies/EnemyHealth.cs",
+              "texto": "La vida inicial está hardcodeada como 100 con comentario, en vez de referenciar la vida base de enem"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Assets/Scripts/Combat/Projectile.cs",
+              "texto": "damageAmount = 10 está hardcodeado. La convención 9 exige referenciar valores de balance existentes;"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Assets/Scripts/Combat/Projectile.cs",
+              "texto": "El archivo está truncado/roto: falta la declaración del método OnTriggerEnter (o equivalente), `_has"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Assets/Scripts/Combat/Projectile.cs",
+              "texto": "Falta `using Game.Utils;` para resolver `GameBalance`, y el tipo de referencia `GameBalance` no exis"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Assets/Scripts/Enemies/EnemyHealth.cs",
+              "texto": "Los campos se llaman `_currentHealth`, `_isDead` y `_maxHealth`, pero el código usa `currentHealth`,"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Assets/Scripts/Enemies/EnemyHealth.cs",
+              "texto": "`_maxHealth` se declara `readonly` e inicializa con `GameBalance.EnemyBaseHealth`, pero falta `using"
+            }
+          ],
+          "fallos": []
+        },
+        {
+          "id": "T-104",
+          "ambito": "unity",
+          "local": 5.3,
+          "pareja": 5.3,
+          "rondas": 2,
+          "tokens_pareja": 38769,
+          "claude": 10,
+          "tokens_claude": 73253,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "Assets/Scripts/Enemies/EnemySpawner.cs",
+              "texto": "_activeEnemies solo crece: nunca se eliminan los enemigos destruidos. Tras MaxAliveEnemies aparicion"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Assets/Scripts/Enemies/EnemySpawner.cs",
+              "texto": "En Update, la limpieza de `_activeEnemies` está después del `return` por límite (`if (_activeEnemies"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Assets/Scripts/Enemies/EnemySpawner.cs",
+              "texto": "Se incluye `using System.Linq;` sin usarlo. Las convenciones del proyecto prohíben LINQ en rutas cal"
+            }
+          ],
+          "fallos": [
+            {
+              "quien": "pareja",
+              "texto": "tras la pareja sigue fallando: intervalo 1.75 s: nada a 1.5 s, uno a 1.75 s, límite de 4 vivos (10 s), no supera el límite tras 30 s"
+            }
+          ]
+        },
+        {
+          "id": "W-201",
+          "ambito": "web",
+          "local": 1,
+          "pareja": 1,
+          "rondas": 0,
+          "tokens_pareja": 0,
+          "claude": 10,
+          "tokens_claude": 85770,
+          "revisiones": [],
+          "fallos": [
+            {
+              "quien": "pareja",
+              "texto": "tras la pareja sigue fallando: addToCart no muta el carrito original, mismo producto suma cantidad (sin mutar la línea anterior), cantidades"
+            }
+          ]
+        },
+        {
+          "id": "W-202",
+          "ambito": "web",
+          "local": 8.6,
+          "pareja": 9.2,
+          "rondas": 2,
+          "tokens_pareja": 24598,
+          "claude": 10,
+          "tokens_claude": 77207,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "src/ui/searchBox.ts",
+              "texto": "El precio se formatea con Intl.NumberFormat('es-AR', currency 'ARS'), lo que produce algo como 'ARS"
+            },
+            {
+              "ronda": 1,
+              "archivo": "src/ui/searchBox.ts",
+              "texto": "Cada <li> contiene un <span> anidado para el nombre, y el texto del precio va como nodo suelto. La t"
+            },
+            {
+              "ronda": 1,
+              "archivo": "src/ui/searchBox.ts",
+              "texto": "Condición de carrera: si una búsqueda anterior resuelve después de que el usuario cambió el texto (o"
+            },
+            {
+              "ronda": 1,
+              "archivo": "src/ui/searchBox.ts",
+              "texto": "Se usa console.error en el código entregado, incumpliendo la convención 5 (sin consola en el código"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/ui/searchBox.ts",
+              "texto": "El separador entre nombre y precio es un guion medio/en dash (U+2013 '–'), pero la tarea especifica"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/ui/searchBox.ts",
+              "texto": "Condición de carrera: las respuestas de `search` pueden llegar fuera de orden o después de que el us"
+            }
+          ],
+          "fallos": [
+            {
+              "quien": "pareja",
+              "texto": "tras la pareja sigue fallando: debounce: varias teclas → una sola búsqueda con el último texto"
+            }
+          ]
+        },
+        {
+          "id": "W-203",
+          "ambito": "web",
+          "local": 2.7,
+          "pareja": 9.8,
+          "rondas": 2,
+          "tokens_pareja": 21818,
+          "claude": 10,
+          "tokens_claude": 72546,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "src/api/products.ts",
+              "texto": "El import apunta a './config/legacyLimits', que no existe desde src/api; la ruta correcta sería '../"
+            },
+            {
+              "ronda": 1,
+              "archivo": "src/api/products.ts",
+              "texto": "La validación de 'page' no devuelve 400 en casos inválidos: parseInt(...) || 1 convierte 'abc' (NaN)"
+            },
+            {
+              "ronda": 1,
+              "archivo": "src/api/products.ts",
+              "texto": "La validación de 'pageSize' tiene el mismo fallo: '0', '-5', 'abc' y '5.5' se sustituyen silenciosam"
+            },
+            {
+              "ronda": 1,
+              "archivo": "src/api/products.ts",
+              "texto": "Un parámetro presente pero vacío (?page= o ?pageSize=) se trata como ausente por el operador || (\"\""
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/api/products.ts",
+              "texto": "Si `page` no viene en la query, `rawPage` es \"\", que no cumple `/^\\d+$/`, así que se devuelve 400 en"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/api/products.ts",
+              "texto": "Si `pageSize` no viene en la query, `rawPageSize` es \"\" y la validación devuelve 400. La tarea pide"
+            }
+          ],
+          "fallos": []
+        },
+        {
+          "id": "W-204",
+          "ambito": "web",
+          "local": 10,
+          "pareja": 10,
+          "rondas": 0,
+          "tokens_pareja": 9836,
+          "claude": 10,
+          "tokens_claude": 55472,
+          "revisiones": [],
+          "fallos": []
+        },
+        {
+          "id": "CPP-301",
+          "ambito": "cpp",
+          "local": 3.8,
+          "pareja": 6.1,
+          "rondas": 2,
+          "tokens_pareja": 20455,
+          "claude": 10,
+          "tokens_claude": 75315,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "src/event_queue.cpp",
+              "texto": "En push() con la cola llena, al expulsar se copia el último elemento sobre la posición expulsada, lo"
+            },
+            {
+              "ronda": 1,
+              "archivo": "src/event_queue.cpp",
+              "texto": "drainUntil() nunca elimina los eventos extraídos. En el bucle de borrado, '&m_data[...] == &e' compa"
+            },
+            {
+              "ronda": 1,
+              "archivo": "src/event_queue.cpp",
+              "texto": "drainUntil() usa std::sort, que no es estable, así que los eventos de igual prioridad pueden salir f"
+            },
+            {
+              "ronda": 1,
+              "archivo": "src/event_queue.cpp",
+              "texto": "pop() intercambia el mejor evento con el head (std::swap) antes de avanzar m_head. Eso manda el elem"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/event_queue.cpp",
+              "texto": "Solo hay un esqueleto vacío. Las funciones declaradas en el encabezado (push, pop, drainUntil y find"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/event_queue.hpp",
+              "texto": "push no valida el rango de prioridad. Las prioridades fuera de [config::kMinPriority, config::kMaxPr"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/event_queue.hpp",
+              "texto": "Falta la lógica de capacidad y expulsión. Cuando m_size == kMaxSize, el evento nuevo solo debe entra"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/event_queue.hpp",
+              "texto": "El orden FIFO no está garantizado. La cola es circular con m_head, pero al expulsar o extraer un eve"
+            }
+          ],
+          "fallos": [
+            {
+              "quien": "pareja",
+              "texto": "tras la pareja sigue fallando: empates salen en orden de llegada (FIFO), prioridades fuera de rango se rechazan, cola llena: evento más prior"
+            }
+          ]
+        },
+        {
+          "id": "UE-302",
+          "ambito": "unreal",
+          "local": 3.1,
+          "pareja": 9.8,
+          "rondas": 2,
+          "tokens_pareja": 32342,
+          "claude": 10,
+          "tokens_claude": 248357,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "Source/Arena/Components/HealthComponent.h",
+              "texto": "El include `#include \"ArenaBalance.h\"` no se resuelve: el archivo está en `Source/Arena/Config/Arena"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Source/Arena/Components/HealthComponent.cpp",
+              "texto": "Inconsistencia en la muerte: `IsDead()` devuelve true si `CurrentHealth` es casi cero (tolerancia 1e"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Source/Arena/Components/HealthComponent.cpp",
+              "texto": "En `ApplyDamage` el estado de muerte se fija DESPUÉS de emitir `OnHealthChanged`. Si un manejador de"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Source/Arena/Components/HealthComponent.h",
+              "texto": "Falta `#include \"HealthComponent.generated.h\"` como último include del encabezado. Lo exige la conve"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Source/Arena/Components/HealthComponent.cpp",
+              "texto": "El archivo está corrupto: `ApplyDamage`, `Heal` y `IsDead` aparecen repetidos con llaves sobrantes ("
+            },
+            {
+              "ronda": 2,
+              "archivo": "Source/Arena/Components/HealthComponent.cpp",
+              "texto": "`Super::BeginPlay()` no compila porque `Super` no está declarado en este módulo ni en los stubs."
+            },
+            {
+              "ronda": 2,
+              "archivo": "Source/Arena/Components/HealthComponent.cpp",
+              "texto": "Se define `IsDead() const` en el .cpp, pero el encabezado ya la define inline (redefinición). Además"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Source/Arena/Components/HealthComponent.h",
+              "texto": "Falta `#include \"HealthComponent.generated.h\"`. Las convenciones exigen que sea el último include de"
+            }
+          ],
+          "fallos": []
+        },
+        {
+          "id": "RS-401",
+          "ambito": "rust",
+          "local": 8.9,
+          "pareja": 9.7,
+          "rondas": 2,
+          "tokens_pareja": 19308,
+          "claude": 10,
+          "tokens_claude": 77829,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "src/save.rs",
+              "texto": "La comprobación de pila nunca usa MAX_STACK (99) de config.rs. Solo detecta el desbordamiento de u32"
+            },
+            {
+              "ronda": 1,
+              "archivo": "src/save.rs",
+              "texto": "La versión soportada está hardcodeada (`version != 2`) en lugar de usar la constante del proyecto. V"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/save.rs",
+              "texto": "En la rama \"item\" se usa `value.split_once(':')`, que divide por el primer ':'. Un nombre de objeto"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/save.rs",
+              "texto": "La línea `let qty: u32 = qty;` es un shadowing redundante que `cargo clippy` marca (redundant_locals"
+            }
+          ],
+          "fallos": []
+        },
+        {
+          "id": "NET-501",
+          "ambito": "dotnet",
+          "local": 3.2,
+          "pareja": 2.3,
+          "rondas": 2,
+          "tokens_pareja": 21600,
+          "claude": 10,
+          "tokens_claude": 89440,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "Endpoints/ScoreEndpoints.cs",
+              "texto": "Falta por completo el endpoint POST /api/scores. No hay validación de playerId (obligatorio, 1..MaxP"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Endpoints/ScoreEndpoints.cs",
+              "texto": "El POST válido debe responder 201 Created con cabecera Location: /api/scores/{playerId} y cuerpo Sco"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Endpoints/ScoreEndpoints.cs",
+              "texto": "GET /api/scores devuelve todas las entradas crudas (ScoreEntry) sin ordenar, sin parámetro top, sin"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Infrastructure/InMemoryScoreRepository.cs",
+              "texto": "GetAllAsync lee _entries.Values fuera del lock mientras SubmitAsync lo modifica. Con envíos concurre"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Endpoints/ScoreEndpoints.cs",
+              "texto": "El build falla con CS0101: el archivo declara `namespace Leaderboard.Api.Endpoints.ScoreEndpoints;`"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Endpoints/ScoreEndpoints.cs",
+              "texto": "Faltan `[FromBody]` y `[FromQuery]` por no tener `using Microsoft.AspNetCore.Mvc;`, y los parámetros"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Endpoints/ScoreEndpoints.cs",
+              "texto": "Los límites están hardcodeados en el código de validación del endpoint de GET y POST con `Math.Clamp"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Endpoints/ScoreEndpoints.cs",
+              "texto": "El cálculo de `rank` en POST es incorrecto: `OrderBy(Score).ThenBy(Sequence).Reverse()` invierte el"
+            }
+          ],
+          "fallos": []
+        },
+        {
+          "id": "FB-601",
+          "ambito": "firebase",
+          "local": 4.8,
+          "pareja": 9.5,
+          "rondas": 2,
+          "tokens_pareja": 27815,
+          "claude": 10,
+          "tokens_claude": 92878,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "firestore.indexes.json",
+              "texto": "El archivo no es JSON válido: la primera línea es un comentario `// firestore.indexes.json` (el buil"
+            },
+            {
+              "ronda": 1,
+              "archivo": "firestore.rules",
+              "texto": "Línea `global read: if request.auth != null;` es sintaxis inválida dentro de `match /databases/{data"
+            },
+            {
+              "ronda": 1,
+              "archivo": "firestore.rules",
+              "texto": "Los métodos `.isInt()` y `.isString()` no existen en el lenguaje de reglas de Firestore. Además, `re"
+            },
+            {
+              "ronda": 1,
+              "archivo": "src/migrate.ts",
+              "texto": "Ruta de importación incorrecta: el archivo está en src/ y el esquema está en src/config/schema.ts, p"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/migrate.ts",
+              "texto": "El build falla con TS2322 en las líneas 40 y 43. `let displayName = schema.defaultDisplayName;` infi"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/migrate.ts",
+              "texto": "La validación de score no cumple la regla 'inválido → 0 + error'. Los no enteros (1200.7, '12.5') se"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/migrate.ts",
+              "texto": "En settings, un texto no interpretable como booleano agrega un error. La tarea dice que esos valores"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/migrate.ts",
+              "texto": "En la rama de inventory como objeto, Number(key) acepta claves no enteras o negativas ('1.5', '-1')."
+            }
+          ],
+          "fallos": [
+            {
+              "quien": "pareja",
+              "texto": "tras la pareja sigue fallando: migración: entrada inválida → error users sin lanzar"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rnj-1.5-instruct@Q6_K",
+      "nombre": "rnj-1.5-instruct",
+      "etiqueta": "rnj-1.5-instruct",
+      "cuantizacion": "Q6_K",
+      "revisor": "haiku",
+      "fecha": "2026-10-15 15:38",
+      "version": "v1",
+      "resumen": {
+        "local": {
+          "nota": 4.4,
+          "tiempo_s": 87,
+          "tokens_claude": 0,
+          "costo_usd": null
+        },
+        "pareja": {
+          "nota": 4.6,
+          "tiempo_s": 162,
+          "tokens_claude": 18786,
+          "costo_usd": 0.004
+        },
+        "claude": {
+          "nota": 10,
+          "tiempo_s": 32,
+          "tokens_claude": 90899,
+          "costo_usd": 0.006
+        },
+        "revision": {
+          "mejoro": 2,
+          "empeoro": 0,
+          "aprobadas_primera": 0
+        }
+      },
+      "tareas": [
+        {
+          "id": "T-101",
+          "ambito": "unity",
+          "local": 9.8,
+          "pareja": 10,
+          "rondas": 1,
+          "tokens_pareja": 39377,
+          "claude": 10,
+          "tokens_claude": 75060,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "Assets/Scripts/UI/HealthBarUI.cs",
+              "texto": "Los campos `[SerializeField]` `playerHealth` y `bar` no siguen la convención de prefijo `_camelCase`"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Assets/Scripts/UI/HealthBarUI.cs",
+              "texto": "La barra no se refresca al volver a habilitar el componente. Si la vida cambió mientras estaba desha"
+            }
+          ],
+          "fallos": []
+        },
+        {
+          "id": "T-102",
+          "ambito": "unity",
+          "local": 7.7,
+          "pareja": 9.4,
+          "rondas": 2,
+          "tokens_pareja": 41805,
+          "claude": 10,
+          "tokens_claude": 88726,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "Assets/Scripts/Items/Inventory.cs",
+              "texto": "RemoveItem recorre _slots con i++ y hace _slots.RemoveAt(i) dentro del bucle. Al eliminar un stack s"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Assets/Scripts/Items/Inventory.cs",
+              "texto": "RemoveItem modifica el contenido (Count y RemoveAt) pero nunca invoca OnInventoryChanged, por eso la"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Assets/Scripts/Items/Inventory.cs",
+              "texto": "AddItem solo dispara OnInventoryChanged cuando amount == 0. Si no cabe todo, las unidades que sí ent"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Assets/Scripts/Items/Inventory.cs",
+              "texto": "ItemStack.Count tiene setter público. Cualquier código que obtenga stacks desde Slots puede modifica"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Assets/Scripts/Items/Inventory.cs",
+              "texto": "En AddItem, OnInventoryChanged solo se dispara si amount == 0 al final. Si una parte de la cantidad"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Assets/Scripts/Items/Inventory.cs",
+              "texto": "ItemStack.Count tiene setter público. Cualquier código que obtenga `Slots` puede modificar `Count` s"
+            }
+          ],
+          "fallos": [
+            {
+              "quien": "pareja",
+              "texto": "tras la pareja sigue fallando: agregar parcial dispara evento una vez y devuelve sobrante"
+            }
+          ]
+        },
+        {
+          "id": "T-103",
+          "ambito": "unity",
+          "local": 1,
+          "pareja": 1,
+          "rondas": 0,
+          "tokens_pareja": 0,
+          "claude": 10,
+          "tokens_claude": 81995,
+          "revisiones": [],
+          "fallos": [
+            {
+              "quien": "pareja",
+              "texto": "tras la pareja sigue fallando: interfaz Game.Combat.IDamageable con TakeDamage(int), PlayerHealth implementa IDamageable, clase Game.Enemies."
+            }
+          ]
+        },
+        {
+          "id": "T-104",
+          "ambito": "unity",
+          "local": 1,
+          "pareja": 1,
+          "rondas": 0,
+          "tokens_pareja": 0,
+          "claude": 10,
+          "tokens_claude": 73823,
+          "revisiones": [],
+          "fallos": [
+            {
+              "quien": "pareja",
+              "texto": "tras la pareja sigue fallando: intervalo 1.75 s: nada a 1.5 s, uno a 1.75 s, límite de 4 vivos (10 s), no supera el límite tras 30 s"
+            }
+          ]
+        },
+        {
+          "id": "W-201",
+          "ambito": "web",
+          "local": 8.4,
+          "pareja": 8.4,
+          "rondas": 2,
+          "tokens_pareja": 20932,
+          "claude": 10,
+          "tokens_claude": 91775,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "src/lib/cart.ts",
+              "texto": "addToCart muta el carrito recibido: hace `existing.quantity += quantity` y `cart.lines.push(...)` y"
+            },
+            {
+              "ronda": 1,
+              "archivo": "src/lib/cart.ts",
+              "texto": "cartTotals cobra envío aunque el carrito esté vacío: con 0 líneas, subtotal 0 no alcanza el umbral y"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/lib/cart.ts",
+              "texto": "Un carrito vacío sigue cobrando envío: `cartTotals` no comprueba si el carrito está vacío, así que c"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/lib/cart.ts",
+              "texto": "`addToCart` muta el carrito recibido: hace `existing.quantity += quantity` y `cart.lines.push(...)`"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/lib/cart.ts",
+              "texto": "Cuando la cantidad se ignora (`quantity <= 0` o no entera) la función devuelve la misma referencia `"
+            }
+          ],
+          "fallos": [
+            {
+              "quien": "pareja",
+              "texto": "tras la pareja sigue fallando: addToCart no muta el carrito original, mismo producto suma cantidad (sin mutar la línea anterior), carrito vac"
+            }
+          ]
+        },
+        {
+          "id": "W-202",
+          "ambito": "web",
+          "local": 3,
+          "pareja": 3,
+          "rondas": 2,
+          "tokens_pareja": 23480,
+          "claude": 10,
+          "tokens_claude": 124506,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "src/ui/searchBox.ts",
+              "texto": "El import `import { Product } from \"../types\";` apunta a un módulo que no existe (error TS2307). El"
+            },
+            {
+              "ronda": 1,
+              "archivo": "src/ui/searchBox.ts",
+              "texto": "`let debounceTimer: number | null = null;` no es compatible con `clearTimeout`, que espera `number |"
+            },
+            {
+              "ronda": 1,
+              "archivo": "src/ui/searchBox.ts",
+              "texto": "La función exportada `initSearchBox` no tiene comentario JSDoc `/** ... */`, lo que incumple la conv"
+            },
+            {
+              "ronda": 1,
+              "archivo": "src/ui/searchBox.ts",
+              "texto": "Condición de carrera: si una búsqueda anterior responde después de una más reciente, o después de qu"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/ui/searchBox.ts",
+              "texto": "La importación apunta a '../types', que no existe. El tipo `Product` está en '../types/product'. Est"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/ui/searchBox.ts",
+              "texto": "`clearTimeout(debounceTimer)` recibe `number | null`, y `clearTimeout` no acepta `null`. Esto causa"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/ui/searchBox.ts",
+              "texto": "La función exportada `initSearchBox` no tiene comentario JSDoc `/** ... */`, lo que incumple la conv"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/ui/searchBox.ts",
+              "texto": "Condición de carrera: si una búsqueda anterior responde después de una más reciente, sus resultados"
+            }
+          ],
+          "fallos": []
+        },
+        {
+          "id": "W-203",
+          "ambito": "web",
+          "local": 2.9,
+          "pareja": 2.9,
+          "rondas": 2,
+          "tokens_pareja": 22524,
+          "claude": 10,
+          "tokens_claude": 68892,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "src/api/products.ts",
+              "texto": "La paginación no limita los items: `all.slice((page - 1) * pageSize)` devuelve todos los elementos d"
+            },
+            {
+              "ronda": 1,
+              "archivo": "src/api/products.ts",
+              "texto": "No existe respuesta 400 con `{ error: { code: \"INVALID_QUERY\", field } }`. `parsePage` y `parsePageS"
+            },
+            {
+              "ronda": 1,
+              "archivo": "src/api/products.ts",
+              "texto": "El build falla: `require(\"../config/limits\")` dentro de `parsePageSize` produce TS2580 (`Cannot find"
+            },
+            {
+              "ronda": 1,
+              "archivo": "src/api/products.ts",
+              "texto": "Los valores por defecto están escritos a mano (`return 12`) en lugar de tomarse de `src/config`, lo"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/api/products.ts",
+              "texto": "El build falla: `require(\"../config/limits\")` dentro de `parsePageSize` no existe en TypeScript estr"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/api/products.ts",
+              "texto": "El handler nunca devuelve 400. Los parámetros inválidos se corrigen en silencio, cuando la tarea exi"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/api/products.ts",
+              "texto": "`parsePageSize` aplica un límite inferior de defaultPageSize: `if (n > defaultPageSize) return defau"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/api/products.ts",
+              "texto": "`parseInt` acepta entradas como \"1.5\" (devuelve 1) o \"2abc\" (devuelve 2), y `parsePage` las acepta c"
+            }
+          ],
+          "fallos": [
+            {
+              "quien": "pareja",
+              "texto": "tras la pareja sigue fallando: por defecto: página 1 de 12, total 30, 3 páginas, pageSize 48 permitido (máximo vigente), pageSize 49 → 400 pa"
+            }
+          ]
+        },
+        {
+          "id": "W-204",
+          "ambito": "web",
+          "local": 10,
+          "pareja": 10,
+          "rondas": 1,
+          "tokens_pareja": 19769,
+          "claude": 10,
+          "tokens_claude": 75908,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "public/contact.html",
+              "texto": "El formulario tiene `id=\"contact-form\"` pero no tiene la clase de bloque `contact-form`. Por eso las"
+            },
+            {
+              "ronda": 1,
+              "archivo": "public/contact.html",
+              "texto": "El contenedor `#form-errors` usa `role=\"alert\"`, que implica anuncio asertivo y entra en conflicto c"
+            }
+          ],
+          "fallos": []
+        },
+        {
+          "id": "CPP-301",
+          "ambito": "cpp",
+          "local": 1,
+          "pareja": 1,
+          "rondas": 0,
+          "tokens_pareja": 0,
+          "claude": 10,
+          "tokens_claude": 80440,
+          "revisiones": [],
+          "fallos": []
+        },
+        {
+          "id": "UE-302",
+          "ambito": "unreal",
+          "local": 2.2,
+          "pareja": 2.2,
+          "rondas": 2,
+          "tokens_pareja": 28691,
+          "claude": 10,
+          "tokens_claude": 136130,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "Source/Arena/Components/HealthComponent.h",
+              "texto": "El archivo .h contiene la implementación completa de los métodos (UHealthComponent::UHealthComponent"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Source/Arena/Components/HealthComponent.h",
+              "texto": "Las propiedades MaxHealth, CurrentHealth y bIsDead están en `private` sin `UPROPERTY`, y no se expon"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Source/Arena/Components/HealthComponent.h",
+              "texto": "El valor por defecto de MaxHealth es el literal 100.0f en el constructor, pero la tarea pide el valo"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Source/Arena/Components/HealthComponent.h",
+              "texto": "Faltan las declaraciones de `FOnHealthChanged`/`FOnDeath` como miembros con `UPROPERTY(BlueprintAssi"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Source/Arena/Components/HealthComponent.cpp",
+              "texto": "La primera línea es `UHealthComponent::UHealthComponent()\"Engine/World.h\"`, una línea basura que rom"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Source/Arena/Components/HealthComponent.cpp",
+              "texto": "El constructor está definido dos veces en el mismo archivo (y el cuerpo de todas las funciones apare"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Source/Arena/Components/HealthComponent.h",
+              "texto": "Las definiciones de funciones (constructor, SetMaxHealth, ApplyDamage, Heal) están incrustadas despu"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Source/Arena/Components/HealthComponent.h",
+              "texto": "`MaxHealth` y `CurrentHealth` están en `private` y sin `UPROPERTY`, por lo que no son visibles en Bl"
+            }
+          ],
+          "fallos": []
+        },
+        {
+          "id": "RS-401",
+          "ambito": "rust",
+          "local": 1,
+          "pareja": 1,
+          "rondas": 0,
+          "tokens_pareja": 0,
+          "claude": 10,
+          "tokens_claude": 98783,
+          "revisiones": [],
+          "fallos": [
+            {
+              "quien": "pareja",
+              "texto": "tras la pareja sigue fallando: cantidad invalida o item malformado, clave desconocida, faltan campos obligatorios"
+            }
+          ]
+        },
+        {
+          "id": "NET-501",
+          "ambito": "dotnet",
+          "local": 2.9,
+          "pareja": 2.9,
+          "rondas": 2,
+          "tokens_pareja": 21405,
+          "claude": 10,
+          "tokens_claude": 93057,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "Contracts/SubmitScoreRequest.cs",
+              "texto": "Se creó un duplicado de SubmitScoreRequest en el mismo namespace que el record posicional existente"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Endpoints/ScoreEndpoints.cs",
+              "texto": "El endpoint POST no valida 'score' (entre 0 y MaxScore) y en vez de devolver 400 lo recorta silencio"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Endpoints/ScoreEndpoints.cs",
+              "texto": "La validación de playerId usa la constante estática LeaderboardOptions.MaxPlayerIdLength (que no exi"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Endpoints/ScoreEndpoints.cs",
+              "texto": "El endpoint POST usa LeaderboardOptions.MaxScore y otros valores estáticos; además el código contien"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Endpoints/ScoreEndpoints.cs",
+              "texto": "Llama a `repo.AddScoreAsync` y `repo.GetBestScoreAsync`, que no existen en `IScoreRepository`. La in"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Contracts/SubmitScoreRequest.cs",
+              "texto": "Se creó un archivo vacío fuera de los dos archivos permitidos. Además, `SubmitScoreRequest` ya exist"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Endpoints/ScoreEndpoints.cs",
+              "texto": "Usa `LeaderboardOptions.MaxPlayerIdLength` y `LeaderboardOptions.MaxScore` como si fueran constantes"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Endpoints/ScoreEndpoints.cs",
+              "texto": "La respuesta 201 devuelve `new { score = best }`, pero debe devolver `ScoreResponse` con `PlayerId`,"
+            }
+          ],
+          "fallos": []
+        },
+        {
+          "id": "FB-601",
+          "ambito": "firebase",
+          "local": 6.6,
+          "pareja": 6.6,
+          "rondas": 2,
+          "tokens_pareja": 26235,
+          "claude": 10,
+          "tokens_claude": 92590,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "src/migrate.ts",
+              "texto": "El score válido 0 genera un error falso: `if (score === 0 && user.score !== undefined)` marca como i"
+            },
+            {
+              "ronda": 1,
+              "archivo": "src/migrate.ts",
+              "texto": "displayName ausente o vacío no usa el valor por defecto del esquema (debe ser 'Jugador'; hoy queda '"
+            },
+            {
+              "ronda": 1,
+              "archivo": "src/migrate.ts",
+              "texto": "En settings, los valores 'false' (texto) se omiten en lugar de convertirse a false. La tarea exige q"
+            },
+            {
+              "ronda": 1,
+              "archivo": "src/migrate.ts",
+              "texto": "lastLogin: un texto inválido como 'ayer' (uD4) se convierte en null pero NO registra error, aunque l"
+            },
+            {
+              "ronda": 2,
+              "archivo": "firestore.indexes.json",
+              "texto": "El índice usa un formato inválido para Firebase CLI: `compositeFilter` con filtros EQUAL sobre score"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/migrate.ts",
+              "texto": "En `settings` solo se conservan los valores `true` o `\"true\"`, así que `false` y `\"false\"` se descar"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/migrate.ts",
+              "texto": "El límite de score está hardcodeado como `MAX_SCORE = 1000` en vez de usar `USER_SCHEMA.maxScore` (1"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/migrate.ts",
+              "texto": "`lastLogin` no registra error cuando el valor es no numérico (uD4 tiene `\"ayer\"`), aunque la tarea l"
+            }
+          ],
+          "fallos": [
+            {
+              "quien": "pareja",
+              "texto": "tras la pareja sigue fallando: migración: migra los usuarios no baneados (y omite baneados sin error), migración: displayName: trim, por defe"
+            }
+          ]
         }
       ]
     }

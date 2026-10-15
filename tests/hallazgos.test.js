@@ -73,3 +73,21 @@ describe('hallazgos', () => {
     expect(metodo).toContain(String(modelo.tareas.length))
   })
 })
+
+describe('lista de tareas empatadas', () => {
+  it('une los ids con la conjunción del idioma', () => {
+    const b = { nota: 8, tiempo_s: 100, tokens_claude: 100, costo_usd: null }
+    const modelo = {
+      id: 'x', etiqueta: 'X', revisor: 'haiku',
+      resumen: { local: b, pareja: b, claude: b },
+      tareas: [{ id: 'A-1', local: 5 }, { id: 'B-2', local: 5 }, { id: 'C-3', local: 9 }],
+    }
+    initState({ modelos: [modelo] })
+    const cont = document.createElement('div')
+    const h = renderHallazgos(cont, { modelos: [modelo] })
+    expect(cont.textContent).toContain('A-1 y B-2')
+    setIdioma('en')
+    expect(cont.textContent).toContain('A-1 and B-2')
+    h.cancelar()
+  })
+})

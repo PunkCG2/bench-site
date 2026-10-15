@@ -1,0 +1,105 @@
+============================================================================================
+  BENCHMARK PAREJA — modelo local escribe, Claude revisa
+============================================================================================
+  Modelo local:  rnj-1.5-instruct (Q6_K)
+  Revisor:       Claude haiku (tu suscripción, vía Claude Code)
+  Fecha:         2026-10-15 15:38    Benchmark: v1    Tareas: 13
+
+  RESUMEN
+  ----------------------------------------------------------------------------------------
+                                nota   tiempo/tarea   tokens Claude/tarea   costo API equiv.
+  Qwen solo                      4.4           87 s                     0                  —
+  Qwen + revisión haiku          4.6          162 s                18,786             0.004$
+  Claude haiku solo             10.0           32 s                90,899             0.006$
+
+  La revisión mejoró 2 tarea(s), empeoró 0 y 0 quedaron aprobadas en la primera revisión.
+  Tokens de Claude = entrada + salida + caché. Con suscripción no pagas por token: cuentan contra tus límites
+  de uso; el costo es solo una referencia de lo que valdría por API.
+
+  LECTURA RÁPIDA
+  ----------------------------------------------------------------------------------------
+  · La pareja usa 79% menos tokens de Claude que dejar a Claude hacerlo solo, con 5.4 puntos menos de nota.
+  · En tiempo: pareja 162 s vs Claude solo 32 s por tarea.
+  · La revisión aporta +0.1 puntos sobre Qwen solo.
+
+  DETALLE POR TAREA
+  ----------------------------------------------------------------------------------------
+  tarea      Qwen solo   pareja  rondas  tok Claude  Claude solo  tok Claude
+  T-101            9.8     10.0       1      39,377         10.0      75,060
+      · revisión 1: [Assets/Scripts/UI/HealthBarUI.cs] Los campos `[SerializeField]` `playerHealth` y `bar` no siguen la convención de prefijo `_camelCase`
+      · revisión 1: [Assets/Scripts/UI/HealthBarUI.cs] La barra no se refresca al volver a habilitar el componente. Si la vida cambió mientras estaba desha
+  T-102            7.7      9.4       2      41,805         10.0      88,726
+      · revisión 1: [Assets/Scripts/Items/Inventory.cs] RemoveItem recorre _slots con i++ y hace _slots.RemoveAt(i) dentro del bucle. Al eliminar un stack s
+      · revisión 1: [Assets/Scripts/Items/Inventory.cs] RemoveItem modifica el contenido (Count y RemoveAt) pero nunca invoca OnInventoryChanged, por eso la
+      · revisión 1: [Assets/Scripts/Items/Inventory.cs] AddItem solo dispara OnInventoryChanged cuando amount == 0. Si no cabe todo, las unidades que sí ent
+      · revisión 1: [Assets/Scripts/Items/Inventory.cs] ItemStack.Count tiene setter público. Cualquier código que obtenga stacks desde Slots puede modifica
+      · revisión 2: [Assets/Scripts/Items/Inventory.cs] En AddItem, OnInventoryChanged solo se dispara si amount == 0 al final. Si una parte de la cantidad 
+      · revisión 2: [Assets/Scripts/Items/Inventory.cs] ItemStack.Count tiene setter público. Cualquier código que obtenga `Slots` puede modificar `Count` s
+      ✗ tras la pareja sigue fallando: agregar parcial dispara evento una vez y devuelve sobrante
+  T-103            1.0      1.0       0           0         10.0      81,995
+      ✗ tras la pareja sigue fallando: interfaz Game.Combat.IDamageable con TakeDamage(int), PlayerHealth implementa IDamageable, clase Game.Enemies.
+  T-104            1.0      1.0       0           0         10.0      73,823
+      ✗ tras la pareja sigue fallando: intervalo 1.75 s: nada a 1.5 s, uno a 1.75 s, límite de 4 vivos (10 s), no supera el límite tras 30 s
+  W-201            8.4      8.4       2      20,932         10.0      91,775
+      · revisión 1: [src/lib/cart.ts] addToCart muta el carrito recibido: hace `existing.quantity += quantity` y `cart.lines.push(...)` y 
+      · revisión 1: [src/lib/cart.ts] cartTotals cobra envío aunque el carrito esté vacío: con 0 líneas, subtotal 0 no alcanza el umbral y
+      · revisión 2: [src/lib/cart.ts] Un carrito vacío sigue cobrando envío: `cartTotals` no comprueba si el carrito está vacío, así que c
+      · revisión 2: [src/lib/cart.ts] `addToCart` muta el carrito recibido: hace `existing.quantity += quantity` y `cart.lines.push(...)` 
+      · revisión 2: [src/lib/cart.ts] Cuando la cantidad se ignora (`quantity <= 0` o no entera) la función devuelve la misma referencia `
+      ✗ tras la pareja sigue fallando: addToCart no muta el carrito original, mismo producto suma cantidad (sin mutar la línea anterior), carrito vac
+  W-202            3.0      3.0       2      23,480         10.0     124,506
+      · revisión 1: [src/ui/searchBox.ts] El import `import { Product } from "../types";` apunta a un módulo que no existe (error TS2307). El 
+      · revisión 1: [src/ui/searchBox.ts] `let debounceTimer: number | null = null;` no es compatible con `clearTimeout`, que espera `number |
+      · revisión 1: [src/ui/searchBox.ts] La función exportada `initSearchBox` no tiene comentario JSDoc `/** ... */`, lo que incumple la conv
+      · revisión 1: [src/ui/searchBox.ts] Condición de carrera: si una búsqueda anterior responde después de una más reciente, o después de qu
+      · revisión 2: [src/ui/searchBox.ts] La importación apunta a '../types', que no existe. El tipo `Product` está en '../types/product'. Est
+      · revisión 2: [src/ui/searchBox.ts] `clearTimeout(debounceTimer)` recibe `number | null`, y `clearTimeout` no acepta `null`. Esto causa 
+      · revisión 2: [src/ui/searchBox.ts] La función exportada `initSearchBox` no tiene comentario JSDoc `/** ... */`, lo que incumple la conv
+      · revisión 2: [src/ui/searchBox.ts] Condición de carrera: si una búsqueda anterior responde después de una más reciente, sus resultados 
+  W-203            2.9      2.9       2      22,524         10.0      68,892
+      · revisión 1: [src/api/products.ts] La paginación no limita los items: `all.slice((page - 1) * pageSize)` devuelve todos los elementos d
+      · revisión 1: [src/api/products.ts] No existe respuesta 400 con `{ error: { code: "INVALID_QUERY", field } }`. `parsePage` y `parsePageS
+      · revisión 1: [src/api/products.ts] El build falla: `require("../config/limits")` dentro de `parsePageSize` produce TS2580 (`Cannot find
+      · revisión 1: [src/api/products.ts] Los valores por defecto están escritos a mano (`return 12`) en lugar de tomarse de `src/config`, lo 
+      · revisión 2: [src/api/products.ts] El build falla: `require("../config/limits")` dentro de `parsePageSize` no existe en TypeScript estr
+      · revisión 2: [src/api/products.ts] El handler nunca devuelve 400. Los parámetros inválidos se corrigen en silencio, cuando la tarea exi
+      · revisión 2: [src/api/products.ts] `parsePageSize` aplica un límite inferior de defaultPageSize: `if (n > defaultPageSize) return defau
+      · revisión 2: [src/api/products.ts] `parseInt` acepta entradas como "1.5" (devuelve 1) o "2abc" (devuelve 2), y `parsePage` las acepta c
+      ✗ tras la pareja sigue fallando: por defecto: página 1 de 12, total 30, 3 páginas, pageSize 48 permitido (máximo vigente), pageSize 49 → 400 pa
+  W-204           10.0     10.0       1      19,769         10.0      75,908
+      · revisión 1: [public/contact.html] El formulario tiene `id="contact-form"` pero no tiene la clase de bloque `contact-form`. Por eso las
+      · revisión 1: [public/contact.html] El contenedor `#form-errors` usa `role="alert"`, que implica anuncio asertivo y entra en conflicto c
+  CPP-301          1.0      1.0       0           0         10.0      80,440
+  UE-302           2.2      2.2       2      28,691         10.0     136,130
+      · revisión 1: [Source/Arena/Components/HealthComponent.h] El archivo .h contiene la implementación completa de los métodos (UHealthComponent::UHealthComponent
+      · revisión 1: [Source/Arena/Components/HealthComponent.h] Las propiedades MaxHealth, CurrentHealth y bIsDead están en `private` sin `UPROPERTY`, y no se expon
+      · revisión 1: [Source/Arena/Components/HealthComponent.h] El valor por defecto de MaxHealth es el literal 100.0f en el constructor, pero la tarea pide el valo
+      · revisión 1: [Source/Arena/Components/HealthComponent.h] Faltan las declaraciones de `FOnHealthChanged`/`FOnDeath` como miembros con `UPROPERTY(BlueprintAssi
+      · revisión 2: [Source/Arena/Components/HealthComponent.cpp] La primera línea es `UHealthComponent::UHealthComponent()"Engine/World.h"`, una línea basura que rom
+      · revisión 2: [Source/Arena/Components/HealthComponent.cpp] El constructor está definido dos veces en el mismo archivo (y el cuerpo de todas las funciones apare
+      · revisión 2: [Source/Arena/Components/HealthComponent.h] Las definiciones de funciones (constructor, SetMaxHealth, ApplyDamage, Heal) están incrustadas despu
+      · revisión 2: [Source/Arena/Components/HealthComponent.h] `MaxHealth` y `CurrentHealth` están en `private` y sin `UPROPERTY`, por lo que no son visibles en Bl
+  RS-401           1.0      1.0       0           0         10.0      98,783
+      ✗ tras la pareja sigue fallando: cantidad invalida o item malformado, clave desconocida, faltan campos obligatorios
+  NET-501          2.9      2.9       2      21,405         10.0      93,057
+      · revisión 1: [Contracts/SubmitScoreRequest.cs] Se creó un duplicado de SubmitScoreRequest en el mismo namespace que el record posicional existente 
+      · revisión 1: [Endpoints/ScoreEndpoints.cs] El endpoint POST no valida 'score' (entre 0 y MaxScore) y en vez de devolver 400 lo recorta silencio
+      · revisión 1: [Endpoints/ScoreEndpoints.cs] La validación de playerId usa la constante estática LeaderboardOptions.MaxPlayerIdLength (que no exi
+      · revisión 1: [Endpoints/ScoreEndpoints.cs] El endpoint POST usa LeaderboardOptions.MaxScore y otros valores estáticos; además el código contien
+      · revisión 2: [Endpoints/ScoreEndpoints.cs] Llama a `repo.AddScoreAsync` y `repo.GetBestScoreAsync`, que no existen en `IScoreRepository`. La in
+      · revisión 2: [Contracts/SubmitScoreRequest.cs] Se creó un archivo vacío fuera de los dos archivos permitidos. Además, `SubmitScoreRequest` ya exist
+      · revisión 2: [Endpoints/ScoreEndpoints.cs] Usa `LeaderboardOptions.MaxPlayerIdLength` y `LeaderboardOptions.MaxScore` como si fueran constantes
+      · revisión 2: [Endpoints/ScoreEndpoints.cs] La respuesta 201 devuelve `new { score = best }`, pero debe devolver `ScoreResponse` con `PlayerId`,
+  FB-601           6.6      6.6       2      26,235         10.0      92,590
+      · revisión 1: [src/migrate.ts] El score válido 0 genera un error falso: `if (score === 0 && user.score !== undefined)` marca como i
+      · revisión 1: [src/migrate.ts] displayName ausente o vacío no usa el valor por defecto del esquema (debe ser 'Jugador'; hoy queda '
+      · revisión 1: [src/migrate.ts] En settings, los valores 'false' (texto) se omiten en lugar de convertirse a false. La tarea exige q
+      · revisión 1: [src/migrate.ts] lastLogin: un texto inválido como 'ayer' (uD4) se convierte en null pero NO registra error, aunque l
+      · revisión 2: [firestore.indexes.json] El índice usa un formato inválido para Firebase CLI: `compositeFilter` con filtros EQUAL sobre score
+      · revisión 2: [src/migrate.ts] En `settings` solo se conservan los valores `true` o `"true"`, así que `false` y `"false"` se descar
+      · revisión 2: [src/migrate.ts] El límite de score está hardcodeado como `MAX_SCORE = 1000` en vez de usar `USER_SCHEMA.maxScore` (1
+      · revisión 2: [src/migrate.ts] `lastLogin` no registra error cuando el valor es no numérico (uD4 tiene `"ayer"`), aunque la tarea l
+      ✗ tras la pareja sigue fallando: migración: migra los usuarios no baneados (y omite baneados sin error), migración: displayName: trim, por defe
+
+  Nota: cada tarea usa los mismos tests reales del benchmark de agente. 'Qwen solo' es la primera pasada de la
+  pareja (antes de la revisión), así que ambas notas salen de la misma ejecución.

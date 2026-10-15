@@ -1,0 +1,100 @@
+============================================================================================
+  BENCHMARK PAREJA — modelo local escribe, Claude revisa
+============================================================================================
+  Modelo local:  google/gemma-4-e4b (Q8_0)
+  Revisor:       Claude haiku (tu suscripción, vía Claude Code)
+  Fecha:         2026-10-15 16:54    Benchmark: v1    Tareas: 13
+
+  RESUMEN
+  ----------------------------------------------------------------------------------------
+                                nota   tiempo/tarea   tokens Claude/tarea   costo API equiv.
+  Qwen solo                      8.0          107 s                     0                  —
+  Qwen + revisión haiku          8.7          279 s                27,607             0.006$
+  Claude haiku solo             10.0           30 s                84,292             0.005$
+
+  La revisión mejoró 5 tarea(s), empeoró 2 y 1 quedaron aprobadas en la primera revisión.
+  Tokens de Claude = entrada + salida + caché. Con suscripción no pagas por token: cuentan contra tus límites
+  de uso; el costo es solo una referencia de lo que valdría por API.
+
+  LECTURA RÁPIDA
+  ----------------------------------------------------------------------------------------
+  · La pareja usa 67% menos tokens de Claude que dejar a Claude hacerlo solo, con 1.3 puntos menos de nota.
+  · En tiempo: pareja 279 s vs Claude solo 30 s por tarea.
+  · La revisión aporta +0.7 puntos sobre Qwen solo.
+
+  DETALLE POR TAREA
+  ----------------------------------------------------------------------------------------
+  tarea      Qwen solo   pareja  rondas  tok Claude  Claude solo  tok Claude
+  T-101           10.0      7.4       2      40,960         10.0      88,259
+      · revisión 1: [Assets/Scripts/UI/HealthBarUI.cs] La tarea exige reflejar la vida actual en `Start`, pero el archivo no tiene método `Start`. La sincr
+      · revisión 2: [Assets/Scripts/UI/HealthBarUI.cs] El archivo no declara clase ni namespace: el método Start está a nivel de archivo, lo que causa el e
+      · revisión 2: [Assets/Scripts/UI/HealthBarUI.cs] Faltan las referencias asignables en el Inspector: no hay campo para el PlayerHealth ni para la Imag
+      · revisión 2: [Assets/Scripts/UI/HealthBarUI.cs] No hay suscripción al evento: faltan OnEnable y OnDisable.
+      · revisión 2: [Assets/Scripts/UI/HealthBarUI.cs] Start llama a UpdateHealthBar(), método que no está definido, así que no compilará aunque se corrija
+      ✗ tras la pareja sigue fallando: deshabilitado no reacciona, deshabilitado sin suscripciones colgando, una sola suscripción activa
+  T-102            9.4     10.0       1      40,464         10.0      58,678
+      · revisión 1: [Assets/Scripts/Items/Inventory.cs] AddItem invoca OnInventoryChanged incondicionalmente al final, aunque no haya cambiado nada (por eje
+      · revisión 1: [Assets/Scripts/Items/Inventory.cs] ItemStack.Count tiene setter público (`{ get; set; }`) y Slots expone los ItemStack, así que código 
+  T-103            3.0     10.0       2      45,406         10.0      81,045
+      · revisión 1: [Assets/Scripts/Enemies/EnemyHealth.cs] Falla el build (CS0103): `GameBalance` está en `Game.Utils` y el archivo no importa ese namespace.
+      · revisión 1: [Assets/Scripts/Enemies/EnemyHealth.cs] `TakeDamage` no comprueba si el enemigo ya está muerto. Tras morir, cualquier daño positivo recalcul
+      · revisión 1: [Assets/Scripts/Enemies/EnemyHealth.cs] Las propiedades públicas `CurrentHealth` e `IsDead` no tienen comentario `/// <summary>`, exigido po
+      · revisión 1: [Assets/Scripts/Combat/Projectile.cs] `OnTriggerEnter` solo busca `IDamageable` en el mismo GameObject del collider (`other.TryGetComponen
+      · revisión 2: [Assets/Scripts/Combat/Projectile.cs] Build falla con CS1501 en la línea 30: `GetComponentInParent<IDamageable>(out damageable)` no existe
+      · revisión 2: [Assets/Scripts/Combat/Projectile.cs] `TryGetComponent(out damageable)` con un tipo interfaz (`IDamageable`) no funciona en Unity: los mét
+      · revisión 2: [Assets/Scripts/Combat/Projectile.cs] Como `Destroy(gameObject)` es diferido hasta el final del frame, si el proyectil toca varios collide
+      · revisión 2: [Assets/Scripts/Combat/Projectile.cs] Quedan comentarios de depuración obsoletos: la nota sobre el error de compilación CS1501 (que ya no 
+  T-104           10.0     10.0       0      19,557         10.0      78,072
+  W-201            7.9     10.0       1      22,249         10.0      74,795
+      · revisión 1: [src/lib/cart.ts] addToCart usa Math.floor(quantity): 1.5 se convierte en 1 y se agrega, cuando el JSDoc dice que las 
+      · revisión 1: [src/lib/cart.ts] En cartTotals con cupón, el descuento se calcula sobre `totalBaseCents` (subtotal + envío). El JSDoc
+      · revisión 1: [src/lib/cart.ts] El envío se evalúa contra el subtotal antes del descuento (`subtotalCents >= FREE_SHIPPING_THRESHOLD
+  W-202           10.0     10.0       2      25,360         10.0     104,340
+      · revisión 1: [src/ui/searchBox.ts] Condición de carrera: si una búsqueda anterior resuelve después de una más reciente (o después de qu
+      · revisión 1: [src/ui/searchBox.ts] Define su propio tipo `Product` local (y un bloque @typedef huérfano) en lugar de importar el tipo d
+      · revisión 1: [src/ui/searchBox.ts] Deja un console.error de depuración en el código entregado (el propio comentario dice que es tempora
+      · revisión 1: [src/ui/searchBox.ts] Usa innerHTML para vaciar la lista (en clearResults, renderResults y handleSearch). La convención 6 
+      · revisión 2: [src/ui/searchBox.ts] El bloque catch de handleSearch no comprueba requestId. Si una búsqueda antigua falla después de que
+  W-203           10.0      3.2       2      23,658         10.0      70,490
+      · revisión 1: [src/api/products.ts] Las variables `pageSize` y `page` se declaran con `let` aunque nunca se reasignan (solo se asignan u
+      · revisión 1: [src/api/products.ts] La validación compara `String(parsed) !== str`, lo que rechaza enteros válidos con ceros a la izquie
+      · revisión 2: [src/api/products.ts] Las variables `let pageSize: number;` y `let page: number;` se asignan una sola vez en cada rama y n
+      ✗ tras la pareja sigue fallando: pageSize 49 → 400 pageSize, pageSize 0 / abc / 2.5 → 400 pageSize, page 0 / -1 / x / 1.5 → 400 page
+  W-204           10.0     10.0       1      19,552         10.0      54,743
+      · revisión 1: [public/css/contact.css] La regla `.contact-form__field label` estiliza la etiqueta por tipo de elemento dentro de un bloque 
+  CPP-301         10.0     10.0       1      20,617         10.0      77,034
+      · revisión 1: [src/event_queue.hpp] El constructor público `EventQueue() = default;` no tiene comentario `///`, y el destructor solo tie
+      · revisión 1: [src/event_queue.hpp] Se incumple la convención de mover parámetros no triviales. `push(Event e)` recibe el evento por val
+  UE-302           3.0     10.0       2      31,321         10.0     121,881
+      · revisión 1: [Source/Arena/Components/HealthComponent.h] Tras el especificador `protected:` no hay ningún `public:`, así que MaxHealth, CurrentHealth, OnHeal
+      · revisión 1: [Source/Arena/Components/HealthComponent.cpp] El include `#include "Arena/Config/ArenaBalance.h"` no existe en la ruta de include del módulo. Es e
+      · revisión 1: [Source/Arena/Components/HealthComponent.cpp] `ARENA_BALANCE.MaxCharacterHealth` no existe. ArenaBalance es un namespace con `DefaultMaxHealth`, a
+      · revisión 1: [Source/Arena/Components/HealthComponent.cpp] El Delta se calcula con el valor pedido, no con el cambio real. Si el daño o la curación se recortan
+      · revisión 2: [Source/Arena/Components/HealthComponent.cpp] Requisito 2 incumplido: `BeginPlay` no asigna `CurrentHealth = MaxHealth`; solo lo hace el construct
+      · revisión 2: [Source/Arena/Components/HealthComponent.h] La declaración adelantada `class UHealthPickup;` apunta a una clase inexistente (la clase real es `A
+      · revisión 2: [Source/Arena/Components/HealthComponent.h] Las propiedades y funciones de la clase están sin indentar, mientras que las convenciones piden tabs
+  RS-401           9.7      9.7       1      19,958         10.0      88,570
+      · revisión 1: [src/save.rs] Un `version=0` explícito se reporta como `MissingField("version")` porque la comprobación usa `data.
+      · revisión 1: [src/save.rs] `let new_qty = *current_qty + quantity;` puede desbordar `u32` (p. ej. dos líneas `item=a:4294967295
+  NET-501          3.1      3.1       2      25,902         10.0      92,768
+      · revisión 1: [Endpoints/ScoreEndpoints.cs] Errores de compilación: `Results.ValidationProblem` recibe un diccionario, no un array de KeyValuePa
+      · revisión 1: [Endpoints/ScoreEndpoints.cs] Límites hardcodeados (50, 10000, 10) en lugar de usar `LeaderboardOptions` vía `IOptions<Leaderboard
+      · revisión 1: [Endpoints/ScoreEndpoints.cs] GET /api/scores no limita `top` a MaxTop: si piden más de MaxTop deben devolverse como máximo MaxTop
+      · revisión 1: [Endpoints/ScoreEndpoints.cs] Cálculo de posición incorrecto por precedencia de operadores: `e.Score > entry.Score || (e.Score == 
+      · revisión 2: [Endpoints/ScoreEndpoints.cs] Falta el punto y coma tras la cadena de `app.MapPost(...)` (`.Produces(StatusCodes.Status400BadReque
+      · revisión 2: [Endpoints/ScoreEndpoints.cs] La firma `MapScoreEndpoints(this IEndpointRouteBuilder app, IOptions<LeaderboardOptions> opts)` no c
+      · revisión 2: [Endpoints/ScoreEndpoints.cs] La regex `^[a-zA-Z0-9_-]+$` acepta un salto de línea final en .NET, porque `$` coincide antes de `\n
+      · revisión 2: [Endpoints/ScoreEndpoints.cs] Un `score` con tipo incorrecto (por ejemplo "abc" o 1200.5) falla en el binding JSON antes del handl
+  FB-601           7.8      9.5       2      23,881         10.0     105,126
+      · revisión 1: [firestore.rules] El archivo es JSON, no el lenguaje de reglas de Firestore. Falta el encabezado `rules_version = '2';
+      · revisión 1: [firestore.rules] Las condiciones de create/update evalúan `resource.data` (el documento existente) en lugar de `reque
+      · revisión 1: [firestore.indexes.json] La estructura no es la del formato de Firebase CLI. Tiene una clave `match` en el nivel raíz que no 
+      · revisión 1: [src/migrate.ts] En la rama numérica de `score` no se comprueba que el número sea entero. Un valor como 12.7 se guard
+      · revisión 2: [src/migrate.ts] Error de build TS7053 en la línea 36: `usersObject` tiene tipo `{}` tras el type guard `typeof === '
+      · revisión 2: [src/migrate.ts] El score fuera de rango no se marca como inválido: con números o textos mayores a `USER_SCHEMA.maxSc
+      · revisión 2: [src/migrate.ts] Si una entrada de `users` es null o un valor no objeto (p. ej. `"uX": null`), `userData.banned` y lo
+      · revisión 2: [src/migrate.ts] El displayName se recorta después del trim, así que puede quedar con espacio final (p. ej. un nombre
+      ✗ tras la pareja sigue fallando: migración: entrada inválida → error users sin lanzar
+
+  Nota: cada tarea usa los mismos tests reales del benchmark de agente. 'Qwen solo' es la primera pasada de la
+  pareja (antes de la revisión), así que ambas notas salen de la misma ejecución.

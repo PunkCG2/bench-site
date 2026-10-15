@@ -60,3 +60,10 @@ Las lecciones de la construccion inicial (tareas 001 a 027) ya se pasaron a la p
 - Remedio usado: decision del autor: las animaciones no dependen de esa preferencia.
 - Aplica a: stack:web (preguntar en /kickoff)
 - Estado: harvested plantilla-fase1 (L-017)
+
+## 2026-10-15 · offsetLeft no es relativo al contenedor con scroll
+- Que paso: el botón activo del selector no quedaba visible en móvil con 5 modelos.
+- Causa: `offsetLeft` se mide contra el `offsetParent` (un contenedor posicionado), no contra el selector que hace scroll.
+- Remedio usado: restar `getBoundingClientRect().left` del selector y sumar su `scrollLeft`.
+- Aplica a: stack:web
+- Estado: new

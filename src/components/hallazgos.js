@@ -2,7 +2,7 @@
 // muestran siempre; la variante se elige con metrics.js. Se re-actualiza al
 // cambiar el modelo o el idioma.
 
-import { t, onLangChange } from '../i18n/index.js'
+import { t, getLang, onLangChange } from '../i18n/index.js'
 import { getState, subscribe } from '../state.js'
 import {
   reduccionTokens,
@@ -90,7 +90,7 @@ export function renderHallazgos(contenedor, datos) {
     // Nota más baja
     const r = notaMasBaja(modelo)
     items[3].textContent = t(claves.nota, {
-      ids: r.ids.join(', '),
+      ids: new Intl.ListFormat(getLang(), { type: 'conjunction' }).format(r.ids),
       nota: r.nota.toFixed(1),
     })
 

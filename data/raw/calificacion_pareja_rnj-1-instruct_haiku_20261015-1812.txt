@@ -1,0 +1,118 @@
+============================================================================================
+  BENCHMARK PAREJA — modelo local escribe, Claude revisa
+============================================================================================
+  Modelo local:  rnj-1-instruct (Q8_0)
+  Revisor:       Claude haiku (tu suscripción, vía Claude Code)
+  Fecha:         2026-10-15 18:12    Benchmark: v1    Tareas: 13
+
+  RESUMEN
+  ----------------------------------------------------------------------------------------
+                                nota   tiempo/tarea   tokens Claude/tarea   costo API equiv.
+  Qwen solo                      5.1           58 s                     0                  —
+  Qwen + revisión haiku          7.3          295 s                26,540             0.006$
+  Claude haiku solo             10.0           31 s                89,718             0.006$
+
+  La revisión mejoró 9 tarea(s), empeoró 1 y 1 quedaron aprobadas en la primera revisión.
+  Tokens de Claude = entrada + salida + caché. Con suscripción no pagas por token: cuentan contra tus límites
+  de uso; el costo es solo una referencia de lo que valdría por API.
+
+  LECTURA RÁPIDA
+  ----------------------------------------------------------------------------------------
+  · La pareja usa 70% menos tokens de Claude que dejar a Claude hacerlo solo, con 2.7 puntos menos de nota.
+  · En tiempo: pareja 295 s vs Claude solo 31 s por tarea.
+  · La revisión aporta +2.3 puntos sobre Qwen solo.
+
+  DETALLE POR TAREA
+  ----------------------------------------------------------------------------------------
+  tarea      Qwen solo   pareja  rondas  tok Claude  Claude solo  tok Claude
+  T-101            3.0     10.0       1      40,335         10.0      79,826
+      · revisión 1: [Assets/Scripts/UI/HealthBarUI.cs] No compila: `healthImage?.SetFill(FillAmount)` usa un método `SetFill` que no existe en `UnityEngine
+      · revisión 1: [Assets/Scripts/UI/HealthBarUI.cs] `playerHealth?.OnHealthChanged += UpdateFill;` y el `-=` de `OnDisable` no son válidos en C#: un acc
+      · revisión 1: [Assets/Scripts/UI/HealthBarUI.cs] Incumple la convención 2: los campos `playerHealth` y `healthImage` son `[SerializeField] private` s
+      · revisión 1: [Assets/Scripts/UI/HealthBarUI.cs] `Start` llama a `playerHealth.CurrentHealth` sin comprobar null. Si la referencia no está asignada e
+  T-102            8.8      9.8       2      44,799         10.0      58,973
+      · revisión 1: [Assets/Scripts/Items/Inventory.cs] RemoveItem nunca invoca OnInventoryChanged, aunque quite unidades. Es el síntoma 3 de QA y incumple 
+      · revisión 1: [Assets/Scripts/Items/Inventory.cs] AddItem invoca OnInventoryChanged siempre que amount > 0, incluso si no se añadió nada (por ejemplo,
+      · revisión 1: [Assets/Scripts/Items/Inventory.cs] ItemStack.Count tiene setter público. Cualquier código externo puede modificar cantidades sin dispar
+      · revisión 1: [Assets/Scripts/Items/Inventory.cs] Los síntomas 1 (11 slots ocupados) y 2 (RemoveItem quita menos unidades de las pedidas) no tienen ca
+      · revisión 2: [Assets/Scripts/Items/Inventory.cs] En el constructor de ItemStack, `Count = count;` asigna a una propiedad de solo lectura (CS0200). Ad
+      · revisión 2: [Assets/Scripts/Items/Inventory.cs] ItemStack no tiene métodos Add ni Remove. Las llamadas `stack.Add(add)` (línea 54) y `stack.Remove(t
+      · revisión 2: [Assets/Scripts/Items/Inventory.cs] La propiedad pública `Count` de ItemStack no tiene comentario `/// <summary>`. El comentario de docu
+  T-103            2.6      3.0       2      43,343         10.0      79,467
+      · revisión 1: [Assets/Scripts/Player/PlayerHealth.cs] currentHealth nunca se inicializa a maxHealth (no hay Awake). Arranca en 0, así que el jugador muere
+      · revisión 1: [Assets/Scripts/Combat/Projectile.cs] Destroy(gameObject) se ejecuta siempre, también cuando el collider no es IDamageable. El requisito 4
+      · revisión 1: [Assets/Scripts/Enemies/EnemyHealth.cs] La vida inicial está hardcodeada como 100 con comentario, en vez de referenciar la vida base de enem
+      · revisión 1: [Assets/Scripts/Combat/Projectile.cs] damageAmount = 10 está hardcodeado. La convención 9 exige referenciar valores de balance existentes;
+      · revisión 2: [Assets/Scripts/Combat/Projectile.cs] El archivo está truncado/roto: falta la declaración del método OnTriggerEnter (o equivalente), `_has
+      · revisión 2: [Assets/Scripts/Combat/Projectile.cs] Falta `using Game.Utils;` para resolver `GameBalance`, y el tipo de referencia `GameBalance` no exis
+      · revisión 2: [Assets/Scripts/Enemies/EnemyHealth.cs] Los campos se llaman `_currentHealth`, `_isDead` y `_maxHealth`, pero el código usa `currentHealth`,
+      · revisión 2: [Assets/Scripts/Enemies/EnemyHealth.cs] `_maxHealth` se declara `readonly` e inicializa con `GameBalance.EnemyBaseHealth`, pero falta `using
+  T-104            5.3      5.3       2      38,769         10.0      73,253
+      · revisión 1: [Assets/Scripts/Enemies/EnemySpawner.cs] _activeEnemies solo crece: nunca se eliminan los enemigos destruidos. Tras MaxAliveEnemies aparicion
+      · revisión 2: [Assets/Scripts/Enemies/EnemySpawner.cs] En Update, la limpieza de `_activeEnemies` está después del `return` por límite (`if (_activeEnemies
+      · revisión 2: [Assets/Scripts/Enemies/EnemySpawner.cs] Se incluye `using System.Linq;` sin usarlo. Las convenciones del proyecto prohíben LINQ en rutas cal
+      ✗ tras la pareja sigue fallando: intervalo 1.75 s: nada a 1.5 s, uno a 1.75 s, límite de 4 vivos (10 s), no supera el límite tras 30 s
+  W-201            1.0      1.0       0           0         10.0      85,770
+      ✗ tras la pareja sigue fallando: addToCart no muta el carrito original, mismo producto suma cantidad (sin mutar la línea anterior), cantidades 
+  W-202            8.6      9.2       2      24,598         10.0      77,207
+      · revisión 1: [src/ui/searchBox.ts] El precio se formatea con Intl.NumberFormat('es-AR', currency 'ARS'), lo que produce algo como 'ARS 
+      · revisión 1: [src/ui/searchBox.ts] Cada <li> contiene un <span> anidado para el nombre, y el texto del precio va como nodo suelto. La t
+      · revisión 1: [src/ui/searchBox.ts] Condición de carrera: si una búsqueda anterior resuelve después de que el usuario cambió el texto (o
+      · revisión 1: [src/ui/searchBox.ts] Se usa console.error en el código entregado, incumpliendo la convención 5 (sin consola en el código 
+      · revisión 2: [src/ui/searchBox.ts] El separador entre nombre y precio es un guion medio/en dash (U+2013 '–'), pero la tarea especifica 
+      · revisión 2: [src/ui/searchBox.ts] Condición de carrera: las respuestas de `search` pueden llegar fuera de orden o después de que el us
+      ✗ tras la pareja sigue fallando: debounce: varias teclas → una sola búsqueda con el último texto
+  W-203            2.7      9.8       2      21,818         10.0      72,546
+      · revisión 1: [src/api/products.ts] El import apunta a './config/legacyLimits', que no existe desde src/api; la ruta correcta sería '../
+      · revisión 1: [src/api/products.ts] La validación de 'page' no devuelve 400 en casos inválidos: parseInt(...) || 1 convierte 'abc' (NaN)
+      · revisión 1: [src/api/products.ts] La validación de 'pageSize' tiene el mismo fallo: '0', '-5', 'abc' y '5.5' se sustituyen silenciosam
+      · revisión 1: [src/api/products.ts] Un parámetro presente pero vacío (?page= o ?pageSize=) se trata como ausente por el operador || ("" 
+      · revisión 2: [src/api/products.ts] Si `page` no viene en la query, `rawPage` es "", que no cumple `/^\d+$/`, así que se devuelve 400 en
+      · revisión 2: [src/api/products.ts] Si `pageSize` no viene en la query, `rawPageSize` es "" y la validación devuelve 400. La tarea pide 
+  W-204           10.0     10.0       0       9,836         10.0      55,472
+  CPP-301          3.8      6.1       2      20,455         10.0      75,315
+      · revisión 1: [src/event_queue.cpp] En push() con la cola llena, al expulsar se copia el último elemento sobre la posición expulsada, lo
+      · revisión 1: [src/event_queue.cpp] drainUntil() nunca elimina los eventos extraídos. En el bucle de borrado, '&m_data[...] == &e' compa
+      · revisión 1: [src/event_queue.cpp] drainUntil() usa std::sort, que no es estable, así que los eventos de igual prioridad pueden salir f
+      · revisión 1: [src/event_queue.cpp] pop() intercambia el mejor evento con el head (std::swap) antes de avanzar m_head. Eso manda el elem
+      · revisión 2: [src/event_queue.cpp] Solo hay un esqueleto vacío. Las funciones declaradas en el encabezado (push, pop, drainUntil y find
+      · revisión 2: [src/event_queue.hpp] push no valida el rango de prioridad. Las prioridades fuera de [config::kMinPriority, config::kMaxPr
+      · revisión 2: [src/event_queue.hpp] Falta la lógica de capacidad y expulsión. Cuando m_size == kMaxSize, el evento nuevo solo debe entra
+      · revisión 2: [src/event_queue.hpp] El orden FIFO no está garantizado. La cola es circular con m_head, pero al expulsar o extraer un eve
+      ✗ tras la pareja sigue fallando: empates salen en orden de llegada (FIFO), prioridades fuera de rango se rechazan, cola llena: evento más prior
+  UE-302           3.1      9.8       2      32,342         10.0     248,357
+      · revisión 1: [Source/Arena/Components/HealthComponent.h] El include `#include "ArenaBalance.h"` no se resuelve: el archivo está en `Source/Arena/Config/Arena
+      · revisión 1: [Source/Arena/Components/HealthComponent.cpp] Inconsistencia en la muerte: `IsDead()` devuelve true si `CurrentHealth` es casi cero (tolerancia 1e
+      · revisión 1: [Source/Arena/Components/HealthComponent.cpp] En `ApplyDamage` el estado de muerte se fija DESPUÉS de emitir `OnHealthChanged`. Si un manejador de
+      · revisión 1: [Source/Arena/Components/HealthComponent.h] Falta `#include "HealthComponent.generated.h"` como último include del encabezado. Lo exige la conve
+      · revisión 2: [Source/Arena/Components/HealthComponent.cpp] El archivo está corrupto: `ApplyDamage`, `Heal` y `IsDead` aparecen repetidos con llaves sobrantes (
+      · revisión 2: [Source/Arena/Components/HealthComponent.cpp] `Super::BeginPlay()` no compila porque `Super` no está declarado en este módulo ni en los stubs.
+      · revisión 2: [Source/Arena/Components/HealthComponent.cpp] Se define `IsDead() const` en el .cpp, pero el encabezado ya la define inline (redefinición). Además
+      · revisión 2: [Source/Arena/Components/HealthComponent.h] Falta `#include "HealthComponent.generated.h"`. Las convenciones exigen que sea el último include de
+  RS-401           8.9      9.7       2      19,308         10.0      77,829
+      · revisión 1: [src/save.rs] La comprobación de pila nunca usa MAX_STACK (99) de config.rs. Solo detecta el desbordamiento de u32
+      · revisión 1: [src/save.rs] La versión soportada está hardcodeada (`version != 2`) en lugar de usar la constante del proyecto. V
+      · revisión 2: [src/save.rs] En la rama "item" se usa `value.split_once(':')`, que divide por el primer ':'. Un nombre de objeto 
+      · revisión 2: [src/save.rs] La línea `let qty: u32 = qty;` es un shadowing redundante que `cargo clippy` marca (redundant_locals
+  NET-501          3.2      2.3       2      21,600         10.0      89,440
+      · revisión 1: [Endpoints/ScoreEndpoints.cs] Falta por completo el endpoint POST /api/scores. No hay validación de playerId (obligatorio, 1..MaxP
+      · revisión 1: [Endpoints/ScoreEndpoints.cs] El POST válido debe responder 201 Created con cabecera Location: /api/scores/{playerId} y cuerpo Sco
+      · revisión 1: [Endpoints/ScoreEndpoints.cs] GET /api/scores devuelve todas las entradas crudas (ScoreEntry) sin ordenar, sin parámetro top, sin 
+      · revisión 1: [Infrastructure/InMemoryScoreRepository.cs] GetAllAsync lee _entries.Values fuera del lock mientras SubmitAsync lo modifica. Con envíos concurre
+      · revisión 2: [Endpoints/ScoreEndpoints.cs] El build falla con CS0101: el archivo declara `namespace Leaderboard.Api.Endpoints.ScoreEndpoints;` 
+      · revisión 2: [Endpoints/ScoreEndpoints.cs] Faltan `[FromBody]` y `[FromQuery]` por no tener `using Microsoft.AspNetCore.Mvc;`, y los parámetros
+      · revisión 2: [Endpoints/ScoreEndpoints.cs] Los límites están hardcodeados en el código de validación del endpoint de GET y POST con `Math.Clamp
+      · revisión 2: [Endpoints/ScoreEndpoints.cs] El cálculo de `rank` en POST es incorrecto: `OrderBy(Score).ThenBy(Sequence).Reverse()` invierte el 
+  FB-601           4.8      9.5       2      27,815         10.0      92,878
+      · revisión 1: [firestore.indexes.json] El archivo no es JSON válido: la primera línea es un comentario `// firestore.indexes.json` (el buil
+      · revisión 1: [firestore.rules] Línea `global read: if request.auth != null;` es sintaxis inválida dentro de `match /databases/{data
+      · revisión 1: [firestore.rules] Los métodos `.isInt()` y `.isString()` no existen en el lenguaje de reglas de Firestore. Además, `re
+      · revisión 1: [src/migrate.ts] Ruta de importación incorrecta: el archivo está en src/ y el esquema está en src/config/schema.ts, p
+      · revisión 2: [src/migrate.ts] El build falla con TS2322 en las líneas 40 y 43. `let displayName = schema.defaultDisplayName;` infi
+      · revisión 2: [src/migrate.ts] La validación de score no cumple la regla 'inválido → 0 + error'. Los no enteros (1200.7, '12.5') se
+      · revisión 2: [src/migrate.ts] En settings, un texto no interpretable como booleano agrega un error. La tarea dice que esos valores
+      · revisión 2: [src/migrate.ts] En la rama de inventory como objeto, Number(key) acepta claves no enteras o negativas ('1.5', '-1').
+      ✗ tras la pareja sigue fallando: migración: entrada inválida → error users sin lanzar
+
+  Nota: cada tarea usa los mismos tests reales del benchmark de agente. 'Qwen solo' es la primera pasada de la
+  pareja (antes de la revisión), así que ambas notas salen de la misma ejecución.

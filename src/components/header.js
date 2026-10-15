@@ -71,6 +71,12 @@ export function renderHeader(contenedor, datos) {
     for (const btn of botonesModelo) {
       btn.setAttribute('aria-pressed', String(btn.dataset.modelo === estado.modelo))
     }
+    // Con varios modelos el grupo hace scroll: el activo se mantiene a la vista (sin mover la página).
+    const activo = botonesModelo.find((btn) => btn.dataset.modelo === estado.modelo)
+    if (activo && selector.scrollWidth > selector.clientWidth) {
+      const izq = activo.getBoundingClientRect().left - selector.getBoundingClientRect().left + selector.scrollLeft
+      selector.scrollLeft = izq - (selector.clientWidth - activo.offsetWidth) / 2
+    }
 
     // Cada botón muestra el valor al que cambiaría.
     const otroIdioma = getLang() === 'es' ? 'en' : 'es'
