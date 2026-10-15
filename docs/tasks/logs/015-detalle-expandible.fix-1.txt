@@ -1,0 +1,6 @@
+﻿Files: `src/i18n/sections/tabla.js` (8 keys es/en), `src/components/tabla.js` (Set `abiertas` + `modeloAnterior`, `data-label` on 6 td, expand button + detail row), `src/styles/tabla.css` (toggle/detalle/ronda/lists + mobile).
+Also `tests/tabla.test.js` (1 line): excluded `.tabla__detalle` from row count ÔÇö DOM change broke the existing assertion; CLAUDE.md says "corrige lo que falle".
+Decisions: button `aria-label` = `tabla.expandir`/`tabla.contraer`; `abiertas` survives language change, cleared on model change; no button for tasks with 0 revisiones+0 fallos.
+Validation: `npm test` 97/97 pass; `npm run build` OK.
+Doubt: test file is a 4th file outside the 3-file scope (kept to 1 line); component not yet wired into `main.js` (that's task 017).
+

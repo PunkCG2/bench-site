@@ -49,3 +49,56 @@
 .tabla__fallo {
   color: var(--c-claude);
 }
+
+.tabla__toggle {
+  background: none;
+  border: 0;
+  font: inherit;
+  font-family: var(--font-mono);
+  color: inherit;
+  cursor: pointer;
+}
+
+.tabla__detalle td {
+  background: var(--surface);
+}
+
+.tabla__ronda {
+  font-family: var(--font-mono);
+  font-size: var(--fs-14);
+}
+
+.tabla__revisiones,
+.tabla__fallos {
+  list-style: none;
+}
+
+@media (max-width: 899px) {
+  .tabla,
+  .tabla tbody,
+  .tabla tr,
+  .tabla td,
+  .tabla th[scope="row"] {
+    display: block;
+  }
+
+  .tabla thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .tabla tr:not(.tabla__grupo):not(.tabla__detalle) {
+    background: var(--surface);
+    border-radius: var(--r-card);
+    margin-bottom: var(--sp-12);
+    padding: var(--sp-12);
+  }
+
+  .tabla td::before {
+    content: attr(data-label);
+    color: var(--muted);
+    margin-right: var(--sp-8);
+  }
+}

@@ -1,0 +1,4 @@
+﻿`tests/tabla-expandible.test.js` creado (70 l├¡neas, 5 tests). `npm test`: 102/102 pasan. `npm run build`: OK.
+
+Decisiones: modelo activo v├¡a `datos.modelos.find(...T-103)` + `setModelo`; helper `setup()` para render+modelo; `otro` = modelo distinto para el test de cambio. Sin cifras literales (solo ids y `.length` de datos).
+

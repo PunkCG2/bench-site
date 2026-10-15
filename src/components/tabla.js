@@ -52,24 +52,34 @@ export function renderTabla(contenedor, datos) {
     return th
   }
 
-  function celdaNota(valor) {
+  function celdaNota(valor, etiqueta) {
     const td = document.createElement('td')
     td.classList.add('tabla__num')
     if (valor < UMBRAL_NOTA_BAJA) td.classList.add('nota--baja')
     td.textContent = valor.toFixed(1)
+    td.dataset.label = etiqueta
     return td
   }
 
-  function celdaNum(valor) {
+  function celdaNum(valor, etiqueta) {
     const td = document.createElement('td')
     td.classList.add('tabla__num')
     td.textContent = new Intl.NumberFormat(getLang()).format(valor)
+    td.dataset.label = etiqueta
     return td
   }
+
+  // Tareas expandidas (ids). Sobrevive al cambio de idioma; se vacía al
+  // cambiar de modelo.
+  const abiertas = new Set()
+  let modeloAnterior = null
 
   function actualizar() {
     const modelo = datos.modelos.find((m) => m.id === getState().modelo)
     if (!modelo) return
+
+    if (modeloAnterior !== null && modeloAnterior !== modelo.id) abiertas.clear()
+    modeloAnterior = modelo.id
 
     h2.textContent = t('tabla.titulo')
 
@@ -104,7 +114,31 @@ export function renderTabla(contenedor, datos) {
         const thId = document.createElement('th')
         thId.scope = 'row'
         thId.className = 'tabla__id'
-        thId.textContent = tarea.id
+        const expandible = tarea.revisiones.length + tarea.fallos.length > 0
+        if (expandible) {
+          const boton = document.createElement('button')
+          boton.type = 'button'
+          boton.className = 'tabla__toggle'
+          boton.textContent = tarea.id
+          const abierta = abiertas.has(tarea.id)
+          boton.setAttribute('aria-expanded', String(abierta))
+          boton.setAttribute('aria-controls', `detalle-${tarea.id}`)
+          boton.setAttribute('aria-label', `${abierta ? t('tabla.contraer') : t('tabla.expandir')}: ${tarea.id}`)
+          boton.addEventListener('click', () => {
+            if (abiertas.has(tarea.id)) abiertas.delete(tarea.id)
+            else abiertas.add(tarea.id)
+            const panel = document.getElementById(`detalle-${tarea.id}`)
+            panel.hidden = !abiertas.has(tarea.id)
+            boton.setAttribute('aria-expanded', String(abiertas.has(tarea.id)))
+            boton.setAttribute(
+              'aria-label',
+              `${abiertas.has(tarea.id) ? t('tabla.contraer') : t('tabla.expandir')}: ${tarea.id}`,
+            )
+          })
+          thId.appendChild(boton)
+        } else {
+          thId.textContent = tarea.id
+        }
         if (tarea.fallos.length > 0) {
           const fallo = document.createElement('span')
           fallo.className = 'tabla__fallo'
@@ -115,14 +149,53 @@ export function renderTabla(contenedor, datos) {
         }
         fila.appendChild(thId)
 
-        fila.appendChild(celdaNota(tarea.local))
-        fila.appendChild(celdaNota(tarea.pareja))
-        fila.appendChild(celdaNum(tarea.rondas))
-        fila.appendChild(celdaNum(tarea.tokens_pareja))
-        fila.appendChild(celdaNota(tarea.claude))
-        fila.appendChild(celdaNum(tarea.tokens_claude))
+        fila.appendChild(celdaNota(tarea.local, t('modo.local')))
+        fila.appendChild(celdaNota(tarea.pareja, t('modo.pareja')))
+        fila.appendChild(celdaNum(tarea.rondas, t('tabla.col.rondas')))
+        fila.appendChild(celdaNum(tarea.tokens_pareja, t('tabla.col.tokens')))
+        fila.appendChild(celdaNota(tarea.claude, t('modo.claude')))
+        fila.appendChild(celdaNum(tarea.tokens_claude, t('tabla.col.tokens')))
 
         tbody.appendChild(fila)
+
+        if (expandible) {
+          const filaDetalle = document.createElement('tr')
+          filaDetalle.className = 'tabla__detalle'
+          filaDetalle.id = `detalle-${tarea.id}`
+          filaDetalle.hidden = !abiertas.has(tarea.id)
+          const tdDetalle = document.createElement('td')
+          tdDetalle.colSpan = 7
+          if (tarea.revisiones.length > 0) {
+            const h4 = document.createElement('h4')
+            h4.textContent = t('tabla.revisiones')
+            const ul = document.createElement('ul')
+            ul.className = 'tabla__revisiones'
+            for (const rev of tarea.revisiones) {
+              const li = document.createElement('li')
+              const span = document.createElement('span')
+              span.className = 'tabla__ronda'
+              span.textContent = t('tabla.ronda', { n: rev.ronda, archivo: rev.archivo })
+              li.appendChild(span)
+              li.appendChild(document.createTextNode(` ${rev.texto}`))
+              ul.appendChild(li)
+            }
+            tdDetalle.append(h4, ul)
+          }
+          if (tarea.fallos.length > 0) {
+            const h4 = document.createElement('h4')
+            h4.textContent = t('tabla.fallos')
+            const ul = document.createElement('ul')
+            ul.className = 'tabla__fallos'
+            for (const fallo of tarea.fallos) {
+              const li = document.createElement('li')
+              li.textContent = `✗ ${t(`tabla.quien.${fallo.quien}`)}: ${fallo.texto}`
+              ul.appendChild(li)
+            }
+            tdDetalle.append(h4, ul)
+          }
+          filaDetalle.appendChild(tdDetalle)
+          tbody.appendChild(filaDetalle)
+        }
       }
     }
   }

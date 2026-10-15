@@ -27,7 +27,7 @@ describe('tabla', () => {
   it('Gemma: 13 filas de tarea y 7 filas de grupo', () => {
     handle = renderTabla(contenedor, datos)
     setModelo(datos.modelos.find((m) => m.etiqueta === 'Gemma').id)
-    expect(contenedor.querySelectorAll('tbody tr:not(.tabla__grupo)').length).toBe(13)
+    expect(contenedor.querySelectorAll('tbody tr:not(.tabla__grupo):not(.tabla__detalle)').length).toBe(13)
     expect(contenedor.querySelectorAll('.tabla__grupo').length).toBe(7)
   })
 
