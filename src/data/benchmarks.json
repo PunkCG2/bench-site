@@ -1,0 +1,579 @@
+{
+  "version": 1,
+  "modelos": [
+    {
+      "id": "gemma-4-26b-a4b-qat",
+      "nombre": "gemma-4-26b-a4b-qat",
+      "etiqueta": "Gemma",
+      "cuantizacion": "Q4_0",
+      "revisor": "haiku",
+      "fecha": "2026-10-15 02:29",
+      "version": "v1",
+      "resumen": {
+        "local": {
+          "nota": 8.8,
+          "tiempo_s": 184,
+          "tokens_claude": 0,
+          "costo_usd": null
+        },
+        "pareja": {
+          "nota": 10,
+          "tiempo_s": 290,
+          "tokens_claude": 23786,
+          "costo_usd": 0.005
+        },
+        "claude": {
+          "nota": 9.9,
+          "tiempo_s": 31,
+          "tokens_claude": 88790,
+          "costo_usd": 0.006
+        },
+        "revision": {
+          "mejoro": 4,
+          "empeoro": 0,
+          "aprobadas_primera": 3
+        }
+      },
+      "tareas": [
+        {
+          "id": "T-101",
+          "ambito": "unity",
+          "local": 10,
+          "pareja": 10,
+          "rondas": 0,
+          "tokens_pareja": 19689,
+          "claude": 10,
+          "tokens_claude": 77113,
+          "revisiones": [],
+          "fallos": []
+        },
+        {
+          "id": "T-102",
+          "ambito": "unity",
+          "local": 10,
+          "pareja": 10,
+          "rondas": 1,
+          "tokens_pareja": 40141,
+          "claude": 10,
+          "tokens_claude": 85374,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "Assets/Scripts/Items/Inventory.cs",
+              "texto": "`ItemStack.Count` tiene setter público (`{ get; set; }`) y `Slots` expone esos stacks mutables. Cual"
+            }
+          ],
+          "fallos": []
+        },
+        {
+          "id": "T-103",
+          "ambito": "unity",
+          "local": 10,
+          "pareja": 10,
+          "rondas": 1,
+          "tokens_pareja": 42168,
+          "claude": 10,
+          "tokens_claude": 83727,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "Assets/Scripts/Combat/Projectile.cs",
+              "texto": "El daño está escrito a mano como 10 (`_damage = 10`), aunque GameBalance.ProjectileDamage ya define"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Assets/Scripts/Combat/Projectile.cs",
+              "texto": "Destroy(gameObject) no elimina el objeto de inmediato, sino al final del frame. Si el proyectil toca"
+            }
+          ],
+          "fallos": []
+        },
+        {
+          "id": "T-104",
+          "ambito": "unity",
+          "local": 10,
+          "pareja": 10,
+          "rondas": 0,
+          "tokens_pareja": 18785,
+          "claude": 10,
+          "tokens_claude": 70492,
+          "revisiones": [],
+          "fallos": []
+        },
+        {
+          "id": "W-201",
+          "ambito": "web",
+          "local": 10,
+          "pareja": 10,
+          "rondas": 0,
+          "tokens_pareja": 10386,
+          "claude": 10,
+          "tokens_claude": 77287,
+          "revisiones": [],
+          "fallos": []
+        },
+        {
+          "id": "W-202",
+          "ambito": "web",
+          "local": 10,
+          "pareja": 10,
+          "rondas": 1,
+          "tokens_pareja": 22400,
+          "claude": 9.4,
+          "tokens_claude": 104930,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "src/ui/searchBox.ts",
+              "texto": "Condición de carrera: si una búsqueda anterior termina después de una posterior (o después de que el"
+            }
+          ],
+          "fallos": [
+            {
+              "quien": "claude",
+              "texto": "Claude solo falla: debounce: varias teclas → una sola búsqueda con el último texto"
+            }
+          ]
+        },
+        {
+          "id": "W-203",
+          "ambito": "web",
+          "local": 10,
+          "pareja": 10,
+          "rondas": 1,
+          "tokens_pareja": 20555,
+          "claude": 10,
+          "tokens_claude": 70343,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "src/api/products.ts",
+              "texto": "La validación numérica usa Number(), que acepta formatos que no son enteros decimales: espacios (\" 5"
+            }
+          ],
+          "fallos": []
+        },
+        {
+          "id": "W-204",
+          "ambito": "web",
+          "local": 10,
+          "pareja": 10,
+          "rondas": 1,
+          "tokens_pareja": 18652,
+          "claude": 10,
+          "tokens_claude": 63424,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "public/contact.html",
+              "texto": "El bloque BEM `contact-form` no aparece en el marcado: el `<form id=\"contact-form\">` no tiene la cla"
+            }
+          ],
+          "fallos": []
+        },
+        {
+          "id": "CPP-301",
+          "ambito": "cpp",
+          "local": 9.4,
+          "pareja": 10,
+          "rondas": 1,
+          "tokens_pareja": 19941,
+          "claude": 9.8,
+          "tokens_claude": 70041,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "src/event_queue.hpp",
+              "texto": "En push() con la cola llena, 'm_items.back() = std::move(e);' ya mueve 'e' dentro del vector. Despué"
+            }
+          ],
+          "fallos": []
+        },
+        {
+          "id": "UE-302",
+          "ambito": "unreal",
+          "local": 3.1,
+          "pareja": 10,
+          "rondas": 2,
+          "tokens_pareja": 28843,
+          "claude": 10,
+          "tokens_claude": 170672,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "Source/Arena/Components/HealthComponent.h",
+              "texto": "La línea 7 usa la macro `DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParameters`, que no existe en los stu"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Source/Arena/Components/HealthComponent.h",
+              "texto": "El constructor público `UHealthComponent()` no tiene comentario de documentación `/** ... */`, lo qu"
+            }
+          ],
+          "fallos": []
+        },
+        {
+          "id": "RS-401",
+          "ambito": "rust",
+          "local": 10,
+          "pareja": 10,
+          "rondas": 2,
+          "tokens_pareja": 19759,
+          "claude": 10,
+          "tokens_claude": 102798,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "src/save.rs",
+              "texto": "En el bloque `item`, `current_qty + qty` puede desbordar u32. `qty` admite hasta 4294967295, así que"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/save.rs",
+              "texto": "En el bloque `\"item\"`, `item_name` y `qty_str` no se recortan. La tarea exige ignorar los espacios a"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/save.rs",
+              "texto": "`value.split_once(':')` divide por el primer `:`. Un objeto cuyo nombre contiene `:` se guarda como"
+            }
+          ],
+          "fallos": []
+        },
+        {
+          "id": "NET-501",
+          "ambito": "dotnet",
+          "local": 3.2,
+          "pareja": 10,
+          "rondas": 1,
+          "tokens_pareja": 23646,
+          "claude": 10,
+          "tokens_claude": 90108,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "Endpoints/ScoreEndpoints.cs",
+              "texto": "El build falla (CS1503, línea 39): `Results.ValidationProblem` espera un diccionario de `string[]` p"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Endpoints/ScoreEndpoints.cs",
+              "texto": "La validación de playerId usa `$` en la regex `^[a-zA-Z0-9_-]+$`, que también acepta un salto de lín"
+            }
+          ],
+          "fallos": []
+        },
+        {
+          "id": "FB-601",
+          "ambito": "firebase",
+          "local": 9.2,
+          "pareja": 9.5,
+          "rondas": 2,
+          "tokens_pareja": 24258,
+          "claude": 10,
+          "tokens_claude": 87957,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "src/migrate.ts",
+              "texto": "El score fuera de rango se recorta en silencio con Math.min/Math.max. Un valor como 9999999 queda en"
+            },
+            {
+              "ronda": 1,
+              "archivo": "src/migrate.ts",
+              "texto": "new Date(ms).toISOString() lanza RangeError para Infinity o para valores fuera de rango, como 1e20 o"
+            },
+            {
+              "ronda": 1,
+              "archivo": "src/migrate.ts",
+              "texto": "En el caso de inventory como objeto, las claves se convierten con parseInt, que acepta sufijos: '1ab"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/migrate.ts",
+              "texto": "lastLogin se convierte con Number(rawLastLogin) sin validar el tipo. Cadenas vacías, booleanos y arr"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/migrate.ts",
+              "texto": "El recorte de displayName usa trimmed.length y substring, que cuentan unidades UTF-16, no caracteres"
+            }
+          ],
+          "fallos": [
+            {
+              "quien": "pareja",
+              "texto": "tras la pareja sigue fallando: índices: users score DESC + lastLogin DESC"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "qwen3.8-27b",
+      "nombre": "qwen3.8-27b",
+      "etiqueta": "Qwen",
+      "cuantizacion": "IQ3_XXS",
+      "revisor": "haiku",
+      "fecha": "2026-10-15 00:14",
+      "version": "v1",
+      "resumen": {
+        "local": {
+          "nota": 9.6,
+          "tiempo_s": 129,
+          "tokens_claude": 0,
+          "costo_usd": null
+        },
+        "pareja": {
+          "nota": 9.5,
+          "tiempo_s": 217,
+          "tokens_claude": 19113,
+          "costo_usd": 0.004
+        },
+        "claude": {
+          "nota": 10,
+          "tiempo_s": 32,
+          "tokens_claude": 85852,
+          "costo_usd": 0.005
+        },
+        "revision": {
+          "mejoro": 0,
+          "empeoro": 1,
+          "aprobadas_primera": 8
+        }
+      },
+      "tareas": [
+        {
+          "id": "T-101",
+          "ambito": "unity",
+          "local": 10,
+          "pareja": 10,
+          "rondas": 0,
+          "tokens_pareja": 19731,
+          "claude": 10,
+          "tokens_claude": 69771,
+          "revisiones": [],
+          "fallos": []
+        },
+        {
+          "id": "T-102",
+          "ambito": "unity",
+          "local": 10,
+          "pareja": 10,
+          "rondas": 1,
+          "tokens_pareja": 40236,
+          "claude": 10,
+          "tokens_claude": 87573,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "Assets/Scripts/Items/Inventory.cs",
+              "texto": "`ItemStack.Count` tiene setter público (`{ get; set; }`). Eso incumple la convención 2 (\"expón datos"
+            }
+          ],
+          "fallos": []
+        },
+        {
+          "id": "T-103",
+          "ambito": "unity",
+          "local": 10,
+          "pareja": 10,
+          "rondas": 0,
+          "tokens_pareja": 20601,
+          "claude": 10,
+          "tokens_claude": 96816,
+          "revisiones": [],
+          "fallos": []
+        },
+        {
+          "id": "T-104",
+          "ambito": "unity",
+          "local": 10,
+          "pareja": 10,
+          "rondas": 0,
+          "tokens_pareja": 19159,
+          "claude": 10,
+          "tokens_claude": 72997,
+          "revisiones": [],
+          "fallos": []
+        },
+        {
+          "id": "W-201",
+          "ambito": "web",
+          "local": 10,
+          "pareja": 10,
+          "rondas": 0,
+          "tokens_pareja": 10193,
+          "claude": 10,
+          "tokens_claude": 75247,
+          "revisiones": [],
+          "fallos": []
+        },
+        {
+          "id": "W-202",
+          "ambito": "web",
+          "local": 10,
+          "pareja": 10,
+          "rondas": 0,
+          "tokens_pareja": 11042,
+          "claude": 10,
+          "tokens_claude": 88642,
+          "revisiones": [],
+          "fallos": []
+        },
+        {
+          "id": "W-203",
+          "ambito": "web",
+          "local": 10,
+          "pareja": 10,
+          "rondas": 0,
+          "tokens_pareja": 10849,
+          "claude": 10,
+          "tokens_claude": 72034,
+          "revisiones": [],
+          "fallos": []
+        },
+        {
+          "id": "W-204",
+          "ambito": "web",
+          "local": 10,
+          "pareja": 10,
+          "rondas": 0,
+          "tokens_pareja": 9078,
+          "claude": 10,
+          "tokens_claude": 53509,
+          "revisiones": [],
+          "fallos": []
+        },
+        {
+          "id": "CPP-301",
+          "ambito": "cpp",
+          "local": 10,
+          "pareja": 10,
+          "rondas": 0,
+          "tokens_pareja": 8026,
+          "claude": 9.8,
+          "tokens_claude": 73458,
+          "revisiones": [],
+          "fallos": []
+        },
+        {
+          "id": "UE-302",
+          "ambito": "unreal",
+          "local": 10,
+          "pareja": 10,
+          "rondas": 2,
+          "tokens_pareja": 30077,
+          "claude": 9.8,
+          "tokens_claude": 165910,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "Source/Arena/Components/HealthComponent.cpp",
+              "texto": "En ApplyDamage, OnHealthChanged.Broadcast se ejecuta antes de marcar bIsDead = true. Si un listener"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Source/Arena/Components/HealthComponent.h",
+              "texto": "CurrentHealth se inicializa en 0.f, no en MaxHealth. Cualquier ApplyDamage antes de BeginPlay deja l"
+            },
+            {
+              "ronda": 2,
+              "archivo": "Source/Arena/Components/HealthComponent.cpp",
+              "texto": "`BeginPlay` restablece `CurrentHealth = MaxHealth` pero no restablece `bIsDead`. `ArenaCharacter::Be"
+            }
+          ],
+          "fallos": []
+        },
+        {
+          "id": "RS-401",
+          "ambito": "rust",
+          "local": 10,
+          "pareja": 10,
+          "rondas": 2,
+          "tokens_pareja": 18418,
+          "claude": 10,
+          "tokens_claude": 81679,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "src/save.rs",
+              "texto": "En el bloque de `item`, `current + qty` puede desbordar `u32`. `current` nunca supera 99, pero `qty`"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/save.rs",
+              "texto": "El parseo de `item=` usa `value.split_once(':')`, así que un nombre de objeto que contiene ':' (p. e"
+            }
+          ],
+          "fallos": []
+        },
+        {
+          "id": "NET-501",
+          "ambito": "dotnet",
+          "local": 4.2,
+          "pareja": 3.2,
+          "rondas": 2,
+          "tokens_pareja": 26008,
+          "claude": 10,
+          "tokens_claude": 90807,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "Endpoints/ScoreEndpoints.cs",
+              "texto": "Ambos endpoints inyectan `ILogger` (no genérico). Ese servicio no está registrado en el contenedor d"
+            },
+            {
+              "ronda": 1,
+              "archivo": "Endpoints/ScoreEndpoints.cs",
+              "texto": "La expresión regular `^[A-Za-z0-9_-]+$` usa `$`, que en .NET también acepta un salto de línea final."
+            },
+            {
+              "ronda": 2,
+              "archivo": "Endpoints/ScoreEndpoints.cs",
+              "texto": "En POST /api/scores, si el cuerpo tiene tipos incorrectos (por ejemplo \"score\": \"abc\", \"score\": 1.5,"
+            }
+          ],
+          "fallos": []
+        },
+        {
+          "id": "FB-601",
+          "ambito": "firebase",
+          "local": 10,
+          "pareja": 10,
+          "rondas": 2,
+          "tokens_pareja": 25053,
+          "claude": 10,
+          "tokens_claude": 87631,
+          "revisiones": [
+            {
+              "ronda": 1,
+              "archivo": "src/migrate.ts",
+              "texto": "migrateLastLogin llama a new Date(raw).toISOString() con cualquier entero finito. Si el ms queda fue"
+            },
+            {
+              "ronda": 1,
+              "archivo": "src/migrate.ts",
+              "texto": "En migrateScore, una cadena vacía o solo con espacios (\"\" o \"   \") pasa por Number(raw.trim()) y se"
+            },
+            {
+              "ronda": 1,
+              "archivo": "src/migrate.ts",
+              "texto": "migrateDisplayName recorta con trimmed.slice(0, 24), que cuenta unidades UTF-16. Si el nombre contie"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/migrate.ts",
+              "texto": "En `migrateUsers`, `users[uid] = migrateUser(...)` usa un objeto literal `{}` como diccionario. Si u"
+            },
+            {
+              "ronda": 2,
+              "archivo": "src/migrate.ts",
+              "texto": "`migrateLastLogin` trata `null` como dato inválido y registra un error `field: \"lastLogin\"`. La espe"
+            }
+          ],
+          "fallos": []
+        }
+      ]
+    }
+  ]
+}

@@ -6,6 +6,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "data": "node scripts/build-data.js",
     "test": "vitest run"
   },
   "devDependencies": {
