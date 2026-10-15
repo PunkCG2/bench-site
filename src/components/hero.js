@@ -7,6 +7,16 @@ import { reduccionTokens, factorTiempo, cambioPorRevision } from '../lib/metrics
 import { animateNumber, onEnterViewport } from '../lib/animate.js'
 import '../styles/hero.css'
 
+// Durante la animación `n` trae decimales: las cifras siempre se muestran enteras.
+export function formatoReduccion(n) {
+  const r = Math.round(n)
+  return r < 0 ? `+${Math.abs(r)} %` : `−${r} %`
+}
+
+export function formatoFactor(n) {
+  return `${Math.round(n)}×`
+}
+
 export function renderHero(contenedor, datos) {
   const section = document.createElement('section')
   section.className = 'hero'
@@ -70,12 +80,12 @@ export function renderHero(contenedor, datos) {
     if (primera) {
       primera = false
       onEnterViewport(section, () => {
-        animateNumber(valores[0], reduccion, { formato: (n) => (n < 0 ? `+${Math.abs(n)} %` : `−${n} %`) })
-        animateNumber(valores[1], factor, { formato: (n) => `${n}×` })
+        animateNumber(valores[0], reduccion, { formato: formatoReduccion })
+        animateNumber(valores[1], factor, { formato: formatoFactor })
       })
     } else {
-      animateNumber(valores[0], reduccion, { formato: (n) => (n < 0 ? `+${Math.abs(n)} %` : `−${n} %`) })
-      animateNumber(valores[1], factor, { formato: (n) => `${n}×` })
+      animateNumber(valores[0], reduccion, { formato: formatoReduccion })
+      animateNumber(valores[1], factor, { formato: formatoFactor })
     }
     valores[2].textContent = `${cambio.de.toFixed(1)} → ${cambio.a.toFixed(1)}`
   }

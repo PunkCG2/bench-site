@@ -11,7 +11,7 @@ vi.mock('../src/lib/animate.js', () => ({
 
 import { initState, setModelo, setIdioma } from '../src/state.js'
 import { reduccionTokens } from '../src/lib/metrics.js'
-import { renderHero } from '../src/components/hero.js'
+import { renderHero, formatoReduccion, formatoFactor } from '../src/components/hero.js'
 import datos from '../src/data/benchmarks.json'
 
 let contenedor
@@ -46,5 +46,13 @@ describe('hero', () => {
     expect(frase.textContent).toContain('La pareja')
     setIdioma('en')
     expect(frase.textContent).toContain('The pair')
+  })
+})
+
+describe('formatos de las cifras animadas', () => {
+  it('durante la animación nunca muestran decimales', () => {
+    expect(formatoReduccion(77.29244550840329)).toBe('−77 %')
+    expect(formatoReduccion(-3.4)).toBe('+3 %')
+    expect(formatoFactor(6.936501)).toBe('7×')
   })
 })

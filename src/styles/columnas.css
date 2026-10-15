@@ -1,5 +1,10 @@
 /* Tres modos: tres columnas, una por modo. Solo variables de tokens.css. */
 
+.columnas section,
+.columna {
+  min-width: 0;
+}
+
 .columnas__rejilla {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

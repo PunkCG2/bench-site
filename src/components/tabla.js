@@ -69,6 +69,39 @@ export function renderTabla(contenedor, datos) {
     return td
   }
 
+  // Resumen de la tarea en el panel: ámbito, rondas y el resultado de cada modo.
+  function resumenTarea(tarea) {
+    const caja = document.createElement('div')
+    caja.className = 'tabla__resumen'
+    const titulo = document.createElement('p')
+    titulo.className = 'tabla__resumen-titulo'
+    titulo.textContent = `${tarea.id} · ${t(`tabla.ambito.${tarea.ambito}`)} · ${t('tabla.detalle.rondas', { n: tarea.rondas })}`
+    const modos = document.createElement('div')
+    modos.className = 'tabla__resumen-modos'
+    const datosModos = [
+      ['local', tarea.local, null],
+      ['pareja', tarea.pareja, tarea.tokens_pareja],
+      ['claude', tarea.claude, tarea.tokens_claude],
+    ]
+    for (const [modo, nota, tokens] of datosModos) {
+      const bloque = document.createElement('div')
+      bloque.className = 'tabla__resumen-modo'
+      bloque.dataset.modo = modo
+      const nombre = document.createElement('span')
+      nombre.className = 'tabla__resumen-nombre'
+      nombre.textContent = t(`modo.${modo}`)
+      const valor = document.createElement('span')
+      valor.className = 'tabla__resumen-valor'
+      valor.textContent = tokens === null
+        ? nota.toFixed(1)
+        : `${nota.toFixed(1)} · ${new Intl.NumberFormat(getLang()).format(tokens)} tokens`
+      bloque.append(nombre, valor)
+      modos.appendChild(bloque)
+    }
+    caja.append(titulo, modos)
+    return caja
+  }
+
   // Tareas expandidas (ids). Sobrevive al cambio de idioma; se vacía al
   // cambiar de modelo.
   const abiertas = new Set()
@@ -165,6 +198,7 @@ export function renderTabla(contenedor, datos) {
           filaDetalle.hidden = !abiertas.has(tarea.id)
           const tdDetalle = document.createElement('td')
           tdDetalle.colSpan = 7
+          tdDetalle.appendChild(resumenTarea(tarea))
           if (tarea.revisiones.length > 0) {
             const h4 = document.createElement('h4')
             h4.textContent = t('tabla.revisiones')
@@ -172,11 +206,20 @@ export function renderTabla(contenedor, datos) {
             ul.className = 'tabla__revisiones'
             for (const rev of tarea.revisiones) {
               const li = document.createElement('li')
-              const span = document.createElement('span')
-              span.className = 'tabla__ronda'
-              span.textContent = t('tabla.ronda', { n: rev.ronda, archivo: rev.archivo })
-              li.appendChild(span)
-              li.appendChild(document.createTextNode(` ${rev.texto}`))
+              const ronda = document.createElement('span')
+              ronda.className = 'tabla__ronda'
+              ronda.textContent = t('tabla.ronda_corta', { n: rev.ronda })
+              // Solo el nombre del archivo; la ruta completa queda en el title.
+              const archivo = document.createElement('span')
+              archivo.className = 'tabla__archivo'
+              archivo.textContent = rev.archivo.split('/').pop()
+              archivo.title = rev.archivo
+              const texto = document.createElement('p')
+              texto.className = 'tabla__texto'
+              texto.textContent = rev.texto
+              // El texto va recortado a pocas líneas; un clic lo muestra completo.
+              texto.addEventListener('click', () => texto.classList.toggle('tabla__texto--abierto'))
+              li.append(ronda, archivo, texto)
               ul.appendChild(li)
             }
             tdDetalle.append(h4, ul)

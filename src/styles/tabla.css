@@ -1,5 +1,9 @@
 /* Detalle por tarea: tabla agrupada por ámbito. Solo variables de tokens.css. */
 
+.tabla-detalle {
+  overflow-x: auto;
+}
+
 .tabla {
   width: 100%;
   border-collapse: collapse;
@@ -75,6 +79,8 @@
   content: '▸';
   position: absolute;
   left: var(--sp-8);
+  font-size: var(--fs-16);
+  line-height: 1;
   color: var(--muted);
 }
 
@@ -87,17 +93,107 @@
 }
 
 .tabla__detalle td {
+  padding: var(--sp-16) var(--sp-24);
   background: var(--surface);
 }
 
-.tabla__ronda {
+/* Resumen de la tarea: ámbito, rondas y resultado de cada modo. */
+.tabla__resumen-titulo {
+  margin: 0 0 var(--sp-8);
   font-family: var(--font-mono);
   font-size: var(--fs-14);
+  color: var(--muted);
+}
+
+.tabla__resumen-modos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-8) var(--sp-24);
+  margin-bottom: var(--sp-16);
+}
+
+.tabla__resumen-modo {
+  --modo-color: var(--muted);
+  display: flex;
+  flex-direction: column;
+  padding-left: var(--sp-8);
+  border-left: 3px solid var(--modo-color);
+}
+
+.tabla__resumen-modo[data-modo='local'] {
+  --modo-color: var(--c-local);
+}
+
+.tabla__resumen-modo[data-modo='pareja'] {
+  --modo-color: var(--c-pareja);
+}
+
+.tabla__resumen-modo[data-modo='claude'] {
+  --modo-color: var(--c-claude);
+}
+
+.tabla__resumen-nombre {
+  font-size: var(--fs-14);
+  color: var(--muted);
+}
+
+.tabla__resumen-valor {
+  font-family: var(--font-mono);
+}
+
+.tabla__detalle h4 {
+  margin: var(--sp-8) 0;
+  font-size: var(--fs-14);
+  color: var(--muted);
 }
 
 .tabla__revisiones,
 .tabla__fallos {
+  margin: 0;
+  padding: 0;
   list-style: none;
+}
+
+/* Cada revisión: ronda y archivo en una línea; el texto, recortado a 2 líneas. */
+.tabla__revisiones li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--sp-4) var(--sp-8);
+  margin-bottom: var(--sp-12);
+}
+
+.tabla__ronda,
+.tabla__archivo {
+  font-family: var(--font-mono);
+  font-size: var(--fs-14);
+}
+
+.tabla__ronda {
+  color: var(--muted);
+}
+
+.tabla__texto {
+  flex: 1 0 100%;
+  margin: 0;
+  font-size: var(--fs-14);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  cursor: pointer;
+}
+
+.tabla__texto--abierto {
+  display: block;
+  -webkit-line-clamp: unset;
+  line-clamp: unset;
+}
+
+.tabla__fallos li {
+  margin-bottom: var(--sp-8);
+  font-size: var(--fs-14);
 }
 
 @media (max-width: 899px) {

@@ -27,7 +27,14 @@ h6 {
   font-weight: 600;
 }
 
+html {
+  /* Nada debe ensanchar la página más que la pantalla (el contenido que no cabe
+     hace scroll dentro de su propio bloque, p. ej. la tabla). */
+  overflow-x: clip;
+}
+
 .contenedor {
+  width: 100%;
   max-width: var(--maxw);
   margin: 0 auto;
   padding-left: var(--sp-16);

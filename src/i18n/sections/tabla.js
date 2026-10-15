@@ -1,6 +1,8 @@
 // Textos de la sección "Detalle por tarea". Claves planas con punto.
 export default {
   es: {
+    'tabla.ronda_corta': 'Ronda {n}',
+    'tabla.detalle.rondas': '{n} rondas de revisión',
     'tabla.titulo': 'Detalle por tarea',
     'tabla.col.id': 'Tarea',
     'tabla.col.rondas': 'Rondas',
@@ -24,6 +26,8 @@ export default {
     'tabla.ambito.otro': 'Otro',
   },
   en: {
+    'tabla.ronda_corta': 'Round {n}',
+    'tabla.detalle.rondas': '{n} review rounds',
     'tabla.titulo': 'Per-task detail',
     'tabla.col.id': 'Task',
     'tabla.col.rondas': 'Rounds',
