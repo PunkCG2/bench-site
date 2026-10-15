@@ -1,0 +1,116 @@
+/* Header estático y footer. Solo variables de tokens.css.
+   El header es la capa más alta de la página: ningún otro componente
+   usa un z-index igual o mayor a --z-header. */
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  /* Fondo opaco: el contenido pasa por debajo al hacer scroll. Sin borde ni sombra. */
+  background: var(--bg);
+  transition: background-color var(--dur-theme);
+}
+
+.header__grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-areas: 'titulo selector acciones';
+  align-items: center;
+  gap: var(--sp-16);
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: var(--sp-16);
+}
+
+.header__titulo {
+  grid-area: titulo;
+  min-width: 0;
+}
+
+.header__titulo-nombre {
+  margin: 0;
+  font-size: var(--fs-20);
+  line-height: 1.2;
+}
+
+.header__titulo-sub {
+  margin: 0;
+  font-size: var(--fs-14);
+  color: var(--muted);
+}
+
+/* Selector de modelo: grupo de botones segmentado. */
+.header__selector {
+  grid-area: selector;
+  display: flex;
+  gap: var(--sp-8);
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.header__modelo {
+  padding: var(--sp-8) var(--sp-12);
+  font-family: var(--font-text);
+  font-size: var(--fs-14);
+  color: var(--text);
+  background: var(--surface);
+  border: 0; /* sin borde: el estilo por defecto del navegador se quita */
+  border-radius: var(--r-btn);
+  cursor: pointer;
+  transition:
+    background-color var(--dur-theme),
+    color var(--dur-theme);
+}
+
+.header__modelo[aria-pressed='true'] {
+  background: var(--text);
+  color: var(--bg);
+}
+
+/* Botones de idioma y tema, alineados a la derecha. */
+.header__acciones {
+  grid-area: acciones;
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--sp-8);
+}
+
+.header__idioma,
+.header__tema {
+  padding: var(--sp-8) var(--sp-12);
+  font-family: var(--font-text);
+  font-size: var(--fs-14);
+  color: var(--text);
+  background: var(--surface);
+  border: 0; /* sin borde: el estilo por defecto del navegador se quita */
+  border-radius: var(--r-btn);
+  cursor: pointer;
+  transition: background-color var(--dur-theme);
+}
+
+/* Móvil: dos filas. Arriba título y botones; abajo el selector, centrado. */
+@media (max-width: 899px) {
+  .header__grid {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      'titulo acciones'
+      'selector selector';
+    row-gap: var(--sp-12);
+  }
+
+  .header__selector {
+    justify-content: center;
+  }
+}
+
+/* Footer discreto: una línea centrada al final del contenido. */
+.footer {
+  margin-top: var(--sp-48);
+  text-align: center;
+}
+
+.footer__leyenda {
+  margin: 0;
+  font-size: var(--fs-14);
+  color: var(--muted);
+}

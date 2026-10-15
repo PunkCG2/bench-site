@@ -1,0 +1,14 @@
+﻿Tarea 009 completa.
+
+**Archivos tocados:** creados `src/components/header.js`, `src/components/footer.js`, `src/styles/header.css`, `src/i18n/sections/header.js`, `tests/header.test.js`; modificado `docs/tasks/009-header-footer.md` (estado ÔåÆ hecha).
+
+**Decisiones:**
+- Bot├│n de tema mapea estado `light`/`dark` a claves de diccionario `claro`/`oscuro`.
+- `border-radius: var(--r-btn)` queda en los botones (el dise├▒o lo exige: "Radio `--r-btn`"); el criterio "sin border" lo interpreto como sin l├¡nea de borde ni sombra en la barra del header.
+- El bot├│n de idioma muestra `EN`/`ES` fijos, como la tarea lo especifica expl├¡citamente (derivan del estado, no son texto libre).
+- `margin-top: var(--sp-48)` va en la l├¡nea del footer (el footer no tiene otro contenido).
+
+**Validaci├│n:** `npm test` ÔåÆ 79 tests pasan (9 archivos). `npm run build` ÔåÆ OK. `header.css`: sin hex, sin `box-shadow`, sin `border` (solo `border-radius`); `z-index: var(--z-header)` es el ├║nico `z-index` de todo el CSS del proyecto.
+
+**Dudas:** ninguna; la secci├│n "Notas de revisi├│n" la dejo para quien apruebe.
+
