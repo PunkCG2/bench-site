@@ -15,6 +15,7 @@ Uso:  python scripts/lm-proxy.py [--port 1235] [--target http://localhost:1234]
 import argparse
 import http.server
 import json
+import os
 import sys
 import urllib.error
 import urllib.request
@@ -54,6 +55,22 @@ def normalize(payload):
     return payload
 
 
+def sin_razonamiento(payload):
+    """Con LM_NO_THINK=1 agrega el interruptor suave /no_think de Qwen3 al prompt de sistema."""
+    if os.environ.get("LM_NO_THINK") != "1":
+        return payload
+    system = payload.get("system")
+    if isinstance(system, list):
+        payload["system"] = system + [{"type": "text", "text": "/no_think"}]
+    elif isinstance(system, str) and system:
+        payload["system"] = system + "
+
+/no_think"
+    else:
+        payload["system"] = "/no_think"
+    return payload
+
+
 def make_handler(target):
     class Handler(http.server.BaseHTTPRequestHandler):
         protocol_version = "HTTP/1.1"
@@ -78,7 +95,7 @@ def make_handler(target):
         def do_POST(self):
             body = self.rfile.read(int(self.headers.get("content-length", 0)))
             try:
-                body = json.dumps(normalize(json.loads(body)), ensure_ascii=False).encode("utf-8")
+                body = json.dumps(sin_razonamiento(normalize(json.loads(body))), ensure_ascii=False).encode("utf-8")
             except Exception:
                 pass  # si no es JSON, se reenvia tal cual
             self._forward(body)

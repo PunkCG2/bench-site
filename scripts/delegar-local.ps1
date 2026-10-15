@@ -12,7 +12,8 @@ param(
     [Parameter(Mandatory)][string]$TaskFile,   # tarea o lista de correcciones (.fix-K.md)
     [Parameter(Mandatory)][string]$Branch,     # rama de la tarea
     [string]$Model = "qwen3.8-27b",            # identificador EXACTO que muestra LM Studio
-    [int]$MaxTurns = 40
+    [int]$MaxTurns = 40,
+    [switch]$SinRazonamiento                   # agrega /no_think al prompt (prueba: evita bucles de razonamiento)
 )
 $ErrorActionPreference = "Stop"
 $OutputEncoding = [System.Text.UTF8Encoding]::new()   # para que las tildes de la tarea lleguen bien al modelo
@@ -28,6 +29,7 @@ if ($LASTEXITCODE -eq 0) { git switch $Branch } else { git switch -c $Branch mai
 # 3) Apuntar SOLO este proceso al servidor local, a traves de scripts/lm-proxy.py.
 # Claude Code mete un mensaje con role "system" dentro de `messages`; la plantilla del modelo lo rechaza
 # ("System message must be at the beginning"). El proxy lo mueve al campo `system` y reenvia lo demas.
+if ($SinRazonamiento) { $env:LM_NO_THINK = "1" } else { Remove-Item Env:LM_NO_THINK -ErrorAction SilentlyContinue }
 $proxyPort = 1235
 $proxy = Start-Process -FilePath "python" -ArgumentList "scripts/lm-proxy.py", "--port", $proxyPort, "--target", "http://localhost:1234" `
     -WindowStyle Hidden -PassThru

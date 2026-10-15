@@ -1,9 +1,9 @@
 ---
 id: 016
-estado: en-curso
+estado: hecha
 ejecuta: local
 depende: [005, 009]
-rondas: 0
+rondas: 2
 ---
 # Construir las secciones de hallazgos y metodología
 
@@ -60,4 +60,4 @@ Aplica docs/spec.md §Secciones 6 y 7, §Hallazgos y §Decisiones 6 y 8.
 - [ ] Las claves de `sections/hallazgos.js` tienen paridad es-en
 
 ## Notas de revisión
-(las escribe Claude al aprobar)
+Tarea repartida desde el inicio en fix-1 (i18n, css, componente) y fix-2 (tests) para evitar el desbordamiento de tokens del worker. 97 tests y build verificados; sin cifras literales.
