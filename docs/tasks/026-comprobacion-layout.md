@@ -1,6 +1,6 @@
 ---
 id: 026
-estado: en-curso
+estado: hecha
 ejecuta: local
 depende: [025]
 rondas: 0
@@ -39,4 +39,4 @@ Esta tarea autoriza UNA dependencia nueva: `playwright-core` en `devDependencies
 - [ ] `package.json` solo añade `playwright-core` en `devDependencies` y el script `check:layout`
 
 ## Notas de revisión
-(las escribe Claude al aprobar)
+Worker local cumplio a la primera. Claude reviso el script, lo ejecuto con el sitio en marcha (14 OK, 0 fallos, Edge y Firefox) y 145 tests y build verificados. El worker regenero benchmarks.json (solo cambio de saltos de linea; fuera de alcance pero necesario para que pasara npm test en su copia).
