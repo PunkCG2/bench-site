@@ -1,0 +1,101 @@
+/* Gráficos de barras por modo. Solo variables de tokens.css; ninguna capa propia sobre el header. */
+
+.grafico {
+  padding: var(--sp-32) 0;
+}
+
+.grafico__rejilla {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sp-24);
+}
+
+.grafico__item {
+  background: var(--surface);
+  border-radius: var(--r-card);
+  padding: var(--sp-16);
+}
+
+.grafico__titulo {
+  margin: 0 0 var(--sp-12);
+  font-size: var(--fs-16);
+}
+
+.barra {
+  --modo-color: var(--muted);
+  display: grid;
+  grid-template-columns: minmax(7rem, 9rem) 1fr auto;
+  align-items: center;
+  gap: var(--sp-12);
+  margin-bottom: var(--sp-8);
+}
+
+.barra[data-modo='local'] {
+  --modo-color: var(--c-local);
+}
+
+.barra[data-modo='pareja'] {
+  --modo-color: var(--c-pareja);
+}
+
+.barra[data-modo='claude'] {
+  --modo-color: var(--c-claude);
+}
+
+.barra__etiqueta {
+  font-size: var(--fs-14);
+  color: var(--modo-color);
+}
+
+/* La pista marca el eje completo (de 0 al máximo); el relleno es la barra. */
+.barra__pista {
+  display: block;
+  height: var(--sp-12);
+  border-radius: var(--r-btn);
+  background: var(--bg);
+}
+
+.barra__relleno {
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: var(--r-btn);
+  background: var(--modo-color);
+  transition: width var(--dur-bar) var(--ease-out);
+}
+
+/* Escalonado entre barras con el token de animación. */
+.barra:nth-of-type(2) .barra__relleno {
+  transition-delay: var(--stagger-bar);
+}
+
+.barra:nth-of-type(3) .barra__relleno {
+  transition-delay: calc(var(--stagger-bar) * 2);
+}
+
+.barra__valor {
+  font-family: var(--font-mono);
+  font-size: var(--fs-14);
+  text-align: right;
+}
+
+@media (max-width: 899px) {
+  .grafico__rejilla {
+    grid-template-columns: 1fr;
+  }
+
+  .barra {
+    grid-template-columns: minmax(6rem, 8rem) 1fr;
+  }
+
+  .barra__valor {
+    grid-column: 1 / -1;
+    text-align: left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .barra__relleno {
+    transition: none;
+  }
+}

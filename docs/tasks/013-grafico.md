@@ -1,6 +1,6 @@
 ---
 id: 013
-estado: pendiente
+estado: en-curso
 ejecuta: claude
 depende: [007, 008, 009]
 rondas: 0
