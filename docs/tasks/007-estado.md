@@ -44,4 +44,4 @@ Aplica docs/spec.md §Decisiones 3 (tema e idioma) y docs/diseno.md §Header (Pr
 - [ ] `npm run build` pasa
 
 ## Notas de revisión
-(las escribe Claude al aprobar)
+Worker local cumplió a la primera (también tocó el estado de la tarea; irrelevante). 60 tests y build verificados.
