@@ -16,7 +16,7 @@ Stack: Vite + JavaScript vanilla, CSS sin frameworks, Vitest para tests.
 - Colores, tipografias y espaciados solo con las variables de src/styles/tokens.css.
 - Toda animacion respeta `prefers-reduced-motion`.
 - Sin dependencias nuevas salvo que la tarea lo indique.
-- Textos visibles del sitio en espanol.
+- Textos visibles del sitio en dos diccionarios (es por defecto, en). Nunca texto fijo en el codigo.
 
 ## Validacion (antes de dar algo por terminado)
 - `npm test`
