@@ -1,6 +1,6 @@
 ---
 id: 002
-estado: en-curso
+estado: hecha
 ejecuta: local
 depende: [001]
 rondas: 0
@@ -60,4 +60,4 @@ aparecen tanto en el bloque oscuro como en el claro, y que los tokens `--sp-*`, 
 - [ ] `base.css` no contiene ningún valor hexadecimal ni `rgb(`
 
 ## Notas de revisión
-(las escribe Claude al aprobar)
+Worker local cumplió a la primera. Tokens, tests, build verificados; sin hex en base.css.
