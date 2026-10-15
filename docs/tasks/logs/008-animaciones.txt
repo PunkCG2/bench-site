@@ -1,0 +1,10 @@
+﻿Solo los 3 archivos en alcance creados; nada fuera de alcance tocado. Resumen:
+
+- **Archivos**: `src/lib/animate.js`, `src/styles/animate.css`, `tests/animate.test.js` (los 3, creados).
+- **animateNumber**: `WeakMap` por `el` guarda valor mostrado + id del rAF; rellamar cancela la previa y parte del valor mostrado (no salta a 0).
+- **onEnterViewport**: guard `hecho` + `disconnect()` ÔåÆ callback una sola vez; sin `IntersectionObserver` ejecuta al instante.
+- **revealStagger**: doble `requestAnimationFrame` para que dispare el transition CSS; reduced-motion agrega `revelar--visible` sin delay.
+- **animate.css**: solo `var(--dur-reveal)`/`var(--ease-out)` salvo `12px`, `0`, `1` del desplazamiento/opacidad. Sin bucles.
+- **Validaci├│n**: `npm test` ÔåÆ 72/72 ok. `npm run build` ÔåÆ ok.
+- **Duda**: no toqu├® `docs/tasks/008-animaciones.md` (fuera de alcance); su `estado` sigue `en-curso`. ┬┐Lo paso a `hecha`?
+

@@ -1,0 +1,24 @@
+/* Aparición escalonada: fade + 12 px hacia arriba.
+   Duración y curva solo vía var(--...) de tokens.css. Sin animaciones en bucle. */
+
+.revelar {
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity var(--dur-reveal) var(--ease-out),
+    transform var(--dur-reveal) var(--ease-out);
+}
+
+.revelar--visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .revelar,
+  .revelar--visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
