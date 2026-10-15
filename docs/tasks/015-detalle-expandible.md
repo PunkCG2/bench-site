@@ -1,9 +1,9 @@
 ---
 id: 015
-estado: en-curso
+estado: hecha
 ejecuta: local
 depende: [014]
-rondas: 0
+rondas: 2
 ---
 # Filas expandibles con revisiones del revisor y vista móvil
 
@@ -45,4 +45,4 @@ las columnas (tarea 011); esta tarea no lo muestra.
 - [ ] El panel expandido no declara `z-index`
 
 ## Notas de revisión
-(las escribe Claude al aprobar)
+Intento sin dividir (con /no_think) agotó tokens y dejó un archivo suelto. Ronda 1: i18n, componente y css; ronda 2: tests. Claude corrigió el aria-label de los botones (incluye el id). 102 tests y build verificados.
