@@ -6,6 +6,7 @@ import { t, getLang, onLangChange } from '../i18n/index.js'
 import { getState, subscribe } from '../state.js'
 import { diferencia, diferenciaNota } from '../lib/metrics.js'
 import { animateNumber, revealStagger } from '../lib/animate.js'
+import { crearCarrusel } from './carrusel.js'
 import '../styles/columnas.css'
 
 const MODOS = ['local', 'pareja', 'claude']
@@ -52,7 +53,12 @@ export function renderColumnas(contenedor, datos) {
     columnas[modo] = { col, titulo, tarjetas }
   }
 
-  section.append(h2, rejilla, nota)
+  // Por debajo de 900 px la rejilla es un carrusel; los puntos se ocultan en escritorio.
+  const carrusel = crearCarrusel(rejilla, MODOS.map((m) => columnas[m].col), () =>
+    MODOS.map((m) => t(`modo.${m}`))
+  )
+
+  section.append(h2, rejilla, carrusel.puntos, nota)
   contenedor.appendChild(section)
 
   let primera = true
@@ -73,6 +79,7 @@ export function renderColumnas(contenedor, datos) {
     const { local, pareja, claude } = modelo.resumen
 
     h2.textContent = t('columnas.titulo')
+    carrusel.actualizarEtiquetas()
     nota.textContent = t('columnas.nota_costo')
 
     const valores = {
@@ -138,6 +145,7 @@ export function renderColumnas(contenedor, datos) {
     cancelar() {
       cancelarIdioma()
       cancelarEstado()
+      carrusel.destruir()
     },
   }
 }

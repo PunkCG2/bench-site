@@ -48,8 +48,62 @@
   color: var(--muted);
 }
 
+/* Puntos del carrusel: solo en pantallas estrechas. */
+.carrusel__puntos {
+  display: none;
+}
+
 @media (max-width: 899px) {
+  /* Carrusel: una columna visible, ajuste automático al soltar. Sin z-index. */
   .columnas__rejilla {
-    grid-template-columns: 1fr;
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+    cursor: grab;
+  }
+
+  .columnas__rejilla::-webkit-scrollbar {
+    display: none;
+  }
+
+  .columnas__rejilla .columna {
+    flex: 0 0 100%;
+    scroll-snap-align: center;
+  }
+
+  /* Durante el arrastre con mouse el ajuste se suspende para seguir al puntero. */
+  .columnas__rejilla.carrusel--arrastrando {
+    scroll-snap-type: none;
+    cursor: grabbing;
+    user-select: none;
+  }
+
+  .carrusel__puntos {
+    display: flex;
+    justify-content: center;
+    gap: var(--sp-12);
+    margin-top: var(--sp-16);
+  }
+
+  .carrusel__punto {
+    width: var(--sp-12);
+    height: var(--sp-12);
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--muted);
+    cursor: pointer;
+  }
+
+  .carrusel__punto[aria-current='true'] {
+    background: var(--text);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .columnas__rejilla {
+    scroll-behavior: auto;
   }
 }
