@@ -8,9 +8,9 @@ import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parseReport } from './parse-report.js'
 
-// Si dos modelos comparten etiqueta (por ejemplo dos de la familia Qwen),
-// los que chocan pasan a usar su nombre completo: el selector del header
-// las muestra y no pueden repetirse.
+// La etiqueta del selector es el nombre del modelo. Si el mismo modelo aparece
+// en dos reportes (por ejemplo con otra cuantización), las etiquetas que chocan
+// llevan la cuantización entre paréntesis para que no se repitan.
 function resolverEtiquetas(modelos) {
   const porEtiqueta = new Map()
   for (const m of modelos) {
@@ -20,7 +20,7 @@ function resolverEtiquetas(modelos) {
   }
   for (const lista of porEtiqueta.values()) {
     if (lista.length > 1) {
-      for (const m of lista) m.etiqueta = m.nombre
+      for (const m of lista) m.etiqueta = `${m.nombre} (${m.cuantizacion})`
     }
   }
 }

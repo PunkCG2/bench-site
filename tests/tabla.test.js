@@ -26,14 +26,14 @@ function filaDe(id) {
 describe('tabla', () => {
   it('Gemma: 13 filas de tarea y 7 filas de grupo', () => {
     handle = renderTabla(contenedor, datos)
-    setModelo(datos.modelos.find((m) => m.id === 'gemma-4-26b-a4b-qat').id)
+    setModelo(datos.modelos.find((m) => m.id === 'google/gemma-4-26b-a4b-qat@Q4_0').id)
     expect(contenedor.querySelectorAll('tbody tr:not(.tabla__grupo):not(.tabla__detalle)').length).toBe(13)
     expect(contenedor.querySelectorAll('.tabla__grupo').length).toBe(7)
   })
 
   it('el primer grupo usa el ambito de la primera tarea y cambia con el idioma', () => {
     handle = renderTabla(contenedor, datos)
-    const modelo = datos.modelos.find((m) => m.id === 'gemma-4-26b-a4b-qat')
+    const modelo = datos.modelos.find((m) => m.id === 'google/gemma-4-26b-a4b-qat@Q4_0')
     const grupo = contenedor.querySelector('.tabla__grupo th')
     expect(grupo.textContent).toBe(t('tabla.ambito.' + modelo.tareas[0].ambito))
     setIdioma('en')
@@ -42,7 +42,7 @@ describe('tabla', () => {
 
   it('la fila de NET-501 (Qwen) muestra la nota local con nota--baja', () => {
     handle = renderTabla(contenedor, datos)
-    const qwen = datos.modelos.find((m) => m.id === 'qwen3.8-27b')
+    const qwen = datos.modelos.find((m) => m.id === 'qwen3.8-27b@IQ3_XXS')
     setModelo(qwen.id)
     const tarea = qwen.tareas.find((ta) => ta.id === 'NET-501')
     const celda = filaDe('NET-501').children[1]
@@ -52,7 +52,7 @@ describe('tabla', () => {
 
   it('FB-601 (Gemma) tiene .tabla__fallo y T-101 no', () => {
     handle = renderTabla(contenedor, datos)
-    setModelo(datos.modelos.find((m) => m.id === 'gemma-4-26b-a4b-qat').id)
+    setModelo(datos.modelos.find((m) => m.id === 'google/gemma-4-26b-a4b-qat@Q4_0').id)
     const fallo = filaDe('FB-601').querySelector('.tabla__fallo')
     expect(fallo.getAttribute('aria-label')).toBe(t('tabla.fallo'))
     expect(filaDe('T-101').querySelector('.tabla__fallo')).toBeNull()

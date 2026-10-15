@@ -28,13 +28,6 @@ function parseCosto(s) {
   return parseFloat(s.replace('$', ''))
 }
 
-// Primera palabra alfabética de `nombre`, con inicial mayúscula.
-function etiquetaDe(nombre) {
-  const m = nombre.match(/[a-zA-Z]+/)
-  const palabra = m ? m[0] : nombre
-  return palabra.charAt(0).toUpperCase() + palabra.slice(1)
-}
-
 // Una fila de RESUMEN: [etiqueta]  nota  tiempo  tokens  costo
 // Se lee de derecha a izquierda porque cada campo tiene formato propio.
 function parseFilaResumen(l) {
@@ -72,9 +65,14 @@ export function parseReport(texto) {
   // Modelo local:  google/gemma-4-26b-a4b-qat (Q4_0)
   const mModelo = lineaModelo.match(/Modelo local:\s*(\S+)\s*\((\S+)\)/)
   const cuantizacion = mModelo[2]
-  const id = mModelo[1].split('/').pop()
-  const nombre = id
-  const etiqueta = etiquetaDe(nombre)
+  // Nombre completo tal como está en el reporte: `google/gemma-4-26b-a4b-qat`.
+  const completo = mModelo[1]
+  // El nombre y la etiqueta del selector son el nombre sin la organización.
+  const nombre = completo.split('/').pop()
+  // El id incluye organización y cuantización: es único aunque el mismo modelo
+  // aparezca en otro reporte con otra cuantización.
+  const id = `${completo}@${cuantizacion}`
+  const etiqueta = nombre
 
   // Revisor:       Claude haiku (...)
   const mRevisor = lineaRevisor.match(/Revisor:\s*Claude\s+(\S+)/)

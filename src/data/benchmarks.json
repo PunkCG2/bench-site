@@ -2,9 +2,9 @@
   "version": 1,
   "modelos": [
     {
-      "id": "gemma-4-26b-a4b-qat",
+      "id": "google/gemma-4-26b-a4b-qat@Q4_0",
       "nombre": "gemma-4-26b-a4b-qat",
-      "etiqueta": "Gemma",
+      "etiqueta": "gemma-4-26b-a4b-qat",
       "cuantizacion": "Q4_0",
       "revisor": "haiku",
       "fecha": "2026-10-15 02:29",
@@ -309,9 +309,9 @@
       ]
     },
     {
-      "id": "qwen3.8-27b",
+      "id": "qwen3.8-27b@IQ3_XXS",
       "nombre": "qwen3.8-27b",
-      "etiqueta": "Qwen",
+      "etiqueta": "qwen3.8-27b",
       "cuantizacion": "IQ3_XXS",
       "revisor": "haiku",
       "fecha": "2026-10-15 00:14",

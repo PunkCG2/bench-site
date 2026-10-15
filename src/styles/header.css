@@ -46,9 +46,17 @@
   gap: var(--sp-8);
   max-width: 100%;
   overflow-x: auto;
+  scrollbar-width: thin;
+  /* Con muchos modelos el grupo hace scroll; `safe` evita que el primero quede fuera de alcance. */
+  justify-content: safe center;
+  /* Aire para la barra de scroll sin mover el resto del header. */
+  padding-bottom: var(--sp-4);
 }
 
 .header__modelo {
+  /* El nombre completo del modelo no se parte en varias líneas: el grupo hace scroll. */
+  flex: 0 0 auto;
+  white-space: nowrap;
   padding: var(--sp-8) var(--sp-12);
   font-family: var(--font-text);
   font-size: var(--fs-14);
@@ -99,7 +107,7 @@
   }
 
   .header__selector {
-    justify-content: center;
+    justify-content: safe center;
   }
 }
 

@@ -13,7 +13,7 @@ sentirse sobrio y técnico.
 - Tiene el `z-index` más alto de la página: ningún contenido (columnas, carrusel, gráficos,
   filas expandidas) se dibuja encima del header. Al hacer scroll, el contenido pasa por debajo.
   Los anclas internas usan `scroll-margin-top` igual a la altura del header.
-- Tres zonas: izquierda el título del sitio ("Local + Claude", igual en es y en), **centro** el selector de modelo (Gemma / Qwen)
+- Tres zonas: izquierda el título del sitio ("Local + Claude", igual en es y en), **centro** el selector de modelo (nombre completo del modelo, sin la organización)
   y **derecha** el botón de idioma (ES / EN) y el botón de tema (oscuro / claro), en ese orden.
 - El selector de modelo es un grupo de botones segmentado. El modelo activo se marca con
   `aria-pressed` y un estilo distinto del resto. Se prevén de 2 a 5 modelos: si no caben, el

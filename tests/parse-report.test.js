@@ -18,9 +18,9 @@ function tarea(modelo, id) {
 
 describe('parseReport — Gemma', () => {
   it('identidad del modelo', () => {
-    expect(gemma.id).toBe('gemma-4-26b-a4b-qat')
+    expect(gemma.id).toBe('google/gemma-4-26b-a4b-qat@Q4_0')
     expect(gemma.nombre).toBe('gemma-4-26b-a4b-qat')
-    expect(gemma.etiqueta).toBe('Gemma')
+    expect(gemma.etiqueta).toBe('gemma-4-26b-a4b-qat')
     expect(gemma.cuantizacion).toBe('Q4_0')
   })
 
@@ -65,9 +65,9 @@ describe('parseReport — Gemma', () => {
 
 describe('parseReport — Qwen', () => {
   it('identidad del modelo', () => {
-    expect(qwen.id).toBe('qwen3.8-27b')
+    expect(qwen.id).toBe('qwen3.8-27b@IQ3_XXS')
     expect(qwen.nombre).toBe('qwen3.8-27b')
-    expect(qwen.etiqueta).toBe('Qwen')
+    expect(qwen.etiqueta).toBe('qwen3.8-27b')
     expect(qwen.cuantizacion).toBe('IQ3_XXS')
   })
 

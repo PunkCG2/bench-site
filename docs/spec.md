@@ -37,7 +37,7 @@ Uso propio y portafolio público en GitHub (ver Decisiones).
 ## Secciones del sitio
 1. **Hero**: la conclusión en una frase, más 2 o 3 cifras grandes animadas
    (p. ej. "−73 % a −78 % de tokens de Claude").
-2. **Header estático**: título, selector de modelo (Gemma / Qwen), botón de idioma ES/EN
+2. **Header estático**: título, selector de modelo (nombre completo del modelo, sin la organización), botón de idioma ES/EN
    y botón de tema oscuro/claro. Al cambiar el modelo, se actualiza todo lo de abajo.
    No hay otro selector de modelo en la página.
 3. **Tres modos**: tres columnas (local solo, pareja, Claude solo), cada una con tarjetas de

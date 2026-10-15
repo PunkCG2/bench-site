@@ -57,23 +57,23 @@ describe('buildData', () => {
     expect(() => buildData(dir)).toThrow(/dos\.txt/)
   })
 
-  it('dos reportes con la misma etiqueta terminan con etiquetas distintas', () => {
+  it('la etiqueta del selector es el nombre completo del modelo', () => {
     const dir = dirTmp()
-    const otroNombre = qwenTexto
-      .split(/\r?\n/)
-      .map((l) =>
-        l.includes('Modelo local:')
-          ? '  Modelo local:  qwen3.8-32b (IQ3_XXS)'
-          : l
-      )
-      .join('\n')
+    const otroNombre = qwenTexto.replace('qwen3.8-27b (IQ3_XXS)', 'qwen3.8-32b (IQ3_XXS)')
     escribe(dir, 'a.txt', qwenTexto)
     escribe(dir, 'b.txt', otroNombre)
-    const data = buildData(dir)
-    const etiquetas = data.modelos.map((m) => m.etiqueta)
-    expect(new Set(etiquetas).size).toBe(2)
-    expect(etiquetas).toContain('qwen3.8-27b')
-    expect(etiquetas).toContain('qwen3.8-32b')
+    const etiquetas = buildData(dir).modelos.map((m) => m.etiqueta)
+    expect(etiquetas).toEqual(['qwen3.8-27b', 'qwen3.8-32b'])
+  })
+
+  it('el mismo modelo con otra cuantización tiene id distinto y etiquetas con la cuantización', () => {
+    const dir = dirTmp()
+    const otraCuant = qwenTexto.replace('(IQ3_XXS)', '(Q8_0)')
+    escribe(dir, 'a.txt', qwenTexto)
+    escribe(dir, 'b.txt', otraCuant)
+    const modelos = buildData(dir).modelos
+    expect(new Set(modelos.map((m) => m.id)).size).toBe(2)
+    expect(modelos.map((m) => m.etiqueta).sort()).toEqual(['qwen3.8-27b (IQ3_XXS)', 'qwen3.8-27b (Q8_0)'])
   })
 
   it('el JSON del repo coincide con buildData', () => {
