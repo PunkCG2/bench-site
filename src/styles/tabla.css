@@ -17,10 +17,11 @@
 
 /* Todos los ids dejan el mismo hueco a la izquierda; en las filas expandibles
    ese hueco lo ocupa el indicador de apertura. */
-.tabla__id {
+.tabla th.tabla__id {
   position: relative;
-  padding-left: var(--sp-24);
+  padding-left: var(--sp-32);
   font-family: var(--font-mono);
+  white-space: nowrap;
 }
 
 .tabla__num {
