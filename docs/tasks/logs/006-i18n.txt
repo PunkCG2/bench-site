@@ -1,0 +1,14 @@
+﻿All three files created, both validations pass. Final summary:
+
+**Archivos:** `src/i18n/index.js`, `src/i18n/sections/comun.js`, `tests/i18n.test.js` (creados).
+
+**Decisiones:**
+- Exporto `diccionarios` (fusionado) para que la prueba de paridad lea el diccionario completo; se arma con `import.meta.glob('./sections/*.js', { eager: true })`, as├¡ cubre autom├íticamente las secciones que se agreguen despu├®s.
+- `t` deja `{x}` intacto si `params.x` no existe; reemplaza con `String(valor)` (as├¡ `0` ÔåÆ `"0"`). Nunca lanza.
+- La prueba de par├ímetros a├▒ade una clave temporal a `diccionarios` (comun.js no tiene placeholders y no puedo crear secciones), con limpieza en `finally`.
+- `setLang` notifica a suscriptores en cada set v├ílido (aunque no cambie), seg├║n el texto de la tarea.
+
+**Validaci├│n:** `npm test` 45/45 (11 nuevos de i18n); `npm run build` pasa.
+
+**Dudas:** no pediste commit, as├¡ que no commiteo.
+
