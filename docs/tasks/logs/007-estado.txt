@@ -1,0 +1,8 @@
+﻿Done.
+
+- Archivos: `src/state.js` (nuevo), `tests/state.test.js` (nuevo, 14 tests), `docs/tasks/007-estado.md` (estado ÔåÆ hecha).
+- Decisiones: `initState` solo lee, no escribe en localStorage ÔÇö si escribiera el tema por defecto, dejar├¡a de seguir `prefers-color-scheme` en visitas siguientes (diseno.md ┬ºHeader). `setModelo` valida contra los ids de `initState`; los setters validan, guardan y notifican siempre (aunque el valor no cambie). `que` = `'modelo' | 'tema' | 'lang'`.
+- Tests usan el JSON real (`src/data/benchmarks.json`), sin cifras a mano; cubren defaults, restauraci├│n, id obsoleto ÔåÆ primero, inv├ílidos ignorados, `que` correcto, `data-theme`, `getItem`/`setItem` que lanzan, matchMedia light/dark, copia en `getState`, cancelaci├│n de `subscribe`.
+- Validaci├│n: `npm test` ÔåÆ 60 passed (7 files); `npm run build` ÔåÆ ok.
+- Dudas: ninguna.
+
