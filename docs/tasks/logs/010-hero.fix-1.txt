@@ -1,0 +1,8 @@
+﻿Done. All 3 files created, tests and build pass.
+
+- `src/components/hero.js` ÔÇö `renderHero`: section + frase + 3 cifras; `actualizar()` con prioridad de clave de frase, `animateNumber`/`onEnterViewport` (primera vez al entrar, luego directo), `subscribe` + `onLangChange`.
+- `src/styles/hero.css` ÔÇö solo `var(--...)`, rejilla 3ÔåÆ1 col bajo 900px, sin hex.
+- `tests/hero.test.js` ÔÇö 50 l├¡neas, `vi.mock` de animate, datos reales.
+
+Validaci├│n: `npm test` 81 passed, `npm run build` OK. Sin cifras de benchmark literales ni hex.
+
