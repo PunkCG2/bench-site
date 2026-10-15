@@ -36,6 +36,8 @@ if ($proxy.HasExited) { Write-Error "No se pudo iniciar scripts/lm-proxy.py (pue
 $env:ANTHROPIC_BASE_URL = "http://127.0.0.1:$proxyPort"
 $env:ANTHROPIC_AUTH_TOKEN = "lmstudio"
 $env:CLAUDE_CODE_ATTRIBUTION_HEADER = "0"
+# Tope de salida bajo: si el modelo local entra en un bucle, falla rapido (el contexto es de 32k).
+$env:CLAUDE_CODE_MAX_OUTPUT_TOKENS = "16000"
 
 $worker = @"
 Eres un worker de implementacion. Haz SOLO lo que pide la tarea, sin refactors extra.

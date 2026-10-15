@@ -1,9 +1,9 @@
 ---
 id: 011
-estado: en-curso
+estado: hecha
 ejecuta: local
 depende: [005, 008, 009]
-rondas: 0
+rondas: 2
 ---
 # Construir las tres columnas de modos
 
@@ -69,4 +69,4 @@ móvil es la tarea 012) y §Color, y docs/spec.md §Secciones 3 y §Decisiones 4
 - [ ] `columnas.js` no contiene cifras de benchmark literales
 
 ## Notas de revisión
-(las escribe Claude al aprobar)
+Worker agotó tokens de salida sin escribir nada. Ronda 1 (fix-1): i18n, css y componente. Ronda 2 (fix-2): tests. 88 tests y build verificados. Pendiente menor: al primer cambio de modelo, velocidad y tokens cuentan desde 0.
