@@ -41,6 +41,7 @@ $worker = @"
 Eres un worker de implementacion. Haz SOLO lo que pide la tarea, sin refactors extra.
 No cambies archivos fuera del alcance indicado. Si algo es ambiguo, elige lo mas simple y anotalo.
 Antes de terminar ejecuta los comandos de validacion de CLAUDE.md y corrige lo que falle.
+Crea cada archivo con una llamada Write separada, con codigo compacto y sin razonar de mas: una respuesta no puede ser larga. Pruebas de maximo 80 lineas.
 Al terminar responde en maximo 10 lineas: archivos tocados, decisiones tomadas, resultado de la validacion y dudas.
 "@
 
