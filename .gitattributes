@@ -1,0 +1,2 @@
+# El JSON generado debe tener siempre saltos de linea LF (lo compara una prueba byte a byte).
+src/data/benchmarks.json text eol=lf
