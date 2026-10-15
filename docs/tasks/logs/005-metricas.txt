@@ -1,0 +1,18 @@
+﻿Done.
+
+**Archivos tocados**
+- `src/lib/metrics.js` (crear) ÔÇö 6 funciones puras, sin importar JSON, solo `0`, `1`, `100`, `.toFixed(1)`.
+- `tests/metrics.test.js` (crear) ÔÇö casos con `benchmarks.json` real y con datos m├¡nimos.
+- `src/data/benchmarks.json` ÔÇö regenerado con `npm run data` (contenido id├®ntico a HEAD; solo CRLFÔåÆLF).
+
+**Decisiones**
+- Falla preexistente en `build-data.test.js`: la copia de trabajo ten├¡a CRLF (checkout autocrlf) y el test espera LF. Lo correg├¡ regenerando con el script oficial, sin editar cifras a mano.
+- `notaMasBaja` sin uniforme devuelve exactamente `{ nota, ids }` (sin clave `uniforme`), seg├║n la forma de la tarea.
+
+**Validaci├│n**
+- `npm test`: 34/34 pasa (reduccionTokens 73/78, factorTiempo 9/7, notaMasBaja Qwen 4.2 `['NET-501']`, cambioPorRevision mejora/empeora, empate, referencia 0, `diferencia(0, 88790)` ÔåÆ menos 100).
+- `npm run build`: pasa.
+
+**Dudas**
+- `git status` marca `M` en `benchmarks.json` por stat cache viejo; `git diff HEAD` est├í vac├¡o (contenido igual). `git update-index --refresh` pide aprobaci├│n y no lo ejecut├®; se resuelve solo con el pr├│ximo `git add`.
+
