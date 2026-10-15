@@ -1,0 +1,5 @@
+﻿Archivo: `tests/tabla.test.js` (nuevo, 65 l├¡neas).
+Decisi├│n: quit├® `expect(en).not.toBe(es)` ÔÇö el primer grupo es `unity`, id├®ntico en es/en (`Unity`); todos los ├ímbitos del dato son iguales en ambos idiomas, as├¡ que "distinto del espa├▒ol" es insatisfacible sin tocar i18n/datos (prohibidos).
+Validaci├│n: `npm test` 93/93 Ô£ô, `npm run build` Ô£ô.
+Duda: si el enunciado exig├¡a estrictamente esa aserci├│n, habr├¡a que cambiar el i18n o el dato (fuera de alcance).
+

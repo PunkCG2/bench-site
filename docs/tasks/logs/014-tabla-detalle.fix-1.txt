@@ -1,0 +1,5 @@
+﻿Archivos: `src/i18n/sections/tabla.js`, `src/styles/tabla.css`, `src/components/tabla.js` (creados; sin tests esta ronda).
+Decisiones: columnas de modo = las 3 de nota (clase `tabla__modo` + `data-modo`); tokens pareja/claude usan `tabla.col.tokens` sin clase; celdas num├®ricas con clase `tabla__num` (`--font-mono`); `nota--baja` si nota < `UMBRAL_NOTA_BAJA = 5`; `Ô£ù` con `role="img"` + `aria-label` si `fallos.length > 0`.
+Validaci├│n: `npm test` 88/88 OK; `npm run build` OK; `tabla.css` sin hex (verificado).
+Dudas: `tabla.col.id` = "Tarea"/"Task" (no especificado); `.otro` definido pero sin uso en datos actuales (fallback de clave).
+

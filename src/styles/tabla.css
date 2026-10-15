@@ -1,0 +1,51 @@
+/* Detalle por tarea: tabla agrupada por ámbito. Solo variables de tokens.css. */
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla th,
+.tabla td {
+  padding: var(--sp-8) var(--sp-12);
+  text-align: left;
+}
+
+.tabla__id {
+  font-family: var(--font-mono);
+}
+
+.tabla__num {
+  font-family: var(--font-mono);
+}
+
+.tabla__grupo th {
+  background: var(--surface);
+  color: var(--muted);
+  font-size: var(--fs-14);
+}
+
+.tabla__modo {
+  border-top: 3px solid var(--modo-color);
+}
+
+.tabla__modo[data-modo="local"] {
+  --modo-color: var(--c-local);
+}
+
+.tabla__modo[data-modo="pareja"] {
+  --modo-color: var(--c-pareja);
+}
+
+.tabla__modo[data-modo="claude"] {
+  --modo-color: var(--c-claude);
+}
+
+.nota--baja {
+  font-weight: 700;
+  border-bottom: 2px solid var(--c-claude);
+}
+
+.tabla__fallo {
+  color: var(--c-claude);
+}

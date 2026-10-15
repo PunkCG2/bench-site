@@ -1,0 +1,33 @@
+// Textos de la sección "Detalle por tarea". Claves planas con punto.
+export default {
+  es: {
+    'tabla.titulo': 'Detalle por tarea',
+    'tabla.col.id': 'Tarea',
+    'tabla.col.rondas': 'Rondas',
+    'tabla.col.tokens': 'Tokens de Claude',
+    'tabla.fallo': 'La tarea tuvo fallos',
+    'tabla.ambito.unity': 'Unity',
+    'tabla.ambito.web': 'Web',
+    'tabla.ambito.cpp': 'C++',
+    'tabla.ambito.unreal': 'Unreal',
+    'tabla.ambito.rust': 'Rust',
+    'tabla.ambito.dotnet': '.NET',
+    'tabla.ambito.firebase': 'Firebase',
+    'tabla.ambito.otro': 'Otro',
+  },
+  en: {
+    'tabla.titulo': 'Per-task detail',
+    'tabla.col.id': 'Task',
+    'tabla.col.rondas': 'Rounds',
+    'tabla.col.tokens': 'Claude tokens',
+    'tabla.fallo': 'The task had failures',
+    'tabla.ambito.unity': 'Unity',
+    'tabla.ambito.web': 'Web',
+    'tabla.ambito.cpp': 'C++',
+    'tabla.ambito.unreal': 'Unreal',
+    'tabla.ambito.rust': 'Rust',
+    'tabla.ambito.dotnet': '.NET',
+    'tabla.ambito.firebase': 'Firebase',
+    'tabla.ambito.otro': 'Other',
+  },
+}
