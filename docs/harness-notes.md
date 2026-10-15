@@ -67,3 +67,10 @@ Las lecciones de la construccion inicial (tareas 001 a 027) ya se pasaron a la p
 - Remedio usado: restar `getBoundingClientRect().left` del selector y sumar su `scrollLeft`.
 - Aplica a: stack:web
 - Estado: new
+
+## 2026-10-15 · Un archivo generado cambia de saltos de línea al hacer checkout
+- Que paso: una prueba que compara `benchmarks.json` byte a byte falló en `main` tras un merge.
+- Causa: `core.autocrlf` de Git en Windows convirtió el JSON generado (LF) a CRLF en el checkout.
+- Remedio usado: `.gitattributes` con `src/data/benchmarks.json text eol=lf`.
+- Aplica a: core (cualquier proyecto con un archivo generado que se compara o regenera)
+- Estado: new
