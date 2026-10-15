@@ -1,9 +1,9 @@
 ---
 id: 018
-estado: en-curso
+estado: hecha
 ejecuta: local
 depende: [017]
-rondas: 0
+rondas: 2
 ---
 # Auditar contraste, reglas del proyecto y movimiento reducido
 
@@ -42,4 +42,4 @@ Pruebas automáticas protegen las reglas de CLAUDE.md y el contraste de los dos 
 - [ ] `npm run build` pasa
 
 ## Notas de revisión
-(las escribe Claude al aprobar)
+Ronda 1: contraste (los 22 pares pasan en ambos temas). Ronda 2: reglas. Claude corrigio la regla 2 (mi instruccion era demasiado estricta: base.css ya apaga transiciones y animaciones globalmente). 144 tests y build verificados. Worker dejo restos (test de depuracion, tests/_tmp_check.mjs) que se borraron.
