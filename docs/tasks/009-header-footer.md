@@ -58,4 +58,4 @@ Aplica docs/diseno.md §Header y §Footer.
 - [ ] `header.css` usa `z-index: var(--z-header)` y ningún otro `.css` declara un `z-index` igual o mayor
 
 ## Notas de revisión
-(las escribe Claude al aprobar)
+Worker local casi a la primera; Claude añadió "border: 0" a los botones (el borde por defecto del navegador contradecía el diseño sin bordes). 79 tests y build verificados.
