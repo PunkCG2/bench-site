@@ -25,8 +25,15 @@ catch { Write-Error "LM Studio no responde en :1234. Abre LM Studio, carga el mo
 git show-ref --verify --quiet "refs/heads/$Branch"
 if ($LASTEXITCODE -eq 0) { git switch $Branch } else { git switch -c $Branch main }
 
-# 3) Apuntar SOLO este proceso a LM Studio
-$env:ANTHROPIC_BASE_URL = "http://localhost:1234"
+# 3) Apuntar SOLO este proceso al servidor local, a traves de scripts/lm-proxy.py.
+# Claude Code mete un mensaje con role "system" dentro de `messages`; la plantilla del modelo lo rechaza
+# ("System message must be at the beginning"). El proxy lo mueve al campo `system` y reenvia lo demas.
+$proxyPort = 1235
+$proxy = Start-Process -FilePath "python" -ArgumentList "scripts/lm-proxy.py", "--port", $proxyPort, "--target", "http://localhost:1234" `
+    -WindowStyle Hidden -PassThru
+Start-Sleep -Seconds 2
+if ($proxy.HasExited) { Write-Error "No se pudo iniciar scripts/lm-proxy.py (puerto $proxyPort ocupado o Python no disponible)."; exit 3 }
+$env:ANTHROPIC_BASE_URL = "http://127.0.0.1:$proxyPort"
 $env:ANTHROPIC_AUTH_TOKEN = "lmstudio"
 $env:CLAUDE_CODE_ATTRIBUTION_HEADER = "0"
 
@@ -42,16 +49,21 @@ $logDir = "docs/tasks/logs"
 New-Item -ItemType Directory -Force -Path $logDir | Out-Null
 $log = Join-Path $logDir ([System.IO.Path]::GetFileNameWithoutExtension($TaskFile) + ".txt")
 
-# Las instrucciones del worker van al inicio del prompt de usuario, no en --append-system-prompt:
-# la plantilla Jinja del modelo en LM Studio rechaza un segundo mensaje de sistema
-# ("System message must be at the beginning").
-$prompt = $worker + "`n`n" + (Get-Content $TaskFile -Raw -Encoding UTF8)
-$out = $prompt | claude -p `
-    --model $Model `
-    --max-turns $MaxTurns `
-    --permission-mode acceptEdits `
-    --allowedTools "Read,Edit,Write,Glob,Grep,Bash(npm *)" `
-    --strict-mcp-config | Out-String
+# --tools y --system-prompt reducen el prompt base de Claude Code (~36k tokens con todas las herramientas)
+# para que quepa en el contexto del modelo local (32k).
+try {
+    $out = Get-Content $TaskFile -Raw -Encoding UTF8 | claude -p `
+        --model $Model `
+        --max-turns $MaxTurns `
+        --permission-mode acceptEdits `
+        --tools "Read,Edit,Write,Glob,Grep,Bash" `
+        --allowedTools "Read,Edit,Write,Glob,Grep,Bash(npm *)" `
+        --strict-mcp-config `
+        --system-prompt $worker | Out-String
+}
+finally {
+    if ($proxy -and -not $proxy.HasExited) { Stop-Process -Id $proxy.Id -Force }
+}
 $out | Set-Content -Path $log -Encoding UTF8
 Write-Output $out
 
