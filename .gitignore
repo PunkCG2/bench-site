@@ -7,3 +7,6 @@ dist/
 
 # Python
 __pycache__/
+
+# Estado del harness por maquina
+.harness/state/

@@ -1,0 +1,23 @@
+# Configuracion del harness de bench-site (worker unificado: .harness/run_worker.py)
+
+[project]
+name = "bench-site"
+base_branch = "main"
+
+[workers.local]
+url = "http://localhost:1234"
+model = "qwen3.8-27b"
+attempts = 3
+max_output_tokens = 16000
+strip_thinking = false
+
+[scope]
+protected = ["data/raw/**"]
+
+[gates]
+fast = ["npm test"]
+full = ["npm test", "npm run build"]
+
+[timing]
+worker_minutes = 10
+gate_minutes = 5
