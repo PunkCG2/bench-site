@@ -22,7 +22,7 @@ En escritorio la tira de modelos se arrastra con el mouse y su scrollbar es disc
 ## Detalles
 - `header.js`: importar `habilitarArrastre` de `../lib/arrastre.js` y llamarlo una vez sobre `selector` con `{ claseActiva: 'header__selector--arrastrando' }` (despues de crear `selector`).
 - `header.css`, en `.header__selector`: `scrollbar-width: thin; scrollbar-color: transparent transparent;` y `transition: scrollbar-color var(--dur-theme);`. Regla `.header__selector:hover` con `scrollbar-color: var(--muted) transparent;`. Solo `var(--...)` de `tokens.css`, sin colores literales.
-- Regla `.header__selector--arrastrando { cursor: grabbing; user-select: none; }` y `.header__selector { cursor: grab; }` solo cuando hay scroll no es posible detectarlo en CSS: poner `cursor: grab` solo a `.header__selector--arrastrando` es suficiente; no agregar mas.
+- Regla nueva `.header__selector--arrastrando { cursor: grabbing; user-select: none; }`. Nada mas de cursor.
 - No tocar la logica de scroll del boton activo en `actualizar()`.
 
 ## Criterios de aceptacion
