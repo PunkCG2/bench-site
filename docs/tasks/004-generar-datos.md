@@ -1,6 +1,6 @@
 ---
 id: 004
-estado: en-curso
+estado: hecha
 ejecuta: local
 depende: [003]
 rondas: 0
@@ -46,4 +46,4 @@ rondas: 0
 - [ ] `npm run build` pasa
 
 ## Notas de revisión
-(las escribe Claude al aprobar)
+Worker llegó al límite de 40 turnos pero dejó todo correcto. Tests, data idempotente y build verificados.
