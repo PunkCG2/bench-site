@@ -9,7 +9,7 @@ rondas: 0
 # Estilos de la sección de veredicto
 
 ## Objetivo
-La hoja de estilos de la sección: tres tarjetas de semáforo a la izquierda y la conclusión a un lado, apiladas en móvil.
+La hoja de estilos de la sección: cuatro tarjetas de semáforo (2×2) a la izquierda y la conclusión a un lado, apiladas en móvil.
 
 ## Archivos en alcance
 - src/styles/veredicto.css (crear)
@@ -22,7 +22,7 @@ La hoja de estilos de la sección: tres tarjetas de semáforo a la izquierda y l
 Solo `var(--...)` de `tokens.css`. Nombres de clase (los usará el componente de la tarea 036):
 - `.veredicto` (sección): `max-width: var(--maxw); margin: 0 auto;` y el mismo ritmo vertical que `.hero` (mirar `hero.css`).
 - `.veredicto__grid`: dos columnas en escritorio (`grid-template-columns: 3fr 2fr; gap: var(--sp-24)`); una columna con `@media (max-width: 899px)`.
-- `.veredicto__semaforos`: tres tarjetas en fila (`display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-16)`), una por columna con `@media (max-width: 599px)`.
+- `.veredicto__semaforos`: cuatro tarjetas en 2×2 (`display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--sp-16)`), una por columna con `@media (max-width: 599px)`.
 - `.veredicto__tarjeta`: `background: var(--surface); border-radius: var(--r-card); padding: var(--sp-16)`.
 - `.veredicto__eje` (nombre, `--fs-14`, `var(--muted)`), `.veredicto__valor` (`var(--font-mono)`, `--fs-20`), `.veredicto__nivel` (texto del nivel, `--fs-14`) con un punto `::before` (ancho y alto `var(--sp-8)`, `border-radius: 50%`, `background: currentColor`).
 - Modificadores de color del nivel: `.veredicto__nivel--bien { color: var(--c-ok) }`, `--reservas { color: var(--c-aviso) }`, `--mal { color: var(--c-mal) }`.
