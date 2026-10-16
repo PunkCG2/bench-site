@@ -43,9 +43,18 @@ describe('hero', () => {
   it('la frase está en español y pasa a inglés con setIdioma', () => {
     handle = renderHero(contenedor, datos)
     const frase = contenedor.querySelector('.hero__frase')
-    expect(frase.textContent).toContain('La pareja')
+    expect(frase.textContent).toContain('La pareja de Claude con')
     setIdioma('en')
-    expect(frase.textContent).toContain('The pair')
+    expect(frase.textContent).toContain('The Claude +')
+  })
+
+  it('la frase contiene la etiqueta del modelo activo y cambia al cambiar de modelo', () => {
+    handle = renderHero(contenedor, datos)
+    const [m1, m2] = datos.modelos
+    const frase = contenedor.querySelector('.hero__frase')
+    expect(frase.textContent).toContain(m1.etiqueta)
+    setModelo(m2.id)
+    expect(frase.textContent).toContain(m2.etiqueta)
   })
 })
 

@@ -66,6 +66,7 @@ export function renderHero(contenedor, datos) {
     const cambio = cambioPorRevision(modelo)
 
     const params = {
+      modelo: modelo.etiqueta,
       reduccion: reduccion < 0 ? Math.abs(reduccion) : reduccion,
       factor: factor <= 0 ? Math.round(claude.tiempo_s / pareja.tiempo_s) : factor,
       de: cambio.de.toFixed(1),

@@ -1,0 +1,23 @@
+--- local attempt 1 (first), 93.4 s ---
+- `src/components/hero.js`: `params` ahora incluye `modelo: modelo.etiqueta`.
+- `src/i18n/sections/hero.js`: las 7 variantes `hero.frase*` en es y en usan `La pareja de Claude con {modelo} usa` / `The Claude + {modelo} pair uses`; resto intacto.
+- `tests/hero.test.js`: expectativas actualizadas + test nuevo: frase contiene `etiqueta` del modelo activo y cambia tras `setModelo`.
+- `npm test`: 194/194 pasan. `npm run build`: OK.
+- Sin dudas.
+Claude Code doesn't recognize the model "qwen3.8-27b", so it assumes a context window of 200k tokens. Update Claude Code, or see https://code.claude.com/docs/en/model-config#correct-the-window-for-a-gateway-or-custom-model-id to set the window.
+[claude-code:unrecognized_model] {"model":"qwen3.8-27b","query_source":"generate_session_title"}
+⚠ claude.ai connectors are disabled because ANTHROPIC_API_KEY or another auth source is set and takes precedence over your claude.ai login · Unset it to load your organization's connectors
+
+=== REVIEW BRIEF ===
+task:   042-hero-modelo-en-frase.md
+branch: task/042-hero-modelo-en-frase
+worker: local (qwen3.8-27b) after 1 attempt(s)
+scope:  OK
+gate:   `npm test` OK (3.3 s)
+attempts: local#1 first -> ok (93.4 s)
+files:
+src/components/hero.js    |  1 +
+ src/i18n/sections/hero.js | 28 ++++++++++++++--------------
+ tests/hero.test.js        | 13 +++++++++++--
+ 3 files changed, 26 insertions(+), 16 deletions(-)
+log:    docs/tasks/logs/042-hero-modelo-en-frase.txt
