@@ -7,16 +7,16 @@ import '../styles/tabla.css'
 
 const UMBRAL_NOTA_BAJA = 5
 
-// Columnas: id, nota local, nota pareja, rondas, tokens pareja, nota Claude,
-// tokens Claude. Las tres de modo llevan data-modo y clase tabla__modo.
+// Columnas: id, nota local, nota pareja, tokens pareja, nota Claude,
+// tokens Claude, rondas. Las tres de modo llevan data-modo y clase tabla__modo.
 const COLS = [
   { clave: 'tabla.col.id' },
   { modo: 'local' },
   { modo: 'pareja' },
-  { clave: 'tabla.col.rondas' },
   { clave: 'tabla.col.tokens.pareja' },
   { modo: 'claude' },
   { clave: 'tabla.col.tokens.claude' },
+  { clave: 'tabla.col.rondas' },
 ]
 
 export function renderTabla(contenedor, datos) {
@@ -184,10 +184,10 @@ export function renderTabla(contenedor, datos) {
 
         fila.appendChild(celdaNota(tarea.local, t('modo.local')))
         fila.appendChild(celdaNota(tarea.pareja, t('modo.pareja')))
-        fila.appendChild(celdaNum(tarea.rondas, t('tabla.col.rondas')))
         fila.appendChild(celdaNum(tarea.tokens_pareja, t('tabla.col.tokens.pareja')))
         fila.appendChild(celdaNota(tarea.claude, t('modo.claude')))
         fila.appendChild(celdaNum(tarea.tokens_claude, t('tabla.col.tokens.claude')))
+        fila.appendChild(celdaNum(tarea.rondas, t('tabla.col.rondas')))
 
         tbody.appendChild(fila)
 

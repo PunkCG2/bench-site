@@ -62,4 +62,15 @@ describe('tabla', () => {
     handle = renderTabla(contenedor, datos)
     expect(contenedor.querySelectorAll('thead th[scope="col"]').length).toBe(7)
   })
+
+  it('Rondas es la última columna (cabecera y celda de T-103)', () => {
+    handle = renderTabla(contenedor, datos)
+    const modelo = datos.modelos.find((m) => m.id === 'google/gemma-4-26b-a4b-qat@Q4_0')
+    setModelo(modelo.id)
+    const ths = contenedor.querySelectorAll('thead th[scope="col"]')
+    expect(ths[ths.length - 1].textContent).toBe(t('tabla.col.rondas'))
+    const tarea = modelo.tareas.find((ta) => ta.id === 'T-103')
+    const celdas = filaDe('T-103').children
+    expect(celdas[celdas.length - 1].textContent).toBe(new Intl.NumberFormat('es').format(tarea.rondas))
+  })
 })

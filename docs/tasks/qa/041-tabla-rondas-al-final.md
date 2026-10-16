@@ -1,6 +1,6 @@
 ---
 id: 041
-estado: pendiente
+estado: hecha
 ejecuta: local
 depende: [039]
 hito: M8
@@ -30,4 +30,4 @@ En la tabla de detalle por tarea la columna Rondas es la última (más a la dere
 - [ ] verificado en Edge a 1440 y 360 px: Rondas es la última columna y la tabla se ve bien (lo ejecuta Claude con Playwright y llama `browser_close`)
 
 ## Notas de revision
-(las escribe Claude al aprobar)
+Escalada a Haiku: el local dio no_output 3 veces (758 s y dos de 1,6 s por un comando solapado que ocupaba el servidor) y Haiku lo resolvio en 27 s. Verificado en Edge a 1440 y 360 px: Rondas es la ultima columna.
