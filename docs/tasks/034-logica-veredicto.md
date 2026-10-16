@@ -1,6 +1,6 @@
 ---
 id: 034
-estado: pendiente
+estado: hecha
 ejecuta: local
 depende: [033]
 hito: M7
@@ -37,4 +37,4 @@ Una función pura calcula, para un modelo, el nivel de calidad, ahorro de tokens
 - [ ] los tests cubren los límites de los cuatro ejes, el costo `null` y las tres conclusiones
 
 ## Notas de revision
-(las escribe Claude al aprobar)
+Worker local, 2 intentos (el primero agoto el tiempo de 441 s; el segundo 150 s). 25 tests, 188 en total.

@@ -1,0 +1,31 @@
+--- local attempt 1 (first), 440.6 s ---
+
+
+--- local attempt 2 (timeout), 150.1 s ---
+Files: `src/lib/veredicto.js` (creado), `tests/veredicto.test.js` (creado).
+
+Decisions:
+- `UMBRALES` con los 4 ejes (`calidad {bien:0.5, reservas:2}`, `ahorro {50,20}`, `costo {30,15}`, `tiempo {6,15}`); la función no tiene cifras sueltas.
+- `dif` redondeada a 1 decimal con `Number(...toFixed(1))`; costo `null`/0 → `{nivel:null, pct:null}`.
+- Conclusión: `no` si calidad o ahorro `mal`; `si` si calidad y ahorro `bien` y tiempo/costo no `mal` (`null` no cuenta); resto `depende`.
+- Tests: límites exactos de los 4 ejes, costo `null` (3 casos), las 3 conclusiones, y `benchmarks.json` real (conclusión válida para todos los modelos).
+
+Resultado: `npm test` 188/188 pasa; `npm run build` OK.
+
+Dudas: ninguna.
+Claude Code doesn't recognize the model "qwen3.8-27b", so it assumes a context window of 200k tokens. Update Claude Code, or see https://code.claude.com/docs/en/model-config#correct-the-window-for-a-gateway-or-custom-model-id to set the window.
+[claude-code:unrecognized_model] {"model":"qwen3.8-27b","query_source":"generate_session_title"}
+⚠ claude.ai connectors are disabled because ANTHROPIC_API_KEY or another auth source is set and takes precedence over your claude.ai login · Unset it to load your organization's connectors
+
+=== REVIEW BRIEF ===
+task:   034-logica-veredicto.md
+branch: task/034-logica-veredicto
+worker: local (qwen3.8-27b) after 2 attempt(s)
+scope:  OK
+gate:   `npm test` OK (3.4 s)
+attempts: local#1 first -> timeout (440.6 s); local#2 timeout -> ok (150.1 s)
+files:
+src/lib/veredicto.js    |  79 +++++++++++++++++++++
+ tests/veredicto.test.js | 179 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 258 insertions(+)
+log:    docs/tasks/logs/034-logica-veredicto.txt
