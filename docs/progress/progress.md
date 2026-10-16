@@ -1,7 +1,7 @@
 # Progreso — bench-site
 
 Ultima actualizacion: 2026-10-15
-Hito actual: ninguno pendiente (proyecto terminado, con 5 modelos)
+Hito actual: ninguno pendiente (M6 hecho; falta tu prueba a ojo)
 Tarea actual: ninguna
 
 Hitos reconstruidos a posteriori (el proyecto empezo antes de que existieran los hitos). Desde ahora `/planificar` los propone al planificar.
@@ -15,6 +15,7 @@ Hitos reconstruidos a posteriori (el proyecto empezo antes de que existieran los
 | M3 | Pagina ensamblada y auditoria | 017-018 | hecho (probado) | pagina completa en `npm run dev`; `npm test` incluye contraste y reglas |
 | M4 | Ajustes tras revision visual y responsive | 019-027 | hecho (probado en Opera GX, Edge y Firefox) | `npm run check:layout` con `npm run dev` activo: 14 OK |
 | M5 | Segunda tanda de benchmarks (3 modelos nuevos) | 028-029 | hecho (revisado en Edge y Firefox; falta tu prueba a ojo) | `npm run dev`: recorrer los 5 selectores en escritorio y móvil |
+| M6 | Selector: arrastre con mouse y scrollbar sutil; primer uso de run_worker.py | 030-031 | hecho (verificado en Edge) | `npm run dev` en escritorio con ventana estrecha: arrastrar la tira de modelos; la barra solo aparece al pasar el puntero |
 
 ## Decisiones
 - 2026-10-15: las animaciones no dependen de `prefers-reduced-motion`.
