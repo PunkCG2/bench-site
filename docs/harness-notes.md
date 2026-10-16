@@ -95,3 +95,17 @@ Las lecciones de la construccion inicial (tareas 001 a 027) ya se pasaron a la p
 - Remedio usado: n/a (confirma el diseno). Pendiente: probar `strip_thinking` y un fallo real para ver la escalera.
 - Aplica a: core
 - Estado: new
+
+## 2026-10-16 · Tarea de 3 archivos nuevos: el worker local fallo 3 veces y escalo a Haiku
+- Que paso: la tarea 036 (componente + textos + test, 3 archivos nuevos) dio `no_output` 3 veces en local (430, 299 y 542 s) y Haiku la resolvio en 59 s.
+- Causa: mismo patron de desborde de salida con varios archivos nuevos (L-003); el reintento endurecido no alcanzo. Los tiempos de espera calibrados (441-771 s) tambien fueron justos: 034 agoto el primer intento con 258 lineas.
+- Remedio usado: la escalera del script funciono sin intervencion. Para el futuro: partir en componente+textos y test aparte, o pasar `--start claude-haiku` si la tarea tiene 3 archivos nuevos.
+- Aplica a: core
+- Estado: new
+
+## 2026-10-16 · El worker anadio un cambio condicional sin comprobar la condicion
+- Que paso: en 038 el worker puso el titulo en `--fs-20` en movil aunque la tarea decia "solo si no cabe". Al medir, a 28 px cabia en 360 px pero se partia en dos lineas.
+- Causa: criterio "si no cabe" no verificable por el worker (no ve el navegador).
+- Remedio usado: Claude midio en Edge y dejo el override solo bajo 480 px.
+- Aplica a: core (las condiciones visuales las decide quien ve el navegador, no el worker)
+- Estado: new
