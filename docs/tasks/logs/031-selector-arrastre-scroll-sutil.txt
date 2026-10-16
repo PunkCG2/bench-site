@@ -1,0 +1,32 @@
+--- local attempt 1 (first), 95.8 s ---
+Done. Both files in scope modified; tests and build pass.
+
+**Files**
+- `src/components/header.js` — imported `habilitarArrastre`, called once on `selector` with `{ claseActiva: 'header__selector--arrastrando' }` right after creating it.
+- `src/styles/header.css` — `.header__selector` gets `scrollbar-color: transparent transparent;` + `transition: scrollbar-color var(--dur-theme);` (`scrollbar-width: thin` already there); new `.header__selector:hover` and `.header__selector--arrastrando` rules.
+
+**Decisions**
+- `transparent` is a literal color keyword but is mandated verbatim by the spec; no other literal colors or measures added (only `var(--muted)`, `var(--dur-theme)` from tokens).
+- Left `actualizar()` active-button scroll logic untouched; didn't touch `arrastre.js` or the task file (out of scope).
+
+**Result**
+- `npm test`: 151 passed. `npm run build`: OK.
+
+**Dudas**
+- None.
+Claude Code doesn't recognize the model "qwen3.8-27b", so it assumes a context window of 200k tokens. Update Claude Code, or see https://code.claude.com/docs/en/model-config#correct-the-window-for-a-gateway-or-custom-model-id to set the window.
+[claude-code:unrecognized_model] {"model":"qwen3.8-27b","query_source":"generate_session_title"}
+⚠ claude.ai connectors are disabled because ANTHROPIC_API_KEY or another auth source is set and takes precedence over your claude.ai login · Unset it to load your organization's connectors
+
+=== REVIEW BRIEF ===
+task:   031-selector-arrastre-scroll-sutil.md
+branch: task/031-selector-arrastre-scroll-sutil
+worker: local (qwen3.8-27b) after 1 attempt(s)
+scope:  OK
+gate:   `npm test` OK (3.3 s)
+attempts: local#1 first -> ok (95.8 s)
+files:
+src/components/header.js |  3 +++
+ src/styles/header.css    | 13 +++++++++++++
+ 2 files changed, 16 insertions(+)
+log:    docs/tasks/logs/031-selector-arrastre-scroll-sutil.txt

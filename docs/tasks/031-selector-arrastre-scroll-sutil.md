@@ -1,6 +1,6 @@
 ---
 id: 031
-estado: pendiente
+estado: hecha
 ejecuta: local
 depende: [030]
 hito: M6
@@ -31,4 +31,4 @@ En escritorio la tira de modelos se arrastra con el mouse y su scrollbar es disc
 - [ ] `header.css` no usa colores ni medidas literales nuevas
 
 ## Notas de revision
-(las escribe Claude al aprobar)
+Worker local, 1 intento (96 s). Verificado en Edge a 500 px: arrastre mueve scrollLeft sin cambiar el modelo; scrollbar transparente en reposo y visible al pasar el puntero.

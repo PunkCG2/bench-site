@@ -4,6 +4,7 @@
 
 import { t, getLang, onLangChange } from '../i18n/index.js'
 import { getState, setModelo, setTema, setIdioma, subscribe } from '../state.js'
+import { habilitarArrastre } from '../lib/arrastre.js'
 import '../styles/header.css'
 
 export function renderHeader(contenedor, datos) {
@@ -27,6 +28,8 @@ export function renderHeader(contenedor, datos) {
   const selector = document.createElement('div')
   selector.className = 'header__selector'
   selector.setAttribute('role', 'group')
+  // Arrastre con mouse: el táctil lo resuelve el scroll nativo.
+  habilitarArrastre(selector, { claseActiva: 'header__selector--arrastrando' })
   const botonesModelo = modelos.map((modelo) => {
     const btn = document.createElement('button')
     btn.type = 'button'
