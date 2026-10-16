@@ -49,7 +49,7 @@ DEFAULTS = {
     "project": {"base_branch": "main"},
     "workers": {
         "ladder": ["local", "claude-haiku", "claude-sonnet", "main-claude"],
-        "local": {"kind": "anthropic-compatible-server", "url": "http://localhost:1234", "model": "",
+        "local": {"kind": "anthropic-compatible-server", "url": "http://127.0.0.1:1234", "model": "",
                   "attempts": 3, "max_output_tokens": 16000, "strip_thinking": False, "strip_thinking_attempts": 2,
                   "max_turns": 40},
         "claude-haiku": {"kind": "claude-cli", "model": "haiku", "attempts": 2, "max_turns": 40},

@@ -130,3 +130,10 @@ Las lecciones de la construccion inicial (tareas 001 a 027) ya se pasaron a la p
 - Remedio usado: ninguno; se mantiene `strip_thinking_attempts = 2`. Pruebas solo con tareas faciles; falta probar tareas dificiles.
 - Aplica a: core
 - Estado: new
+
+## 2026-10-16 · localhost llegaba a otro programa y varios fallos al solaparse comandos
+- Que paso: (1) el worker recibio HTML en vez de la lista de modelos: un servidor de Vite escuchaba en `[::1]:1234` y `localhost` resolvia primero a IPv6, mientras Bionic escucha en `127.0.0.1`. (2) Forcé `--model` de Gemma sin comprobar que el autor habia cargado Qwen, y la carga fallo con HTTP 500 por falta de memoria. (3) Un comando que detuve a medias siguio ejecutandose y relanzo la tarea 040 mientras corria otra: la escalera se agoto y la 041 escalo a Haiku tras dos intentos locales de 1,6 s.
+- Causa: URL con `localhost`; suponer en vez de comprobar el modelo cargado; matar solo el proceso python de un comando encadenado en vez de todo el comando.
+- Remedio usado: URL `http://127.0.0.1:1234` en `harness.toml` y en la plantilla; error claro si el modelo no carga; no pasar `--model` sin mirar `--list-models`; al detener una ejecucion, detener tambien el comando padre y revisar `git status` antes de relanzar.
+- Aplica a: core
+- Estado: new
