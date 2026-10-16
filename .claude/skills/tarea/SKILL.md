@@ -36,6 +36,7 @@ pequeño o explícale el bloqueo al usuario.
 
 ## 5. Aprobar
 - `git switch main`, `git merge --squash task/NNN-nombre`, `git commit -m "NNN: <resumen>"`, `git branch -D task/NNN-nombre`.
+- Con el dev server abierto, toca los archivos que cambiaron para que Vite no sirva CSS/JS viejo: `git diff --name-only HEAD~1 HEAD | xargs touch` (si algun archivo fue borrado, ignora el error).
 - En la tarea: `estado: hecha`, `rondas: K` y 1–2 líneas en "Notas de revisión". Commit.
 - **Notas del harness:** si la tarea necesitó más de una ronda, o algo del propio harness falló (worker en bucle, criterio
   malo, permiso, pregunta que faltaba), añade una entrada a `docs/harness-notes.md`.
