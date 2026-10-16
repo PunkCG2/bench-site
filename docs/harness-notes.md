@@ -137,3 +137,10 @@ Las lecciones de la construccion inicial (tareas 001 a 027) ya se pasaron a la p
 - Remedio usado: URL `http://127.0.0.1:1234` en `harness.toml` y en la plantilla; error claro si el modelo no carga; no pasar `--model` sin mirar `--list-models`; al detener una ejecucion, detener tambien el comando padre y revisar `git status` antes de relanzar.
 - Aplica a: core
 - Estado: new
+
+## 2026-10-16 · Primera ronda real con el esquema nuevo (M8)
+- Que paso: las 3 tareas de codigo con el worker local (Qwen, intentos 1-2 sin razonamiento): 040 al primer intento (189 s), 042 al primer intento (93 s) y 041 escalo a Haiku, pero por culpa del solapamiento de comandos (ver nota anterior), no del esquema. La 043 (README) la hizo Claude.
+- Causa: n/a para 040 y 042; el esquema sin razonamiento funciona tambien en tareas reales de UI de 2-3 archivos.
+- Remedio usado: ninguno; las tareas no son comparables con las de antes porque cambiaron modelo y razonamiento a la vez.
+- Aplica a: core
+- Estado: new
