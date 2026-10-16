@@ -19,7 +19,7 @@
   gap: var(--sp-16);
   max-width: var(--maxw);
   margin: 0 auto;
-  padding: var(--sp-16);
+  padding: var(--sp-24) var(--sp-16);
 }
 
 .header__titulo {
@@ -29,13 +29,13 @@
 
 .header__titulo-nombre {
   margin: 0;
-  font-size: var(--fs-20);
+  font-size: var(--fs-28);
   line-height: 1.2;
 }
 
 .header__titulo-sub {
   margin: 0;
-  font-size: var(--fs-14);
+  font-size: var(--fs-16);
   color: var(--muted);
 }
 
@@ -151,9 +151,21 @@
   }
 }
 
+/* Móvil estrecho: a --fs-28 el título se parte en dos líneas junto a los botones. */
+@media (max-width: 479px) {
+  .header__titulo-nombre {
+    font-size: var(--fs-20);
+  }
+
+  .header__titulo-sub {
+    font-size: var(--fs-14);
+  }
+}
+
 /* Footer discreto: una línea centrada al final del contenido. */
 .footer {
-  margin-top: var(--sp-48);
+  margin-top: var(--sp-64);
+  padding-bottom: var(--sp-48);
   text-align: center;
 }
 
