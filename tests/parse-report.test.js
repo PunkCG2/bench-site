@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parseReport } from '../scripts/parse-report.js'
+import { diccionarios } from '../src/i18n/index.js'
 
 const rawDir = join(dirname(fileURLToPath(import.meta.url)), '..', 'data', 'raw')
 const gemma = parseReport(
@@ -95,5 +96,27 @@ describe('parseReport — Qwen', () => {
 describe('parseReport — errores', () => {
   it('un texto sin cabecera lanza un error', () => {
     expect(() => parseReport('esto no es un reporte')).toThrow()
+  })
+})
+
+describe('parseReport — ámbito desconocido', () => {
+  const texto = readFileSync(
+    join(rawDir, 'calificacion_pareja_qwen3.8-27b_haiku_20261015-0014.txt'),
+    'utf8'
+  ).replace(/^(\s*)T-101(\s)/m, '$1XYZ-901$2')
+
+  it('una tarea con prefijo nuevo cae en "otro" y las demás conservan su ámbito', () => {
+    const m = parseReport(texto)
+    expect(m.tareas.find((x) => x.id === 'XYZ-901').ambito).toBe('otro')
+    expect(m.tareas.find((x) => x.id === 'T-102').ambito).toBe('unity')
+  })
+
+  it('"otro" y todos los ámbitos conocidos tienen texto en es y en', () => {
+    const ambitos = ['unity', 'web', 'cpp', 'unreal', 'rust', 'dotnet', 'firebase', 'otro']
+    for (const lang of ['es', 'en']) {
+      for (const a of ambitos) {
+        expect(diccionarios[lang][`tabla.ambito.${a}`], `${lang} ${a}`).toBeTruthy()
+      }
+    }
   })
 })

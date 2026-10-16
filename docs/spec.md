@@ -30,8 +30,10 @@ Uso propio y portafolio público en GitHub (ver Decisiones).
 
 ## Por cada modelo local se tienen
 - Resumen de 3 modos: nota, tiempo por tarea, tokens de Claude por tarea, costo API equivalente.
-- Detalle de 13 tareas (Unity, web, C++, Unreal, Rust, .NET, Firebase): nota del modelo solo,
+- Detalle por tarea (Unity, web, C++, Unreal, Rust, .NET, Firebase): nota del modelo solo,
   nota en pareja, rondas, tokens de Claude, nota de Claude solo, tokens de Claude solo.
+  El número de tareas no es fijo: cada reporte trae las suyas (13 en los de benchmark v1, 11 en
+  los de v2) y el sitio muestra las que haya. Una tarea con prefijo desconocido se agrupa en "Otro".
 - Textos de cada revisión de Haiku y fallos marcados con ✗.
 
 ## Secciones del sitio
