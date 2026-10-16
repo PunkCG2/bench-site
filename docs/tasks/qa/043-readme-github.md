@@ -1,6 +1,6 @@
 ---
 id: 043
-estado: pendiente
+estado: hecha
 ejecuta: claude
 depende: [040, 041, 042]
 hito: M8
@@ -41,4 +41,4 @@ Reglas: sin tablas gigantes; sin colores/espaciados (no aplica); enlaces relativ
 - [ ] las capturas existen y pesan menos de 400 KB cada una (las toma Claude y llama `browser_close`)
 
 ## Notas de revision
-(las escribe Claude al aprobar)
+Hecha por Claude. README.md y README.en.md con 3 capturas (~100 KB c/u, tomadas en Edge) y tabla generada del JSON; LEEME.md movido a docs/harness-mapa.md. Enlaces relativos comprobados con un script (0 rotos).
