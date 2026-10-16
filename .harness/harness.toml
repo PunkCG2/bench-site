@@ -4,6 +4,14 @@
 name = "bench-site"
 base_branch = "main"
 
+[template]
+path = "E:\\IA\\harness-template"
+version = "cfa6e4d"   # commit de la plantilla con el que se alineo este proyecto (para /sync)
+stack = "web"
+
+[sync]
+skip = [".claude/skills"]   # las skills de este proyecto estan en espanol: /sync no debe sobrescribirlas
+
 [workers.local]
 url = "http://127.0.0.1:1235"   # 127.0.0.1, no localhost: localhost puede resolver a IPv6 y llegar a otro programa
 model = "qwen3.8-27b"           # preferido: el que se carga si no hay ninguno cargado

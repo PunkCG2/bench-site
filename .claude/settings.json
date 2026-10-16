@@ -11,6 +11,7 @@
       "Bash(git commit*)",
       "Bash(git merge*)",
       "Bash(git branch*)",
+      "Bash(python .harness/run_worker.py *)",
       "Bash(powershell -ExecutionPolicy Bypass -File scripts/delegar-local.ps1 *)"
     ],
     "deny": [
