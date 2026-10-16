@@ -1,6 +1,6 @@
 ---
 id: 036
-estado: pendiente
+estado: hecha
 ejecuta: local
 depende: [034, 035]
 hito: M7
@@ -36,4 +36,4 @@ Seguir la estructura de `src/components/hero.js` (`renderVeredicto(contenedor, d
 - [ ] el test cubre tarjetas, conclusión, cambio de modelo e idioma
 
 ## Notas de revision
-(las escribe Claude al aprobar)
+Escalada: local fallo 3 veces sin salida (430, 299 y 542 s), Haiku lo resolvio en 59 s. Revision: el test reinicia el idioma. 191 tests.
