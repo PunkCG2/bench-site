@@ -49,6 +49,12 @@ const paresColor = [
   ['--c-pareja', '--surface'],
   ['--c-claude', '--bg'],
   ['--c-claude', '--surface'],
+  ['--c-ok', '--bg'],
+  ['--c-ok', '--surface'],
+  ['--c-aviso', '--bg'],
+  ['--c-aviso', '--surface'],
+  ['--c-mal', '--bg'],
+  ['--c-mal', '--surface'],
 ];
 
 describe.each([['oscuro', oscuro], ['claro', claro]])('tema %s', (tema, t) => {

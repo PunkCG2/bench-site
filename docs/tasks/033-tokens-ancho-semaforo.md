@@ -1,6 +1,6 @@
 ---
 id: 033
-estado: pendiente
+estado: hecha
 ejecuta: local
 depende: [032]
 hito: M7
@@ -35,4 +35,4 @@ El contenido llega a 1280 px y existen tres tokens de color de estado (bien, res
 - [ ] `contraste.test.js` incluye los 6 pares nuevos
 
 ## Notas de revision
-(las escribe Claude al aprobar)
+Worker local, 1 intento (105 s). Diff revisado; contraste de los 6 pares nuevos pasa.

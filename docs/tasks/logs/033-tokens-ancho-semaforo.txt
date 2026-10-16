@@ -1,0 +1,25 @@
+--- local attempt 1 (first), 105.1 s ---
+Tarea 033 hecha.
+
+- `src/styles/tokens.css`: `--maxw: 1280px`; `--c-ok`/`--c-aviso`/`--c-mal` en los 3 bloques (oscuro, claro, `@media prefers-color-scheme: light`) con los valores exactos de la tarea.
+- `tests/contraste.test.js`: 6 pares nuevos en `paresColor` (mismo umbral 3 que `--c-local`...).
+- `docs/diseno.md`: "1100 px" → "1280 px"; línea del semáforo añadida al final de §Color.
+- `npm test`: 163/163 pasan. `npm run build`: OK.
+- No tocado: `data/raw/`, `benchmarks.json`, `hero.css`.
+Claude Code doesn't recognize the model "qwen3.8-27b", so it assumes a context window of 200k tokens. Update Claude Code, or see https://code.claude.com/docs/en/model-config#correct-the-window-for-a-gateway-or-custom-model-id to set the window.
+[claude-code:unrecognized_model] {"model":"qwen3.8-27b","query_source":"generate_session_title"}
+⚠ claude.ai connectors are disabled because ANTHROPIC_API_KEY or another auth source is set and takes precedence over your claude.ai login · Unset it to load your organization's connectors
+
+=== REVIEW BRIEF ===
+task:   033-tokens-ancho-semaforo.md
+branch: task/033-tokens-ancho-semaforo
+worker: local (qwen3.8-27b) after 1 attempt(s)
+scope:  OK
+gate:   `npm test` OK (3.8 s)
+attempts: local#1 first -> ok (105.1 s)
+files:
+docs/diseno.md          |  3 ++-
+ src/styles/tokens.css   | 11 ++++++++++-
+ tests/contraste.test.js |  6 ++++++
+ 3 files changed, 18 insertions(+), 2 deletions(-)
+log:    docs/tasks/logs/033-tokens-ancho-semaforo.txt

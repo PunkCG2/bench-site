@@ -85,6 +85,7 @@ Valores tentativos. Los tokens de modo se oscurecen en el tema claro para manten
 sobre fondo claro. Hay que revisar el contraste (WCAG AA) de texto y cifras en ambos temas.
 
 Un modo nunca se identifica solo por color: siempre va con su etiqueta.
+Colores de estado (semáforo): `--c-ok`, `--c-aviso`, `--c-mal`; nunca solos: siempre con texto.
 
 ## Tipografía
 - Títulos: Space Grotesk (Google Fonts), 600.
@@ -95,7 +96,7 @@ Un modo nunca se identifica solo por color: siempre va con su etiqueta.
 ## Espaciado y forma
 - Escala de 4 px: 4, 8, 12, 16, 24, 32, 48, 64.
 - Radio de borde: 10 px en tarjetas y 6 px en botones y chips.
-- Ancho máximo del contenido: 1100 px. En móvil, margen lateral de 16 px.
+- Ancho máximo del contenido: 1280 px. En móvil, margen lateral de 16 px.
 
 ## Animación
 - Contadores de 0 al valor final en 900 ms, ease-out, al entrar en pantalla.
