@@ -778,7 +778,14 @@ def main(argv=None):
         except ValueError as e:
             print(f"error: {e}", file=sys.stderr)
             return EXIT_CONFIG
-        print(f"model: {chosen['id']} ({ensure_loaded(base, chosen)})")
+        try:
+            how = ensure_loaded(base, chosen)
+        except (urllib.error.URLError, OSError) as e:
+            print(f"error: could not load {chosen['id']}: {e}\n"
+                  "The server may not have enough memory for it (unload the other model first), or use "
+                  "--model <id> to pick the one that is already loaded.", file=sys.stderr)
+            return EXIT_SERVER
+        print(f"model: {chosen['id']} ({how})")
         model = chosen["id"]
         sfile.parent.mkdir(parents=True, exist_ok=True)
         sfile.write_text(model, encoding="utf-8")
