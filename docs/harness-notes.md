@@ -74,3 +74,24 @@ Las lecciones de la construccion inicial (tareas 001 a 027) ya se pasaron a la p
 - Remedio usado: `.gitattributes` con `src/data/benchmarks.json text eol=lf`.
 - Aplica a: core (cualquier proyecto con un archivo generado que se compara o regenera)
 - Estado: new
+
+## 2026-10-16 · Playwright deja los navegadores abiertos
+- Que paso: tras las pruebas visuales el autor tenia que cerrar a mano Edge/Firefox.
+- Causa: `browser_close` no se llamaba al terminar y `scripts/check-layout.mjs` solo cerraba en el camino sin errores.
+- Remedio usado: regla en CLAUDE.md (llamar `browser_close` siempre) y `try/finally` en check-layout.
+- Aplica a: stack:web (y cualquier stack con pruebas en navegador)
+- Estado: new
+
+## 2026-10-16 · El proxy del worker imprimia tracebacks al cerrar el cliente
+- Que paso: `run_worker.py` mostraba `ConnectionResetError` largos aunque la tarea salia bien.
+- Causa: `ThreadingHTTPServer.handle_error` imprime las conexiones que Claude Code cierra a mitad de peticion.
+- Remedio usado: servidor propio que ignora `ConnectionError`/`BrokenPipeError`.
+- Aplica a: core
+- Estado: new
+
+## 2026-10-16 · Primer uso real de run_worker.py (tareas 030 y 031)
+- Que paso: ambas tareas (2 archivos, ~15 lineas de detalle) pasaron al primer intento local: 244 s y 96 s, alcance OK y `npm test` OK.
+- Causa: tareas partidas segun la regla de <=3 archivos; el control de alcance y las comprobaciones corren dentro del script.
+- Remedio usado: n/a (confirma el diseno). Pendiente: probar `strip_thinking` y un fallo real para ver la escalera.
+- Aplica a: core
+- Estado: new

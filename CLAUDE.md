@@ -21,6 +21,8 @@ Stack: Vite + JavaScript vanilla, CSS sin frameworks, Vitest para tests.
 - Solo los archivos de "Archivos en alcance" de la tarea; nada de archivos temporales o de depuracion.
 - Si el propio harness falla (worker en bucle, criterio malo, permiso), anota una entrada en docs/harness-notes.md.
 
+- Playwright: al terminar cualquier prueba en el navegador, llama a `browser_close` (el navegador no debe quedar abierto).
+
 ## Validacion (antes de dar algo por terminado)
 - `npm test`
 - `npm run build`

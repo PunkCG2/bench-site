@@ -353,6 +353,14 @@ def normalize(payload, strip_thinking=False):
     return payload
 
 
+class _QuietServer(http.server.ThreadingHTTPServer):
+    """Clients that drop the connection (Claude Code closing a request) are normal, not errors."""
+
+    def handle_error(self, request, client_address):
+        if not isinstance(sys.exc_info()[1], (ConnectionError, BrokenPipeError)):
+            super().handle_error(request, client_address)
+
+
 class Proxy:
     def __init__(self, target, strip_thinking=False):
         self.target = target.rstrip("/")
@@ -397,7 +405,7 @@ class Proxy:
             def log_message(self, *args):
                 pass
 
-        self.server = http.server.ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+        self.server = _QuietServer(("127.0.0.1", 0), Handler)
         self.port = self.server.server_address[1]
         threading.Thread(target=self.server.serve_forever, daemon=True).start()
         return self.port

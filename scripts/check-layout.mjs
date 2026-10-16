@@ -51,12 +51,15 @@ async function revisar(browser, nombre) {
 }
 
 async function lanzar(launch, nombre) {
+  let browser
   try {
-    const browser = await launch()
+    browser = await launch()
     await revisar(browser, nombre)
-    await browser.close()
   } catch (e) {
     console.log(`OMITIDO ${nombre}: ${String(e.message).split('\n')[0]}`)
+  } finally {
+    // El navegador se cierra siempre, aunque la revision falle.
+    await browser?.close().catch(() => {})
   }
 }
 

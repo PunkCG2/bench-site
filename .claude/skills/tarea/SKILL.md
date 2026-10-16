@@ -14,11 +14,11 @@ Entrada: ruta de una tarea o `siguiente` (la primera con `estado: pendiente` cuy
 
 ## 2. Delegar (si `ejecuta: local`, no implementes tú)
 ```
-powershell -ExecutionPolicy Bypass -File scripts/delegar-local.ps1 -TaskFile docs/tasks/NNN-nombre.md -Branch task/NNN-nombre
+python .harness/run_worker.py docs/tasks/NNN-nombre.md
 ```
 El script usa el rol de `.harness/roles/implementer.md`, arranca el proxy y, al terminar, corre `scripts/scope-guard.ps1`
 (borra temporales evidentes y avisa de archivos fuera de "Archivos en alcance"; su resultado queda al final del log).
-Puede tardar varios minutos. Si el worker se desbordó o no dejó archivos, no repitas la misma tarea: **pártela** en
+Crea la rama `task/NNN-nombre`, corre el worker local (3 intentos, luego escala), el control de alcance y `npm test`, y termina con un `REVIEW BRIEF`. Puede tardar varios minutos: lanzalo en segundo plano y no toques el arbol mientras corre. Si no hay modelo cargado (codigo 3) pregunta al usuario cual y relanza con `--model`. `scripts/delegar-local.ps1` queda como respaldo. Si el worker se desbordó o no dejó archivos, no repitas la misma tarea: **pártela** en
 rondas `NNN-nombre.fix-K.md` (código y estilos primero, pruebas después, un archivo por llamada).
 Si `ejecuta: claude`, impleméntala tú en la rama y salta al paso 3.
 
