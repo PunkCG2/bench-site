@@ -1,6 +1,6 @@
 ---
 id: 030
-estado: pendiente
+estado: hecha
 ejecuta: local
 depende: [029]
 hito: M6
@@ -35,4 +35,4 @@ Misma logica que el arrastre de `src/components/carrusel.js` (lineas 84-135), si
 - [ ] `tests/arrastre.test.js` cubre los 5 casos de arriba
 
 ## Notas de revision
-(las escribe Claude al aprobar)
+Worker local, 1 intento (244 s), alcance y comprobaciones OK al primer intento. 151 tests y build verificados.
