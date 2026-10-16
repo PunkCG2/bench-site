@@ -1,0 +1,110 @@
+/* Veredicto: cuatro semáforos (2×2) y la conclusión. Solo variables de tokens.css. */
+
+.veredicto {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  /* Mismo ritmo vertical que .hero. */
+  padding: var(--sp-48) 0;
+}
+
+.veredicto__grid {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: var(--sp-24);
+}
+
+.veredicto__semaforos {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sp-16);
+}
+
+.veredicto__tarjeta,
+.veredicto__conclusion {
+  background: var(--surface);
+  border-radius: var(--r-card);
+  padding: var(--sp-16);
+  transition: background-color var(--dur-theme);
+}
+
+/* La conclusión es la misma tarjeta, con más aire. */
+.veredicto__conclusion {
+  padding: var(--sp-24);
+}
+
+.veredicto__eje {
+  font-size: var(--fs-14);
+  color: var(--muted);
+  transition: color var(--dur-theme);
+}
+
+.veredicto__valor {
+  font-family: var(--font-mono);
+  font-size: var(--fs-20);
+  transition: color var(--dur-theme);
+}
+
+.veredicto__nivel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-8);
+  font-size: var(--fs-14);
+  transition: color var(--dur-theme);
+}
+
+/* Punto del nivel: toma el color del texto (currentColor). */
+.veredicto__nivel::before {
+  content: "";
+  width: var(--sp-8);
+  height: var(--sp-8);
+  border-radius: 50%;
+  background: currentColor;
+  transition: background-color var(--dur-theme);
+}
+
+.veredicto__nivel--bien {
+  color: var(--c-ok);
+}
+
+.veredicto__nivel--reservas {
+  color: var(--c-aviso);
+}
+
+.veredicto__nivel--mal {
+  color: var(--c-mal);
+}
+
+.veredicto__respuesta {
+  font-size: var(--fs-44);
+  font-family: var(--font-title);
+  transition: color var(--dur-theme);
+}
+
+.veredicto__respuesta--si {
+  color: var(--c-ok);
+}
+
+.veredicto__respuesta--depende {
+  color: var(--c-aviso);
+}
+
+.veredicto__respuesta--no {
+  color: var(--c-mal);
+}
+
+.veredicto__frase {
+  font-size: var(--fs-16);
+  transition: color var(--dur-theme);
+}
+
+@media (max-width: 899px) {
+  .veredicto__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 599px) {
+  .veredicto__semaforos {
+    grid-template-columns: 1fr;
+  }
+}
