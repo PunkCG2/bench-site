@@ -123,3 +123,10 @@ Las lecciones de la construccion inicial (tareas 001 a 027) ya se pasaron a la p
 - Remedio usado: `strip_thinking_attempts = 2` en `.harness/harness.toml`: intentos 1 y 2 sin razonamiento y el 3 con razonamiento (red de seguridad). Revisar con tareas mas dificiles.
 - Aplica a: core
 - Estado: new
+
+## 2026-10-16 · strip_thinking tambien con Gemma 4
+- Que paso: las mismas 3 tareas con google/gemma-4-26b-a4b-qat: con strip 19/19 tests ocultos y sin strip 18/19 (fallo un caso de parse_duration); tiempos 149 s -> 40 s, 134 s -> 69 s y 88 s -> 35 s (1,9 a 3,8 veces mas rapido). Siempre al primer intento.
+- Causa: igual que con Qwen: sin `thinking` el modelo no razona antes de escribir.
+- Remedio usado: ninguno; se mantiene `strip_thinking_attempts = 2`. Pruebas solo con tareas faciles; falta probar tareas dificiles.
+- Aplica a: core
+- Estado: new
