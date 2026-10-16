@@ -10,6 +10,7 @@ model = "qwen3.8-27b"
 attempts = 3
 max_output_tokens = 16000
 strip_thinking = false
+strip_thinking_attempts = 2   # intentos 1 y 2 sin razonamiento (mas rapido); el 3 con razonamiento
 
 [scope]
 protected = ["data/raw/**"]

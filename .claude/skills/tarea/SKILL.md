@@ -18,7 +18,7 @@ python .harness/run_worker.py docs/tasks/NNN-nombre.md
 ```
 El script usa el rol de `.harness/roles/implementer.md`, arranca el proxy y, al terminar, corre `scripts/scope-guard.ps1`
 (borra temporales evidentes y avisa de archivos fuera de "Archivos en alcance"; su resultado queda al final del log).
-Crea la rama `task/NNN-nombre`, corre el worker local (3 intentos, luego escala), el control de alcance y `npm test`, y termina con un `REVIEW BRIEF`. Puede tardar varios minutos: lanzalo en segundo plano, no toques el arbol mientras corre y dile al usuario que puede ver el progreso (tiempo, intento, tokens leidos y escritos, velocidad en t/s y herramientas usadas) con `python .harness/run_worker.py --watch` en otra terminal. Si no hay modelo cargado (codigo 3) pregunta al usuario cual y relanza con `--model`. `scripts/delegar-local.ps1` queda como respaldo. Si el worker se desbordó o no dejó archivos, no repitas la misma tarea: **pártela** en
+Crea la rama `task/NNN-nombre`, corre el worker local (3 intentos, luego escala), el control de alcance y `npm test`, y termina con un `REVIEW BRIEF`. Puede tardar varios minutos: lanzalo en segundo plano y no toques el arbol mientras corre. Si no hay modelo cargado (codigo 3) pregunta al usuario cual y relanza con `--model`. `scripts/delegar-local.ps1` queda como respaldo. Si el worker se desbordó o no dejó archivos, no repitas la misma tarea: **pártela** en
 rondas `NNN-nombre.fix-K.md` (código y estilos primero, pruebas después, un archivo por llamada).
 Si `ejecuta: claude`, impleméntala tú en la rama y salta al paso 3.
 

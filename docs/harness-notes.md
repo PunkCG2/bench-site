@@ -110,16 +110,16 @@ Las lecciones de la construccion inicial (tareas 001 a 027) ya se pasaron a la p
 - Aplica a: core (las condiciones visuales las decide quien ve el navegador, no el worker)
 - Estado: new
 
-## 2026-10-16 · Feedback en vivo del worker y dos fallos al construirlo
-- Que paso: se anadio `--watch` y una linea de estado (tiempo, intento, tokens, t/s, herramientas) alimentada por el proxy, que ahora retransmite el stream en vez de bufferizarlo. La primera prueba real fallo dos veces: el worker abortaba por arbol sucio (yo habia copiado el script sin commit) y, aparte, `.harness/state/` contaba como fuera de alcance y se colaba en el commit del worker.
-- Causa: el estado por maquina vive dentro del repo y no se excluia en el control de alcance ni en `git add`; ademas una respuesta que llega de golpe daba velocidades absurdas (24942 t/s).
-- Remedio usado: `changed_files` ignora `.harness/state/`, el commit lo excluye y no se calculan velocidades con menos de 10 tokens o 0,5 s.
+## 2026-10-16 · Feedback en vivo del worker: probado y revertido
+- Que paso: se construyo `--watch`, una linea de estado con tokens y t/s y un proxy con streaming. Funcionaba, pero el autor prefirio no abrir otra terminal y la ventana del chat no puede mostrar el progreso de un comando en curso.
+- Causa: el resultado de un comando solo llega a Claude al terminar; una terminal aparte no aporta lo bastante.
+- Remedio usado: se revirtio todo salvo la correccion util: `.harness/state/` se ignora en el control de alcance y se excluye del commit del worker. Una prueba con respuestas que llegan de golpe daba velocidades absurdas: otra razon para no medir t/s.
 - Aplica a: core
 - Estado: new
 
-## 2026-10-16 · strip_thinking: primera prueba real
-- Que paso: misma tarea de 2 archivos con `strip_thinking` false y true: 912 tokens de salida y 25 s frente a 30 tokens y 12 s, ambas OK.
-- Causa: con la opcion activa el proxy quita `thinking`, `output_config` y `context_management` y el modelo no razona.
-- Remedio usado: ninguno todavia; queda en false. Una sola muestra y tarea trivial: probar en tareas reales y comparar calidad antes de cambiar el valor por defecto.
+## 2026-10-16 · strip_thinking: 4 pruebas reales
+- Que paso: 4 tareas pequenas de codigo (3 en Python con tests ocultos y la de 2 archivos) con y sin `strip_thinking`: mismo resultado (tests ocultos 19/19 en ambos modos, siempre al primer intento), de 2 a 6 veces mas rapido (136 s -> 24 s la mayor) y de 6 a 18 veces menos tokens de salida.
+- Causa: sin `thinking` el modelo no razona antes de escribir.
+- Remedio usado: `strip_thinking_attempts = 2` en `.harness/harness.toml`: intentos 1 y 2 sin razonamiento y el 3 con razonamiento (red de seguridad). Revisar con tareas mas dificiles.
 - Aplica a: core
 - Estado: new
