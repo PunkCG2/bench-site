@@ -24,5 +24,4 @@ Hitos reconstruidos a posteriori (el proyecto empezo antes de que existieran los
 - 2026-10-15: la plantilla reutilizable del harness vive en `E:\IA\harness-template`.
 
 ## Puntos abiertos
-- Borrar la regla redundante `Write(data/raw/**)` de `.claude/settings.json` (decision del autor).
-- Probar `-QuitarThinking` en `delegar-local.ps1` cuando el servidor local este libre.
+- Probar `strip_thinking = true` en `.harness/harness.toml` con el modelo real.

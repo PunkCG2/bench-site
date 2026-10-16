@@ -109,3 +109,10 @@ Las lecciones de la construccion inicial (tareas 001 a 027) ya se pasaron a la p
 - Remedio usado: Claude midio en Edge y dejo el override solo bajo 480 px.
 - Aplica a: core (las condiciones visuales las decide quien ve el navegador, no el worker)
 - Estado: new
+
+## 2026-10-16 · Feedback en vivo del worker y dos fallos al construirlo
+- Que paso: se anadio `--watch` y una linea de estado (tiempo, intento, tokens, t/s, herramientas) alimentada por el proxy, que ahora retransmite el stream en vez de bufferizarlo. La primera prueba real fallo dos veces: el worker abortaba por arbol sucio (yo habia copiado el script sin commit) y, aparte, `.harness/state/` contaba como fuera de alcance y se colaba en el commit del worker.
+- Causa: el estado por maquina vive dentro del repo y no se excluia en el control de alcance ni en `git add`; ademas una respuesta que llega de golpe daba velocidades absurdas (24942 t/s).
+- Remedio usado: `changed_files` ignora `.harness/state/`, el commit lo excluye y no se calculan velocidades con menos de 10 tokens o 0,5 s.
+- Aplica a: core
+- Estado: new

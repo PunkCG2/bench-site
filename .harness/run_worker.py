@@ -7,6 +7,7 @@ run_worker.py - unified worker for the AI dev harness (template docs/spec.md sec
     python .harness/run_worker.py docs/tasks/012-carousel.fix-1.md --model qwen3.8-27b
     python .harness/run_worker.py --list-models
     python .harness/run_worker.py docs/tasks/012-carousel.md --dry-run
+    python .harness/run_worker.py --watch        # in a second terminal: live progress of a running worker
     python .harness/run_worker.py --calibrate [--accept-calibration]
 
 What it does for one task:
@@ -138,7 +139,10 @@ def changed_files(root):
         path = line[3:]
         if " -> " in path:
             path = path.split(" -> ", 1)[1]
-        out.append((line[:2], path.strip('"')))
+        path = path.strip('"')
+        if path.startswith(".harness/state/"):
+            continue  # per-machine worker state (live progress, timings, chosen model), never part of a task
+        out.append((line[:2], path))
     return out
 
 
@@ -353,6 +357,253 @@ def normalize(payload, strip_thinking=False):
     return payload
 
 
+# ----------------------------------------------------------------------------- live feedback
+class Live:
+    """Counters of the current run, fed by the proxy. Saved to .harness/state/live.json and drawn on screen."""
+
+    def __init__(self, path=None):
+        self.path = Path(path) if path else None
+        self.lock = threading.Lock()
+        self.s = {"task": "", "model": "", "tier": "", "attempt": 0, "attempts": 0, "phase": "idle", "timeout_s": 0,
+                  "started": 0.0, "requests": 0, "active": False, "in_tokens": 0, "out_tokens": 0, "cur_out": 0, "cur_in": 0,
+                  "prefill_tps": None, "gen_tps": None, "tools": {}, "updated": 0.0, "pid": os.getpid()}
+        self._req = None
+
+    def set(self, **kw):
+        with self.lock:
+            self.s.update(kw)
+
+    def begin_request(self):
+        with self.lock:
+            self.s["requests"] += 1
+            self.s["active"] = True
+            self.s["cur_out"] = 0
+            self.s["cur_in"] = 0
+            self._req = {"t0": time.time(), "first": None, "inp": 0, "out_est": 0.0, "out": None}
+
+    def on_event(self, ev):
+        """One decoded Anthropic stream event (a dict)."""
+        with self.lock:
+            r = self._req
+            if r is None or not isinstance(ev, dict):
+                return
+            kind = ev.get("type")
+            if kind == "message_start":
+                u = (ev.get("message") or {}).get("usage") or {}
+                r["inp"] = int(u.get("input_tokens") or 0) + int(u.get("cache_read_input_tokens") or 0)
+                self.s["cur_in"] = r["inp"]
+            elif kind == "content_block_start":
+                block = ev.get("content_block") or {}
+                if block.get("type") == "tool_use" and block.get("name"):
+                    tools = self.s["tools"]
+                    tools[block["name"]] = tools.get(block["name"], 0) + 1
+            elif kind == "content_block_delta":
+                d = ev.get("delta") or {}
+                text = d.get("text") or d.get("thinking") or d.get("partial_json") or ""
+                if r["first"] is None:
+                    r["first"] = time.time()
+                r["out_est"] += len(text) / 3.5
+                self.s["cur_out"] = int(r["out"] if r["out"] is not None else r["out_est"])
+            elif kind == "message_delta":
+                u = ev.get("usage") or {}
+                if u.get("output_tokens") is not None:
+                    r["out"] = int(u["output_tokens"])
+                    self.s["cur_out"] = r["out"]
+                if u.get("input_tokens"):
+                    r["inp"] = max(r["inp"], int(u["input_tokens"]))
+
+    def on_usage(self, usage):
+        """Usage block of a non-streamed reply."""
+        with self.lock:
+            if self._req is not None and isinstance(usage, dict):
+                self._req["inp"] = int(usage.get("input_tokens") or 0) + int(usage.get("cache_read_input_tokens") or 0)
+                self._req["out"] = int(usage.get("output_tokens") or 0)
+
+    def end_request(self):
+        with self.lock:
+            r, self._req = self._req, None
+            self.s["active"] = False
+            if r is None:
+                return
+            now = time.time()
+            out = r["out"] if r["out"] is not None else int(r["out_est"])
+            self.s["in_tokens"] += r["inp"]
+            self.s["out_tokens"] += out
+            self.s["cur_out"] = 0
+            self.s["cur_in"] = 0
+            first = r["first"] or now
+            if r["inp"] and first - r["t0"] > 0.2:
+                self.s["prefill_tps"] = r["inp"] / (first - r["t0"])
+            if out >= 10 and now - first >= 0.5:  # shorter bursts give meaningless speeds
+                self.s["gen_tps"] = out / (now - first)
+
+    def snapshot(self):
+        with self.lock:
+            snap = dict(self.s, tools=dict(self.s["tools"]))
+            r = self._req
+            if r is not None and r["first"] is not None and snap["cur_out"] and time.time() - r["first"] > 0.5:
+                snap["gen_tps"] = snap["cur_out"] / (time.time() - r["first"])
+            snap["now"] = time.time()
+            return snap
+
+    def save(self):
+        if not self.path:
+            return
+        snap = self.snapshot()
+        snap["updated"] = snap["now"]
+        try:
+            self.path.parent.mkdir(parents=True, exist_ok=True)
+            tmp = self.path.with_suffix(".tmp")
+            tmp.write_text(json.dumps(snap), encoding="utf-8")
+            os.replace(tmp, self.path)
+        except OSError:
+            pass
+
+
+class SSETracker:
+    """Feeds raw bytes of a server-sent-events stream to Live without changing them."""
+
+    def __init__(self, live):
+        self.live, self.buf = live, b""
+
+    def feed(self, chunk):
+        self.buf += chunk.replace(b"\r\n", b"\n")
+        while b"\n\n" in self.buf:
+            raw, self.buf = self.buf.split(b"\n\n", 1)
+            for line in raw.split(b"\n"):
+                if line.startswith(b"data:"):
+                    try:
+                        self.live.on_event(json.loads(line[5:].strip()))
+                    except ValueError:
+                        pass
+
+
+def fmt_clock(seconds):
+    seconds = max(0, int(seconds))
+    return f"{seconds // 60:02d}:{seconds % 60:02d}"
+
+
+def fmt_rate(v):
+    return "-" if not v else f"{v:.0f}" if v >= 100 else f"{v:.1f}"
+
+
+def render_live(snap, width=160):
+    """One status line (plain ASCII) from a Live snapshot."""
+    if snap.get("phase") == "done":
+        return "worker finished"
+    if snap.get("phase") == "idle" and not snap.get("started"):
+        return "waiting for the worker ..."
+    elapsed = snap["now"] - snap["started"] if snap.get("started") else 0
+    budget = snap.get("timeout_s") or 0
+    bar = ""
+    if budget and snap["phase"] == "worker":
+        filled = min(10, int(10 * elapsed / budget))
+        bar = " [" + "#" * filled + "-" * (10 - filled) + "]"
+    who = snap["tier"] + (f" {snap['model']}" if snap["tier"] == "local" and snap.get("model") else "")
+    parts = [f"{who} try {snap['attempt']}/{snap['attempts']}"]
+    if snap["phase"] == "gates":
+        parts.append(f"checks running {fmt_clock(elapsed)}")
+    else:
+        parts.append(f"{fmt_clock(elapsed)}" + (f"/{fmt_clock(budget)}" if budget else "") + bar)
+    if snap["tier"] == "local":
+        state = "gen" if snap["active"] and snap["cur_out"] else ("wait" if snap["active"] else "idle")
+        out_total = snap["out_tokens"] + snap["cur_out"]
+        parts.append(f"req {snap['requests']} {state}")
+        parts.append(f"in {snap['in_tokens'] + snap.get('cur_in', 0)} tok ({fmt_rate(snap['prefill_tps'])} t/s)")
+        parts.append(f"out {out_total} tok ({fmt_rate(snap['gen_tps'])} t/s)")
+    else:
+        parts.append("cloud worker (no token stats)")
+    if snap.get("tools"):
+        parts.append(" ".join(f"{k}x{v}" for k, v in sorted(snap["tools"].items())))
+    line = " | ".join(parts)
+    return line if len(line) <= width else line[: max(10, width - 3)] + "..."
+
+
+class Display:
+    """Background thread: saves live.json every second and draws the line on a terminal (or a log line every 30 s)."""
+
+    def __init__(self, live, stream=None):
+        self.live, self.stream = live, stream or sys.stdout
+        self.tty = bool(getattr(self.stream, "isatty", lambda: False)())
+        self.stop_ev = threading.Event()
+        self.thread = threading.Thread(target=self._loop, daemon=True)
+        self.last_plain = 0.0
+        self.shown = 0
+
+    def start(self):
+        self.thread.start()
+
+    def _loop(self):
+        while not self.stop_ev.wait(1.0):
+            self.live.save()
+            snap = self.live.snapshot()
+            if snap["phase"] in ("idle", "done"):
+                continue
+            if self.tty:
+                width = max(40, shutil.get_terminal_size((100, 20)).columns - 1)
+                text = render_live(snap, width)
+                self.stream.write("\r" + text.ljust(self.shown))
+                self.stream.flush()
+                self.shown = len(text)
+            elif time.time() - self.last_plain >= 30:
+                self.last_plain = time.time()
+                self.stream.write("   " + render_live(snap) + "\n")
+                self.stream.flush()
+
+    def clear(self):
+        if self.tty and self.shown:
+            self.stream.write("\r" + " " * self.shown + "\r")
+            self.stream.flush()
+            self.shown = 0
+
+    def stop(self):
+        self.stop_ev.set()
+        self.thread.join(timeout=2)
+        self.clear()
+        self.live.set(phase="done")
+        self.live.save()
+
+
+def cmd_watch(root):
+    """Second terminal: shows the live line of a run started elsewhere (Ctrl+C to leave)."""
+    path = state_dir(root) / "live.json"
+    tty = sys.stdout.isatty()
+    last, seen = "", False
+    try:
+        while True:
+            try:
+                snap = json.loads(path.read_text(encoding="utf-8"))
+                stale = time.time() - snap.get("updated", 0) > 15
+            except (OSError, ValueError):
+                snap, stale = None, True
+            if snap and snap.get("phase") not in ("done", "idle") and not stale:
+                seen = True
+            if snap is None or (stale and snap.get("phase") != "done"):
+                text = "no worker running (waiting) ..."
+            elif snap.get("phase") == "done" and not seen:
+                text = "the last run is finished; waiting for a new one ..."
+            else:
+                snap["now"] = time.time() if not stale else snap.get("updated", 0)
+                width = max(40, shutil.get_terminal_size((100, 20)).columns - 1) if tty else 200
+                text = render_live(snap, width)
+            try:
+                if tty:
+                    sys.stdout.write("\r" + text.ljust(len(last)))
+                    sys.stdout.flush()
+                elif text != last:
+                    print(text, flush=True)
+            except OSError:
+                return EXIT_OK  # the reader went away (for example `| head`)
+            last = text
+            if snap and snap.get("phase") == "done" and seen:
+                print()
+                return EXIT_OK
+            time.sleep(1)
+    except KeyboardInterrupt:
+        print()
+        return EXIT_OK
+
+
 class _QuietServer(http.server.ThreadingHTTPServer):
     """Clients that drop the connection (Claude Code closing a request) are normal, not errors."""
 
@@ -362,34 +613,70 @@ class _QuietServer(http.server.ThreadingHTTPServer):
 
 
 class Proxy:
-    def __init__(self, target, strip_thinking=False):
+    def __init__(self, target, strip_thinking=False, live=None):
         self.target = target.rstrip("/")
         self.strip = strip_thinking
+        self.live = live
         self.server = None
         self.port = None
 
     def start(self):
-        target, strip = self.target, self.strip
+        target, strip, live = self.target, self.strip, self.live
 
         class Handler(http.server.BaseHTTPRequestHandler):
             protocol_version = "HTTP/1.1"
 
-            def _forward(self, body):
-                headers = {k: v for k, v in self.headers.items() if k.lower() not in ("host", "content-length")}
-                req = urllib.request.Request(target + self.path, data=body, method=self.command, headers=headers)
-                try:
-                    resp = urllib.request.urlopen(req, timeout=1800)
-                    code, ctype, out = resp.status, resp.headers.get("content-type", "application/json"), resp.read()
-                except urllib.error.HTTPError as e:
-                    code, ctype, out = e.code, e.headers.get("content-type", "application/json"), e.read()
-                except Exception as e:  # noqa: BLE001
-                    code, ctype = 502, "application/json"
-                    out = json.dumps({"type": "error", "error": {"type": "api_error", "message": f"proxy: {e}"}}).encode()
+            def _send(self, code, ctype, out):
                 self.send_response(code)
                 self.send_header("content-type", ctype)
                 self.send_header("content-length", str(len(out)))
                 self.end_headers()
                 self.wfile.write(out)
+
+            def _forward(self, body):
+                headers = {k: v for k, v in self.headers.items() if k.lower() not in ("host", "content-length")}
+                req = urllib.request.Request(target + self.path, data=body, method=self.command, headers=headers)
+                tracked = live is not None and self.command == "POST"
+                if tracked:
+                    live.begin_request()
+                try:
+                    try:
+                        resp = urllib.request.urlopen(req, timeout=1800)
+                    except urllib.error.HTTPError as e:
+                        return self._send(e.code, e.headers.get("content-type", "application/json"), e.read())
+                    except Exception as e:  # noqa: BLE001
+                        err = {"type": "error", "error": {"type": "api_error", "message": f"proxy: {e}"}}
+                        return self._send(502, "application/json", json.dumps(err).encode())
+                    ctype = resp.headers.get("content-type", "application/json")
+                    if "text/event-stream" not in ctype:
+                        out = resp.read()
+                        if tracked:
+                            try:
+                                live.on_usage(json.loads(out).get("usage"))
+                            except (ValueError, AttributeError):
+                                pass
+                        return self._send(resp.status, ctype, out)
+                    # Streamed reply: pass the bytes on as they arrive and let Live watch them.
+                    self.send_response(resp.status)
+                    self.send_header("content-type", ctype)
+                    self.send_header("cache-control", "no-cache")
+                    self.send_header("transfer-encoding", "chunked")
+                    self.end_headers()
+                    tracker = SSETracker(live) if tracked else None
+                    read = getattr(resp, "read1", resp.read)
+                    while True:
+                        chunk = read(8192)
+                        if not chunk:
+                            break
+                        if tracker:
+                            tracker.feed(chunk)
+                        self.wfile.write(b"%x\r\n%s\r\n" % (len(chunk), chunk))
+                        self.wfile.flush()
+                    self.wfile.write(b"0\r\n\r\n")
+                    self.wfile.flush()
+                finally:
+                    if tracked:
+                        live.end_request()
 
             def do_POST(self):
                 body = self.rfile.read(int(self.headers.get("content-length", 0)))
@@ -604,7 +891,7 @@ def make_checker(root, cfg, allowed, gate_timeout_s):
 
 
 # ----------------------------------------------------------------------------- brief and log
-def make_brief(task, branch, outcome, model, scope, gates, diffstat, log_path, escalated):
+def make_brief(task, branch, outcome, model, scope, gates, diffstat, log_path, escalated, totals=None):
     lines = ["=== REVIEW BRIEF ===", f"task:   {task}", f"branch: {branch}"]
     if outcome["status"] == "ok":
         n = sum(1 for h in outcome["history"])
@@ -629,6 +916,9 @@ def make_brief(task, branch, outcome, model, scope, gates, diffstat, log_path, e
         lines.append("gate:   (none configured or nothing changed)")
     lines.append("attempts: " + "; ".join(f"{h['tier']}#{h['attempt']} {h['kind']} -> " + ("ok" if h["ok"] else str(h["failure"]))
                                           + f" ({h['seconds']} s)" for h in outcome["history"]))
+    if totals and totals.get("requests"):
+        lines.append(f"tokens: in {totals['in_tokens']}, out {totals['out_tokens']} over {totals['requests']} request(s); "
+                     f"last speeds: prefill {fmt_rate(totals['prefill_tps'])} t/s, generation {fmt_rate(totals['gen_tps'])} t/s")
     if diffstat:
         lines += ["files:", diffstat]
     lines.append(f"log:    {log_path}")
@@ -693,10 +983,13 @@ def main(argv=None):
     ap.add_argument("--calibrate", action="store_true")
     ap.add_argument("--accept-calibration", action="store_true")
     ap.add_argument("--dry-run", action="store_true", help="print the plan and change nothing")
+    ap.add_argument("--watch", action="store_true", help="show the live progress of a worker run started elsewhere")
     args = ap.parse_args(argv)
 
     root = Path(args.root).resolve()
     cfg = load_config(root)
+    if args.watch:
+        return cmd_watch(root)
     if args.list_models:
         return cmd_list_models(cfg)
     if args.calibrate:
@@ -741,6 +1034,10 @@ def main(argv=None):
         return EXIT_CONFIG
 
     proxy, model, local_cfg = None, "", cfg["workers"]["local"]
+    live = Live(state_dir(root) / "live.json")
+    live.set(task=task_path.name)
+    display = Display(live)
+    display.start()
     claude = claude_exe()
     if not claude:
         print("error: the `claude` command was not found in PATH", file=sys.stderr)
@@ -771,7 +1068,7 @@ def main(argv=None):
         model = chosen["id"]
         sfile.parent.mkdir(parents=True, exist_ok=True)
         sfile.write_text(model, encoding="utf-8")
-        proxy = Proxy(base, bool(local_cfg.get("strip_thinking")))
+        proxy = Proxy(base, bool(local_cfg.get("strip_thinking")), live)
         proxy.start()
 
     allowed_bash = allowed_bash_from_gates(cfg)
@@ -791,8 +1088,12 @@ def main(argv=None):
             use_model = tcfg.get("model", "haiku")
         cmd = build_worker_cmd(claude, use_model, role, allowed_bash, args.max_turns or tcfg.get("max_turns", 40))
         prompt = retry_prompt(task["text"], kind, details)
+        display.clear()
         print(f"-> {tier} attempt {n} ({kind}) ...", flush=True)
+        live.set(tier=tier, model=model if tier == "local" else "", attempt=n, attempts=int(tcfg.get("attempts", 1)),
+                 phase="worker", timeout_s=worker_s, started=time.time(), tools={})
         res = run_claude(cmd, prompt, env, root, worker_s)
+        live.set(phase="gates", started=time.time())
         if res["timed_out"]:
             timings.bump("worker", lim["worker"][0], lim["worker"][2])
         else:
@@ -804,15 +1105,17 @@ def main(argv=None):
     try:
         outcome = run_ladder(ladder, tiers, attempt, lambda r: record_gates(checker(r), r, timings, lim))
     finally:
+        display.stop()
         if proxy:
             proxy.stop()
         timings.save()
+    totals = live.snapshot()
 
     stem_log = Path(root) / "docs" / "tasks" / "logs" / (task_path.stem + ".txt")
     stem_log.parent.mkdir(parents=True, exist_ok=True)
     escalated = outcome["status"] == "ok" and outcome["tier"] != ladder[0]
     if outcome["status"] == "ok":
-        git(root, "add", "-A")
+        git(root, "add", "-A", "--", ".", ":(exclude).harness/state")
         git(root, "commit", "-m", f"worker({outcome['tier']}/{model or 'claude'}): {task_path.name}")
         base_ref = base_branch if branch_exists(root, base_branch) else "HEAD~1"
         diffstat = git(root, "diff", "--stat", f"{base_ref}...HEAD").stdout.strip()
@@ -820,7 +1123,7 @@ def main(argv=None):
         diffstat = "\n".join(f"{f} {p}" for f, p in changed_files(root))
     last = outcome.get("last") or {}
     brief = make_brief(task_path.name, branch, outcome, model, last.get("scope"), last.get("gates"), diffstat,
-                       stem_log.relative_to(root).as_posix(), escalated)
+                       stem_log.relative_to(root).as_posix(), escalated, totals)
     stem_log.write_text("\n\n".join(log) + "\n\n" + brief + "\n", encoding="utf-8")
     print(brief)
     return EXIT_OK if outcome["status"] == "ok" else EXIT_LADDER
