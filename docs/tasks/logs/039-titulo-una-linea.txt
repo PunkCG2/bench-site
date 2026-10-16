@@ -1,0 +1,31 @@
+--- local attempt 1 (first), 777.2 s ---
+Error: Reached max turns (40)
+
+Dev server stopped (background time limit). Hero at 1100px only shrinks→grows the number font (fs-44→fs-72); the cifras are content-sized `auto` columns, so no overflow risk at 1200. All target widths are covered.
+
+Final report:
+
+**Archivo:** `src/styles/header.css` (único modificado).
+
+**Cambios:** grid `auto minmax(0,1fr) auto` (título/acciones `auto`, selector flexible que cede); `white-space:nowrap` en `.header__titulo-nombre` y `-sub`; `min-width:0` en `.header__selector` (ya tenía `overflow-x:auto`+`max-width:100%`). No toqué `@media` 899/479 ni `header.js`.
+
+**Resultado:** `npm test` 191 OK; `npm run build` OK; `npm run check:layout` (Edge+Firefox) sin desborde en 900/1024/1280/1920/320/375/800.
+
+**Anchos 930/1000/1100/1200/1440:** garantizados — título 1 línea por `nowrap` (asegura CSS); selector cede y hace scroll por `minmax(0,1fr)`+`min-width:0`; sin desborde por monotonicidad (el único breakpoint en el rango es hero@1100, columnas `auto` de contenido, no desborda).
+
+**Dudas:** no pude correr Playwright a los anchos exactos (el sandbox solo permite `npm run`; `check:layout` tiene anchos fijos) — verificado por CSS garantizado + `check:layout` + monotonicidad. Dev server de fondo se detuvo por límite de tiempo.
+Claude Code doesn't recognize the model "qwen3.8-27b", so it assumes a context window of 200k tokens. Update Claude Code, or see https://code.claude.com/docs/en/model-config#correct-the-window-for-a-gateway-or-custom-model-id to set the window.
+[claude-code:unrecognized_model] {"model":"qwen3.8-27b","query_source":"generate_session_title"}
+⚠ claude.ai connectors are disabled because ANTHROPIC_API_KEY or another auth source is set and takes precedence over your claude.ai login · Unset it to load your organization's connectors
+
+=== REVIEW BRIEF ===
+task:   039-titulo-una-linea.md
+branch: task/039-titulo-una-linea
+worker: local (qwen3.8-27b) after 1 attempt(s)
+scope:  OK
+gate:   `npm test` OK (3.5 s)
+attempts: local#1 first -> ok (777.2 s)
+files:
+src/styles/header.css | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+log:    docs/tasks/logs/039-titulo-una-linea.txt

@@ -13,7 +13,7 @@
 
 .header__grid {
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   grid-template-areas: 'titulo selector acciones';
   align-items: center;
   gap: var(--sp-16);
@@ -31,18 +31,21 @@
   margin: 0;
   font-size: var(--fs-28);
   line-height: 1.2;
+  white-space: nowrap;
 }
 
 .header__titulo-sub {
   margin: 0;
   font-size: var(--fs-16);
   color: var(--muted);
+  white-space: nowrap;
 }
 
 /* Selector de modelo: grupo de botones segmentado. */
 .header__selector {
   grid-area: selector;
   display: flex;
+  min-width: 0;
   gap: var(--sp-8);
   max-width: 100%;
   overflow-x: auto;
