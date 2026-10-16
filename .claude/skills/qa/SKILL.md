@@ -10,9 +10,9 @@ Entrada: lo que el usuario vio al probar (texto libre, capturas), normalmente al
 1. **Ítems.** Separa lo que dijo en ítems independientes. Un ítem = un síntoma o un cambio pedido. Si un ítem es ambiguo
    (qué navegador, qué ancho, qué se esperaba), pregunta antes de seguir; no adivines. Distingue **fallo** (algo roto) de
    **ajuste** (preferencia del autor) y anota la severidad: alta / media / baja.
-2. **Registro.** Escribe `docs/progress/qa-<hito>.md` (créalo o añade): tabla `id | ítem | tipo | severidad | qué se espera
+2. **Registro.** Escribe `docs/tasks/qa/qa-<hito>.md` (crea la carpeta si no existe; créalo o añade): tabla `id | ítem | tipo | severidad | qué se espera
    | tarea | estado`. Las capturas del usuario se describen en una línea; no se copian.
-3. **Tareas.** Por ítem (o por grupo si tocan el mismo archivo) crea `docs/tasks/NNN-nombre.md` con la plantilla, siguiendo
+3. **Tareas.** Por ítem (o por grupo si tocan el mismo archivo) crea `docs/tasks/qa/NNN-nombre.md` con la plantilla (`docs/tasks/_plantilla.md`; la numeración sigue la de todo el proyecto), siguiendo
    las reglas de `/planificar`: máximo ~3 archivos, criterio verificable, `ejecuta: local` salvo que dependa de criterio de
    diseño. Usa el hito en curso.
 4. **Pruebas.** Cada tarea lleva su comprobación:
@@ -21,5 +21,5 @@ Entrada: lo que el usuario vio al probar (texto libre, capturas), normalmente al
      Playwright, y llamas `browser_close` al terminar.
 5. **Aprobación.** Muestra la tabla (id, ítem, severidad, tarea, ejecuta) y **espera el visto bueno**. No ejecutes nada desde aquí.
 6. **Después.** Con el visto bueno, `/tarea` sobre cada una. Al terminar pide al usuario la prueba a ojo de lo corregido:
-   el hito no se da por cerrado mientras queden ítems abiertos en `qa-<hito>.md`.
+   el hito no se da por cerrado mientras queden ítems abiertos en `docs/tasks/qa/qa-<hito>.md`.
 7. Si un ítem revela un fallo del harness o del stack (no del proyecto), añade una entrada en `docs/harness-notes.md`.

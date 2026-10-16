@@ -5,7 +5,7 @@ description: Ejecuta una tarea de docs/tasks/ delegando la implementacion al mod
 
 # Ciclo: worker local → comprobaciones → revisión de Claude
 
-Entrada: ruta de una tarea o `siguiente` (la primera con `estado: pendiente` cuyas dependencias estén `hecha`, por orden de hito).
+Entrada: ruta de una tarea o `siguiente` (la primera con `estado: pendiente` cuyas dependencias estén `hecha`, por orden de hito; busca en `docs/tasks/` y en `docs/tasks/qa/`).
 
 ## 1. Preparar
 - Lee la tarea. Si le faltan alcance o criterios verificables, complétalos antes de delegar.
@@ -30,7 +30,7 @@ Si `ejecuta: claude`, impleméntala tú en la rama y salta al paso 3.
 - Revisa cada criterio de aceptación. Si un criterio fallido en realidad estaba mal planteado, corrígelo y anótalo.
 
 ## 4. Corregir (máx. 3 rondas)
-Si algo falla, crea `docs/tasks/NNN-nombre.fix-K.md` con correcciones numeradas y concretas (archivo, qué está mal, qué se
+Si algo falla, crea `NNN-nombre.fix-K.md` junto a la tarea (misma carpeta) con correcciones numeradas y concretas (archivo, qué está mal, qué se
 espera). Nada de "mejora el código". Vuelve al paso 2 con ese archivo y la misma rama. Tras la 3.ª ronda corrige tú lo
 pequeño o explícale el bloqueo al usuario.
 

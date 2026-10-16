@@ -8,7 +8,7 @@ Stack: Vite + JavaScript vanilla, CSS sin frameworks, Vitest para tests.
 ## Donde esta cada cosa
 - Que es el sitio: docs/spec.md
 - Como se ve: docs/diseno.md
-- Tareas: docs/tasks/ (una por archivo; el estado va en el frontmatter). Progreso e hitos: docs/progress/progress.md
+- Tareas: docs/tasks/ (una por archivo; el estado va en el frontmatter). Las que salen de una revisión a ojo (`/qa`) van en docs/tasks/qa/. Progreso e hitos: docs/progress/progress.md
 - Roles del harness: .harness/roles/. Notas de lo que falle del harness: docs/harness-notes.md
 
 ## Reglas
