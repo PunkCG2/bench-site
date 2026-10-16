@@ -9,7 +9,7 @@ El modelo no recuerda nada entre sesiones. Todo lo que necesita saber está en a
 | Memoria | Archivo | ¿Quién lo lee y cuándo? |
 |---|---|---|
 | Reglas permanentes | `CLAUDE.md` | Claude **y** el worker local, automáticamente, en cada sesión |
-| Procedimientos | `.claude/skills/*/SKILL.md` | Solo Claude, con `/planificar`, `/tarea` o `/resume` |
+| Procedimientos | `.claude/skills/*/SKILL.md` | Solo Claude, con `/planificar`, `/tarea`, `/qa` o `/resume` |
 | Roles | `.harness/roles/*.md` | El del implementador va como prompt de sistema del worker local |
 | Estado del trabajo | `docs/` (tareas, `progress/progress.md`) | Quien lo necesite |
 | Lo que falló del harness | `docs/harness-notes.md` | Claude lo escribe; `/harvest` en la plantilla lo recoge |
@@ -21,7 +21,7 @@ bench-site/
 ├─ CLAUDE.md             ← reglas. CORTO: el modelo local lo paga en cada tarea
 ├─ .claude/
 │  ├─ settings.json      ← permisos
-│  └─ skills/            ← planificar (spec → tareas e hitos), tarea (delegar → revisar → aprobar), resume
+│  └─ skills/            ← planificar (spec → tareas e hitos), tarea (delegar → revisar → aprobar), qa (revisión a ojo → tareas), resume
 ├─ .harness/roles/       ← implementer, reviewer, planner
 ├─ scripts/
 │  ├─ delegar-local.ps1  ← lanza Claude Code apuntando al servidor local (proxy, rol, control de alcance)
