@@ -7,7 +7,7 @@ base_branch = "main"
 [workers.local]
 url = "http://127.0.0.1:1235"   # 127.0.0.1, no localhost: localhost puede resolver a IPv6 y llegar a otro programa
 model = "qwen3.8-27b"           # preferido: el que se carga si no hay ninguno cargado
-fallback_model = ""             # opcional: secundario si el preferido no se puede cargar (p. ej. "google/gemma-4-26b-a4b-qat")
+fallback_model = "google/gemma-4-26b-a4b-qat"   # secundario: se usa si Qwen no se puede cargar
 attempts = 3
 max_output_tokens = 16000
 strip_thinking = false

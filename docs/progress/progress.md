@@ -1,7 +1,7 @@
 # Progreso — bench-site
 
 Ultima actualizacion: 2026-10-16
-Hito actual: M8 hecho (falta tu prueba a ojo)
+Hito actual: ninguno (proyecto abierto a mejoras)
 Tarea actual: ninguna
 
 Hitos reconstruidos a posteriori (el proyecto empezo antes de que existieran los hitos). Desde ahora `/planificar` los propone al planificar.
@@ -17,7 +17,7 @@ Hitos reconstruidos a posteriori (el proyecto empezo antes de que existieran los
 | M5 | Segunda tanda de benchmarks (3 modelos nuevos) | 028-029 | hecho (probado a ojo) | `npm run dev`: recorrer los 5 selectores en escritorio y móvil |
 | M6 | Selector: arrastre con mouse y scrollbar sutil; primer uso de run_worker.py | 030-032 | hecho (probado a ojo) | `npm run dev` en escritorio con ventana estrecha: arrastrar la tira de modelos; la barra solo aparece al pasar el puntero |
 | M7 | QA del M6: veredicto de delegar, header/footer, ancho 1280 | 033-039 (en `docs/tasks/qa/`) | hecho (probado a ojo) | `npm run dev`: sección de veredicto bajo el hero con 5 modelos; header mayor; contenido a 1280 px en pantalla ancha |
-| M8 | QA del M7: README para GitHub, aviso en Metodología, Rondas al final, modelo en el hero | 040-043 (en `docs/tasks/qa/`) | hecho (falta tu prueba a ojo) | `npm run dev`: frase del hero con el modelo, aviso en Metodología, Rondas a la derecha; README.md en GitHub |
+| M8 | QA del M7: README para GitHub, aviso en Metodología, Rondas al final, modelo en el hero | 040-043 (en `docs/tasks/qa/`) | hecho (probado a ojo) | `npm run dev`: frase del hero con el modelo, aviso en Metodología, Rondas a la derecha; README.md en GitHub |
 
 ## Decisiones
 - 2026-10-15: las animaciones no dependen de `prefers-reduced-motion`.
