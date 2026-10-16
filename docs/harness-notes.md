@@ -116,3 +116,10 @@ Las lecciones de la construccion inicial (tareas 001 a 027) ya se pasaron a la p
 - Remedio usado: `changed_files` ignora `.harness/state/`, el commit lo excluye y no se calculan velocidades con menos de 10 tokens o 0,5 s.
 - Aplica a: core
 - Estado: new
+
+## 2026-10-16 · strip_thinking: primera prueba real
+- Que paso: misma tarea de 2 archivos con `strip_thinking` false y true: 912 tokens de salida y 25 s frente a 30 tokens y 12 s, ambas OK.
+- Causa: con la opcion activa el proxy quita `thinking`, `output_config` y `context_management` y el modelo no razona.
+- Remedio usado: ninguno todavia; queda en false. Una sola muestra y tarea trivial: probar en tareas reales y comparar calidad antes de cambiar el valor por defecto.
+- Aplica a: core
+- Estado: new

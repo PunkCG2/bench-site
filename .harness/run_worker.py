@@ -487,36 +487,49 @@ def fmt_rate(v):
     return "-" if not v else f"{v:.0f}" if v >= 100 else f"{v:.1f}"
 
 
-def render_live(snap, width=160):
-    """One status line (plain ASCII) from a Live snapshot."""
+ANSI = {"cyan": "36", "green": "32", "yellow": "33", "red": "31", "blue": "34", "magenta": "35", "dim": "2"}
+
+
+def paint(text, color):
+    return f"\x1b[{ANSI[color]}m{text}\x1b[0m" if color else text
+
+
+def render_live(snap, width=160, color=False):
+    """One status line from a Live snapshot. With color=True the parts carry ANSI colors (terminals only)."""
     if snap.get("phase") == "done":
         return "worker finished"
     if snap.get("phase") == "idle" and not snap.get("started"):
         return "waiting for the worker ..."
     elapsed = snap["now"] - snap["started"] if snap.get("started") else 0
     budget = snap.get("timeout_s") or 0
+    frac = elapsed / budget if budget else 0
+    clock_color = "green" if frac < 0.6 else "yellow" if frac < 0.9 else "red"
     bar = ""
     if budget and snap["phase"] == "worker":
-        filled = min(10, int(10 * elapsed / budget))
+        filled = min(10, int(10 * frac))
         bar = " [" + "#" * filled + "-" * (10 - filled) + "]"
     who = snap["tier"] + (f" {snap['model']}" if snap["tier"] == "local" and snap.get("model") else "")
-    parts = [f"{who} try {snap['attempt']}/{snap['attempts']}"]
+    parts = [(f"{who} try {snap['attempt']}/{snap['attempts']}", "cyan")]
     if snap["phase"] == "gates":
-        parts.append(f"checks running {fmt_clock(elapsed)}")
+        parts.append((f"checks running {fmt_clock(elapsed)}", "yellow"))
     else:
-        parts.append(f"{fmt_clock(elapsed)}" + (f"/{fmt_clock(budget)}" if budget else "") + bar)
+        parts.append((f"{fmt_clock(elapsed)}" + (f"/{fmt_clock(budget)}" if budget else "") + bar, clock_color))
     if snap["tier"] == "local":
-        state = "gen" if snap["active"] and snap["cur_out"] else ("wait" if snap["active"] else "idle")
-        out_total = snap["out_tokens"] + snap["cur_out"]
-        parts.append(f"req {snap['requests']} {state}")
-        parts.append(f"in {snap['in_tokens'] + snap.get('cur_in', 0)} tok ({fmt_rate(snap['prefill_tps'])} t/s)")
-        parts.append(f"out {out_total} tok ({fmt_rate(snap['gen_tps'])} t/s)")
+        generating = snap["active"] and snap["cur_out"]
+        state = "gen" if generating else ("wait" if snap["active"] else "idle")
+        parts.append((f"req {snap['requests']} {state}", "green" if generating else "yellow" if snap["active"] else "dim"))
+        parts.append((f"in {snap['in_tokens'] + snap.get('cur_in', 0)} tok ({fmt_rate(snap['prefill_tps'])} t/s)", "blue"))
+        parts.append((f"out {snap['out_tokens'] + snap['cur_out']} tok ({fmt_rate(snap['gen_tps'])} t/s)", "magenta"))
     else:
-        parts.append("cloud worker (no token stats)")
+        parts.append(("cloud worker (no token stats)", "dim"))
     if snap.get("tools"):
-        parts.append(" ".join(f"{k}x{v}" for k, v in sorted(snap["tools"].items())))
-    line = " | ".join(parts)
-    return line if len(line) <= width else line[: max(10, width - 3)] + "..."
+        parts.append((" ".join(f"{k}x{v}" for k, v in sorted(snap["tools"].items())), "dim"))
+    plain = " | ".join(text for text, _ in parts)
+    if len(plain) > width:
+        return plain[: max(10, width - 3)] + "..."
+    if not color:
+        return plain
+    return paint(" | ", "dim").join(paint(text, col) for text, col in parts)
 
 
 class Display:
@@ -531,6 +544,13 @@ class Display:
         self.shown = 0
 
     def start(self):
+        if self.tty and os.name == "nt":
+            try:  # turns on ANSI colors in the Windows console
+                import ctypes
+                kernel = ctypes.windll.kernel32
+                kernel.SetConsoleMode(kernel.GetStdHandle(-11), 7)
+            except (ImportError, AttributeError, OSError):
+                pass
         self.thread.start()
 
     def _loop(self):
@@ -541,10 +561,11 @@ class Display:
                 continue
             if self.tty:
                 width = max(40, shutil.get_terminal_size((100, 20)).columns - 1)
-                text = render_live(snap, width)
-                self.stream.write("\r" + text.ljust(self.shown))
+                plain = render_live(snap, width)
+                text = render_live(snap, width, color=True)
+                self.stream.write("\r" + text + " " * max(0, self.shown - len(plain)))
                 self.stream.flush()
-                self.shown = len(text)
+                self.shown = len(plain)
             elif time.time() - self.last_plain >= 30:
                 self.last_plain = time.time()
                 self.stream.write("   " + render_live(snap) + "\n")
@@ -576,6 +597,7 @@ def cmd_watch(root):
                 stale = time.time() - snap.get("updated", 0) > 15
             except (OSError, ValueError):
                 snap, stale = None, True
+            shown = None
             if snap and snap.get("phase") not in ("done", "idle") and not stale:
                 seen = True
             if snap is None or (stale and snap.get("phase") != "done"):
@@ -586,9 +608,10 @@ def cmd_watch(root):
                 snap["now"] = time.time() if not stale else snap.get("updated", 0)
                 width = max(40, shutil.get_terminal_size((100, 20)).columns - 1) if tty else 200
                 text = render_live(snap, width)
+                shown = render_live(snap, width, color=tty)
             try:
                 if tty:
-                    sys.stdout.write("\r" + text.ljust(len(last)))
+                    sys.stdout.write("\r" + (shown or text) + " " * max(0, len(last) - len(text)))
                     sys.stdout.flush()
                 elif text != last:
                     print(text, flush=True)
