@@ -3,6 +3,7 @@ import { initState, setModelo, setIdioma } from '../src/state.js'
 import { renderHallazgos, elegirVariantes } from '../src/components/hallazgos.js'
 import { reduccionTokens } from '../src/lib/metrics.js'
 import datos from '../src/data/benchmarks.json'
+import diccionarios from '../src/i18n/sections/hallazgos.js'
 
 let contenedor, handle
 
@@ -12,6 +13,7 @@ beforeEach(() => {
   contenedor = document.createElement('div')
   document.body.appendChild(contenedor)
   initState(datos)
+  setIdioma('es')
 })
 
 afterEach(() => { handle?.cancelar(); contenedor.remove() })
@@ -58,6 +60,15 @@ describe('hallazgos', () => {
     setModelo(b.id)
     const despues = [...contenedor.querySelectorAll('.hallazgo')].map((li) => li.textContent)
     expect(despues.some((txt, i) => txt !== antes[i])).toBe(true)
+  })
+
+  it('el aviso de metodología existe y cambia con el idioma', () => {
+    handle = renderHallazgos(contenedor, datos)
+    const aviso = contenedor.querySelector('.metodologia__aviso')
+    expect(aviso).not.toBeNull()
+    expect(aviso.textContent).toBe(diccionarios.es['metodologia.aviso'])
+    setIdioma('en')
+    expect(aviso.textContent).toBe(diccionarios.en['metodologia.aviso'])
   })
 
   it('en inglés el hallazgo de tokens cambia y la metodología usa revisor y nº de tareas', () => {

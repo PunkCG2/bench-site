@@ -29,6 +29,8 @@ export default {
       'Todas las tareas del modelo local solo obtuvieron {nota}.',
     'metodologia.texto':
       'El benchmark se hizo con {tareas} tareas reales y el revisor fue {revisor}. Las notas salen de los mismos tests reales del benchmark.',
+    'metodologia.aviso':
+      'Aviso: estas calificaciones no reflejan necesariamente el desempeño real de los modelos, ni son una comparativa precisa del uso del modelo híbrido en el desarrollo. Se siguen descubriendo configuraciones nuevas y, idealmente, los datos se actualizarán con mediciones mejores.',
   },
   en: {
     'hallazgos.titulo': 'Findings',
@@ -57,5 +59,7 @@ export default {
       'All local-only tasks scored {nota}.',
     'metodologia.texto':
       'The benchmark was run on {tareas} real tasks with {revisor} as the reviewer. The scores come from the same real benchmark tests.',
+    'metodologia.aviso':
+      'Notice: these scores do not necessarily reflect the real performance of the models, nor are they a precise comparison of using the hybrid model in development. New configurations are still being discovered and, ideally, the data will be updated with better measurements.',
   },
 }

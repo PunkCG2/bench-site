@@ -47,9 +47,11 @@ export function renderHallazgos(contenedor, datos) {
   const h2Metodologia = document.createElement('h2')
   const pMetodologia = document.createElement('p')
   pMetodologia.className = 'metodologia__texto'
+  const pAviso = document.createElement('p')
+  pAviso.className = 'metodologia__texto metodologia__aviso'
 
   seccionHallazgos.append(h2Hallazgos, lista)
-  seccionMetodologia.append(h2Metodologia, pMetodologia)
+  seccionMetodologia.append(h2Metodologia, pMetodologia, pAviso)
   contenedor.append(seccionHallazgos, seccionMetodologia)
 
   function actualizar() {
@@ -100,6 +102,7 @@ export function renderHallazgos(contenedor, datos) {
       tareas: modelo.tareas.length,
       revisor,
     })
+    pAviso.textContent = t('metodologia.aviso')
   }
 
   actualizar()
