@@ -21,6 +21,7 @@ Exit codes: 0 delivered | 2 local server unreachable | 3 a model must be chosen 
             4 ladder exhausted (the main Claude session takes over) | 5 usage or configuration error.
 """
 import argparse
+import atexit
 import fnmatch
 import http.server
 import json
@@ -43,14 +44,14 @@ try:
 except Exception:
     pass
 
-EXIT_OK, EXIT_SERVER, EXIT_NEEDS_MODEL, EXIT_LADDER, EXIT_CONFIG = 0, 2, 3, 4, 5
+EXIT_OK, EXIT_SERVER, EXIT_NEEDS_MODEL, EXIT_LADDER, EXIT_CONFIG, EXIT_BUSY = 0, 2, 3, 4, 5, 6
 
 DEFAULTS = {
     "project": {"base_branch": "main"},
     "workers": {
         "ladder": ["local", "claude-haiku", "claude-sonnet", "main-claude"],
         "local": {"kind": "anthropic-compatible-server", "url": "http://127.0.0.1:1234", "model": "",
-                  "attempts": 3, "max_output_tokens": 16000, "strip_thinking": False, "strip_thinking_attempts": 2,
+                  "attempts": 3, "fallback_model": "", "max_output_tokens": 16000, "strip_thinking": False, "strip_thinking_attempts": 2,
                   "max_turns": 40},
         "claude-haiku": {"kind": "claude-cli", "model": "haiku", "attempts": 2, "max_turns": 40},
         "claude-sonnet": {"kind": "claude-cli", "model": "sonnet", "attempts": 1, "max_turns": 40},
@@ -493,16 +494,178 @@ def resolve_model(models, wanted=None, interactive=False, ask=input):
             return pool[int(s) - 1]
 
 
-def ensure_loaded(base, model):
-    if model["state"] == "loaded":
-        return "already loaded"
+def loaded_instances(base, model_id):
+    """Instances of the model currently loaded on the server (/api/v1/models -> loaded_instances).
+    None when the server has no such endpoint or does not know the model."""
     try:
-        http_json(base.rstrip("/") + "/api/v1/models/load", {"model": model["id"]}, timeout=900)
+        data = http_json(base.rstrip("/") + "/api/v1/models", timeout=15)
+    except Exception:  # noqa: BLE001
+        return None
+    for m in data.get("models") or []:
+        if m.get("key") == model_id or m.get("id") == model_id:
+            return [i.get("id") if isinstance(i, dict) else i for i in (m.get("loaded_instances") or [])]
+    return None
+
+
+def count_loaded(base, model_id):
+    """How many instances of the model are loaded; falls back to the state of /api/v0/models."""
+    inst = loaded_instances(base, model_id)
+    if inst is not None:
+        return len(inst)
+    try:
+        for m in list_models(base):
+            if m["id"] == model_id:
+                return 1 if m["state"] == "loaded" else 0
+    except ConnectionError:
+        pass
+    return 0
+
+
+def pid_alive(pid):
+    if pid <= 0:
+        return False
+    if os.name == "nt":
+        # bytes on purpose: tasklist prints in the console code page, which is not always UTF-8
+        out = subprocess.run(["tasklist", "/FI", f"PID eq {pid}", "/FO", "CSV", "/NH"], capture_output=True).stdout
+        return f'"{pid}"'.encode() in (out or b"")
+    try:
+        os.kill(pid, 0)
+        return True
+    except OSError:
+        return False
+
+
+class FileLock:
+    """Cross-process lock made of a file created exclusively. A lock older than `stale` seconds is taken over."""
+
+    def __init__(self, path, timeout=900, stale=1800, sleep=time.sleep):
+        self.path, self.timeout, self.stale, self.sleep = Path(path), timeout, stale, sleep
+
+    def __enter__(self):
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        waited = 0.0
+        while True:
+            try:
+                fd = os.open(str(self.path), os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+                os.write(fd, str(os.getpid()).encode())
+                os.close(fd)
+                return self
+            except FileExistsError:
+                try:
+                    if time.time() - self.path.stat().st_mtime > self.stale:
+                        self.path.unlink()
+                        continue
+                except OSError:
+                    continue
+                if waited >= self.timeout:
+                    raise TimeoutError(f"could not get the lock {self.path}")
+                self.sleep(0.25)
+                waited += 0.25
+
+    def __exit__(self, *exc):
+        try:
+            self.path.unlink()
+        except OSError:
+            pass
+
+
+class RunLock:
+    """One worker run per project at a time: a pid file that is ignored once its process is gone."""
+
+    def __init__(self, path):
+        self.path = Path(path)
+
+    def acquire(self):
+        """None when the lock is ours now; otherwise the pid of the run that holds it."""
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            pid = int(self.path.read_text(encoding="utf-8").strip())
+        except (OSError, ValueError):
+            pid = 0
+        if pid and pid != os.getpid() and pid_alive(pid):
+            return pid
+        self.path.write_text(str(os.getpid()), encoding="utf-8")
+        return None
+
+    def release(self):
+        try:
+            if self.path.read_text(encoding="utf-8").strip() == str(os.getpid()):
+                self.path.unlink()
+        except OSError:
+            pass
+
+
+def ensure_loaded(base, model, lock_path=None, settle_s=30, sleep=time.sleep):
+    """Makes sure exactly one instance of the model is loaded and never sends a second load order:
+    a second order creates a second instance (`name:2`) that uses memory twice."""
+    base = base.rstrip("/")
+    lock = FileLock(lock_path) if lock_path else None
+    if lock:
+        lock.__enter__()
+    try:
+        n = count_loaded(base, model["id"])
+        if n >= 1:
+            return "already loaded" + (f" (WARNING: {n} instances are loaded; unload the extra ones)" if n > 1 else "")
+        error = None
+        try:
+            http_json(base + "/api/v1/models/load", {"model": model["id"]}, timeout=900)
+        except urllib.error.HTTPError as e:
+            if e.code in (404, 405):
+                return "no load endpoint: the server loads it on first use"
+            error = e
+        except (urllib.error.URLError, OSError) as e:
+            error = e
+        # An error does not prove it failed: the server may still be loading it. Wait and look; do not ask again.
+        waited = 0.0
+        while error is not None and waited < settle_s:
+            if count_loaded(base, model["id"]) >= 1:
+                return "loaded by the API (the server reported an error but the model is loaded)"
+            sleep(2)
+            waited += 2
+        if error is not None:
+            raise error
         return "loaded by the API"
-    except urllib.error.HTTPError as e:
-        if e.code in (404, 405):
-            return "no load endpoint: the server loads it on first use"
-        raise
+    finally:
+        if lock:
+            lock.__exit__(None, None, None)
+
+
+def find_model(models, name):
+    """Model whose id equals `name` or is the only one that contains it; None if there is none or several."""
+    low = name.lower()
+    exact = [m for m in models if m["id"].lower() == low]
+    found = exact or [m for m in models if low in m["id"].lower()]
+    return found[0] if len(found) == 1 else None
+
+
+def plan_models(models, wanted=None, preferred="", fallback="", saved="", interactive=False, ask=input):
+    """Ordered models to try and a note for the author.
+    --model wins. Otherwise: if something is loaded use it (the preferred one first, then the fallback, then whatever is
+    loaded) so no second model is loaded on top; if nothing is loaded try to load the preferred one and then the fallback."""
+    if wanted:
+        return [resolve_model(models, wanted)], ""
+    named = []
+    for label, name in (("model", preferred), ("fallback_model", fallback)):
+        if not name:
+            continue
+        m = find_model(models, name)
+        if m is None:
+            if label == "model":
+                raise ValueError(f"the configured model '{name}' is not on the server (or matches several); check harness.toml")
+            continue  # a missing fallback must not block the run
+        if m not in named:
+            named.append(m)
+    loaded = [m for m in models if m["state"] == "loaded"]
+    if loaded:
+        for m in named:
+            if m in loaded:
+                return [m], ""
+        if named:
+            return [loaded[0]], (f"using the already loaded {loaded[0]['id']} instead of {named[0]['id']} "
+                                 "(loading another model on top could run out of memory)")
+    if named:
+        return named, ""
+    return [resolve_model(models, saved or None, interactive=interactive, ask=ask)], ""
 
 
 # ----------------------------------------------------------------------------- workers
@@ -745,6 +908,14 @@ def main(argv=None):
     if args.dry_run:
         return EXIT_OK
 
+    run_lock = RunLock(state_dir(root) / "worker.lock")
+    busy = run_lock.acquire()
+    if busy:
+        print(f"error: another worker run is active in this project (pid {busy}). Wait for it to finish or stop it first.",
+              file=sys.stderr)
+        return EXIT_BUSY
+    atexit.register(run_lock.release)
+
     try:
         ensure_branch(root, branch, base_branch)
     except RuntimeError as e:
@@ -767,9 +938,9 @@ def main(argv=None):
         sfile = state_dir(root) / "model.txt"
         if sfile.exists():
             saved = sfile.read_text(encoding="utf-8").strip()
-        wanted = args.model or local_cfg.get("model") or saved
         try:
-            chosen = resolve_model(models, wanted or None, interactive=sys.stdin.isatty())
+            candidates, note = plan_models(models, args.model, local_cfg.get("model", ""), local_cfg.get("fallback_model", ""),
+                                           saved, interactive=sys.stdin.isatty())
         except NeedsModel as e:
             print("NEEDS_MODEL: choose one and run again with --model <id>")
             for m in e.models:
@@ -778,11 +949,21 @@ def main(argv=None):
         except ValueError as e:
             print(f"error: {e}", file=sys.stderr)
             return EXIT_CONFIG
-        try:
-            how = ensure_loaded(base, chosen)
-        except (urllib.error.URLError, OSError) as e:
-            print(f"error: could not load {chosen['id']}: {e}\n"
-                  "The server may not have enough memory for it (unload the other model first), or use "
+        if note:
+            print(f"note: {note}")
+        chosen, how, failures = None, "", []
+        for cand in candidates:
+            try:
+                how = ensure_loaded(base, cand, lock_path=state_dir(root) / "load.lock")
+                chosen = cand
+                break
+            except (urllib.error.URLError, OSError) as e:
+                failures.append(f"{cand['id']}: {e}")
+                if len(candidates) > 1:
+                    print(f"could not load {cand['id']} ({e}); trying the next model", flush=True)
+        if chosen is None:
+            print("error: could not load any model: " + "; ".join(failures) + "\n"
+                  "The server may not have enough memory (unload the other model first), or use "
                   "--model <id> to pick the one that is already loaded.", file=sys.stderr)
             return EXIT_SERVER
         print(f"model: {chosen['id']} ({how})")

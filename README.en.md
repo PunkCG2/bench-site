@@ -125,7 +125,7 @@ npm run data           # regenerate src/data/benchmarks.json from data/raw/
 npm run check:layout   # layout check in Edge and Firefox (with npm run dev running)
 ```
 
-To run tasks with the local worker again you need a local server with an Anthropic-compatible API at `http://127.0.0.1:1234` and the `claude` command; the settings are in [`.harness/harness.toml`](.harness/harness.toml).
+To run tasks with the local worker again you need a local server with an Anthropic-compatible API at `http://127.0.0.1:1235` and the `claude` command; the settings are in [`.harness/harness.toml`](.harness/harness.toml).
 
 ## Repository layout
 

@@ -144,3 +144,10 @@ Las lecciones de la construccion inicial (tareas 001 a 027) ya se pasaron a la p
 - Remedio usado: ninguno; las tareas no son comparables con las de antes porque cambiaron modelo y razonamiento a la vez.
 - Aplica a: core
 - Estado: new
+
+## 2026-10-16 · Dos instancias del mismo modelo cargadas
+- Que paso: al lanzar Qwen aparecieron 2 instancias en la API (`qwen3.8-27b` y `qwen3.8-27b:2`).
+- Causa: una segunda orden de carga con el modelo ya cargado crea otra instancia (comprobado en el servidor real). Las ordenes salieron de dos ejecuciones del worker solapadas (un comando que habia detenido a medias relanzo la tarea), cada una vio "no cargado" y mando su carga; un reintento tras un error 500 tambien habria duplicado.
+- Remedio usado: `ensure_loaded` consulta `loaded_instances` antes de cargar, nunca repite la orden (tras un error espera y vuelve a mirar), serializa la carga con un candado, una sola ejecucion por proyecto (`worker.lock`, codigo 6) y, si hay otro modelo cargado, usa ese en vez de cargar uno encima. Modelo preferido (`model`) y secundario (`fallback_model`) en `harness.toml`. Pruebas reales: 3 procesos pidiendo la carga a la vez dejaron 1 instancia; dos ejecuciones simultaneas: la segunda se rechazo con el codigo 6.
+- Aplica a: core
+- Estado: new
