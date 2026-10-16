@@ -46,18 +46,45 @@
   gap: var(--sp-8);
   max-width: 100%;
   overflow-x: auto;
-  scrollbar-width: thin;
-  scrollbar-color: transparent transparent;
-  transition: scrollbar-color var(--dur-theme);
   /* Con muchos modelos el grupo hace scroll; `safe` evita que el primero quede fuera de alcance. */
   justify-content: safe center;
   /* Aire para la barra de scroll sin mover el resto del header. */
   padding-bottom: var(--sp-4);
 }
 
-/* La barra aparece solo al pasar el puntero por la tira. */
-.header__selector:hover {
-  scrollbar-color: var(--muted) transparent;
+/* Barra delgada redondeada sin flechas, visible solo al pasar el puntero. */
+.header__selector::-webkit-scrollbar {
+  height: var(--sp-4);
+}
+
+.header__selector::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.header__selector::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: var(--r-btn);
+  transition: background-color var(--dur-theme);
+}
+
+.header__selector:hover::-webkit-scrollbar-thumb {
+  background: var(--muted);
+}
+
+.header__selector::-webkit-scrollbar-button {
+  display: none;
+}
+
+/* Firefox: la barra fina solo aparece al pasar el puntero. */
+@supports not selector(::-webkit-scrollbar) {
+  .header__selector {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+  }
+
+  .header__selector:hover {
+    scrollbar-color: var(--muted) transparent;
+  }
 }
 
 /* Arrastre con mouse: cursor de agarre y sin selección de texto. */

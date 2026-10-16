@@ -1,6 +1,6 @@
 ---
 id: 032
-estado: pendiente
+estado: hecha
 ejecuta: local
 depende: [031]
 hito: M6
@@ -34,4 +34,4 @@ Solo `var(--...)` de `tokens.css`. Mantener `padding-bottom: var(--sp-4)` y el r
 - [ ] `header.css` ya no tiene `scrollbar-color` fuera del bloque `@supports`
 
 ## Notas de revision
-(las escribe Claude al aprobar)
+Worker local, 1 intento (49 s). Verificado en Edge: barra de 4 px sin flechas, thumb redondeado al pasar el puntero. Firefox usa scrollbar-width thin via @supports (sin probar a ojo).

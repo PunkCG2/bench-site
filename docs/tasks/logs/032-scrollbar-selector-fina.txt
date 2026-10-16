@@ -1,0 +1,24 @@
+--- local attempt 1 (first), 48.7 s ---
+Tarea 032 hecha.
+
+- `src/styles/header.css`: quitados `scrollbar-width`, `scrollbar-color` y la `transition` de `scrollbar-color` de `.header__selector`; quitada la regla `:hover` vieja.
+- Añadidas reglas `::-webkit-scrollbar` (height `--sp-4`, track transparente, thumb transparente con `border-radius: var(--r-btn)` y `transition: background-color var(--dur-theme)`, thumb `:hover` con `var(--muted)`, `::-webkit-scrollbar-button { display: none }`).
+- Bloque `@supports not selector(::-webkit-scrollbar)` para Firefox con `scrollbar-width: thin` y `scrollbar-color` transparente/`var(--muted)` al hover.
+- `padding-bottom: var(--sp-4)` y resto de la regla intactos. Solo `var(--...)` de tokens.
+- `npm test`: 151 pasados. `npm run build`: OK.
+- Criterio: `scrollbar-color` solo dentro del `@supports`.
+Claude Code doesn't recognize the model "qwen3.8-27b", so it assumes a context window of 200k tokens. Update Claude Code, or see https://code.claude.com/docs/en/model-config#correct-the-window-for-a-gateway-or-custom-model-id to set the window.
+[claude-code:unrecognized_model] {"model":"qwen3.8-27b","query_source":"generate_session_title"}
+⚠ claude.ai connectors are disabled because ANTHROPIC_API_KEY or another auth source is set and takes precedence over your claude.ai login · Unset it to load your organization's connectors
+
+=== REVIEW BRIEF ===
+task:   032-scrollbar-selector-fina.md
+branch: task/032-scrollbar-selector-fina
+worker: local (qwen3.8-27b) after 1 attempt(s)
+scope:  OK
+gate:   `npm test` OK (3.3 s)
+attempts: local#1 first -> ok (48.7 s)
+files:
+src/styles/header.css | 39 +++++++++++++++++++++++++++++++++------
+ 1 file changed, 33 insertions(+), 6 deletions(-)
+log:    docs/tasks/logs/032-scrollbar-selector-fina.txt
