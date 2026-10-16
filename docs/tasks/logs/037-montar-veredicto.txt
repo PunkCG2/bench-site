@@ -1,0 +1,37 @@
+--- local attempt 1 (first), 168.6 s ---
+Tarea 037 hecha.
+
+- `src/main.js`: import de `renderVeredicto`, llamada justo tras `renderHero` con `canceladores.push(renderVeredicto(main, datos).cancelar)`, `IDS` con `'veredicto'` en segundo lugar.
+- `tests/app.test.js`: lista de ids actualizada; nombre del test "8 zonas" → "9 zonas" (una zona más en `main`).
+- Grep en `tests/`: solo `app.test.js` asumía el número de secciones de `main`; el resto prueba componentes aislados.
+- `docs/tasks/037-montar-veredicto.md`: `estado: hecha`, criterios marcados.
+- `npm test`: 191/191 pasan. `npm run build`: OK.
+- Duda: el nombre del test no estaba en los detalles; lo ajusté por coherencia. Si no, se revierte.
+Claude Code doesn't recognize the model "qwen3.8-27b", so it assumes a context window of 200k tokens. Update Claude Code, or see https://code.claude.com/docs/en/model-config#correct-the-window-for-a-gateway-or-custom-model-id to set the window.
+[claude-code:unrecognized_model] {"model":"qwen3.8-27b","query_source":"generate_session_title"}
+⚠ claude.ai connectors are disabled because ANTHROPIC_API_KEY or another auth source is set and takes precedence over your claude.ai login · Unset it to load your organization's connectors
+
+--- local attempt 2 (gates), 89.5 s ---
+Done.
+
+- Reverted `docs/tasks/037-montar-veredicto.md` to HEAD (estado: pendiente, criterios sin marcar) — git restore pedía aprobación, revertido a mano.
+- `src/main.js`: intacto y correcto — importa `renderVeredicto`, lo llama tras `renderHero`, `IDS` con `'veredicto'` en 2ª posición.
+- `tests/app.test.js`: lista de ids actualizada; ningún otro test asume el número de secciones (verificado con grep).
+- `npm test`: 191/191 pasan. `npm run build`: OK.
+- Solo quedan modificados los 2 archivos en alcance.
+Claude Code doesn't recognize the model "qwen3.8-27b", so it assumes a context window of 200k tokens. Update Claude Code, or see https://code.claude.com/docs/en/model-config#correct-the-window-for-a-gateway-or-custom-model-id to set the window.
+[claude-code:unrecognized_model] {"model":"qwen3.8-27b","query_source":"generate_session_title"}
+⚠ claude.ai connectors are disabled because ANTHROPIC_API_KEY or another auth source is set and takes precedence over your claude.ai login · Unset it to load your organization's connectors
+
+=== REVIEW BRIEF ===
+task:   037-montar-veredicto.md
+branch: task/037-montar-veredicto
+worker: local (qwen3.8-27b) after 2 attempt(s)
+scope:  OK
+gate:   `npm test` OK (3.4 s)
+attempts: local#1 first -> gates (168.6 s); local#2 gates -> ok (89.5 s)
+files:
+src/main.js       | 4 +++-
+ tests/app.test.js | 4 ++--
+ 2 files changed, 5 insertions(+), 3 deletions(-)
+log:    docs/tasks/logs/037-montar-veredicto.txt

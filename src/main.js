@@ -6,13 +6,14 @@ import { initState } from './state.js'
 import { t, onLangChange } from './i18n/index.js'
 import { renderHeader } from './components/header.js'
 import { renderHero } from './components/hero.js'
+import { renderVeredicto } from './components/veredicto.js'
 import { renderColumnas } from './components/columnas.js'
 import { renderGrafico } from './components/grafico.js'
 import { renderTabla } from './components/tabla.js'
 import { renderHallazgos } from './components/hallazgos.js'
 import { renderFooter } from './components/footer.js'
 
-const IDS = ['hero', 'modos', 'grafico', 'detalle', 'hallazgos', 'metodologia']
+const IDS = ['hero', 'veredicto', 'modos', 'grafico', 'detalle', 'hallazgos', 'metodologia']
 
 export function montar(raiz, datos) {
   raiz.textContent = ''
@@ -39,6 +40,7 @@ export function montar(raiz, datos) {
     canceladores.push(onLangChange(() => { p.textContent = t('app.vacio') }))
   } else {
     canceladores.push(renderHero(main, datos).cancelar)
+    canceladores.push(renderVeredicto(main, datos).cancelar)
     canceladores.push(renderColumnas(main, datos).cancelar)
     canceladores.push(renderGrafico(main, datos).cancelar)
     canceladores.push(renderTabla(main, datos).cancelar)

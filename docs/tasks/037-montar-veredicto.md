@@ -1,6 +1,6 @@
 ---
 id: 037
-estado: pendiente
+estado: hecha
 ejecuta: local
 depende: [036]
 hito: M7
@@ -30,4 +30,4 @@ La sección de veredicto aparece justo debajo del hero y la página mantiene sus
 - [ ] el segundo hijo de `main` tiene `id="veredicto"`
 
 ## Notas de revision
-(las escribe Claude al aprobar)
+Worker local, 2 intentos (el primero fallo npm test; el segundo OK en 90 s). Diff revisado.

@@ -27,12 +27,12 @@ afterEach(() => {
 })
 
 describe('app', () => {
-  it('monta las 8 zonas en orden', () => {
+  it('monta las 9 zonas en orden', () => {
     handle = montar(raiz, datos)
     expect(raiz.firstElementChild.tagName).toBe('HEADER')
     expect(raiz.lastElementChild.tagName).toBe('FOOTER')
     const ids = [...raiz.querySelector('main').children].map((el) => el.id)
-    expect(ids).toEqual(['hero', 'modos', 'grafico', 'detalle', 'hallazgos', 'metodologia'])
+    expect(ids).toEqual(['hero', 'veredicto', 'modos', 'grafico', 'detalle', 'hallazgos', 'metodologia'])
   })
 
   it('setModelo cambia el texto de #modos', () => {
