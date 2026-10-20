@@ -1,9 +1,9 @@
 ---
 id: 011
-estado: hecha
-ejecuta: local
-depende: [005, 008, 009]
-rondas: 2
+status: done
+runner: local
+depends: [005, 008, 009]
+rounds: 2
 ---
 # Construir las tres columnas de modos
 

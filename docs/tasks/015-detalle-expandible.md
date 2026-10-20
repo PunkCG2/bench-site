@@ -1,9 +1,9 @@
 ---
 id: 015
-estado: hecha
-ejecuta: local
-depende: [014]
-rondas: 2
+status: done
+runner: local
+depends: [014]
+rounds: 2
 ---
 # Filas expandibles con revisiones del revisor y vista móvil
 

@@ -1,10 +1,10 @@
 ---
 id: 038
-estado: pendiente
-ejecuta: local
-depende: [037]
-hito: M7
-rondas: 0
+status: pending
+runner: local
+depends: [037]
+milestone: M7
+rounds: 0
 ---
 # Header con más presencia y footer con más margen
 

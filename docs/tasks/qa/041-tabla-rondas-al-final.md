@@ -1,10 +1,10 @@
 ---
 id: 041
-estado: hecha
-ejecuta: local
-depende: [039]
-hito: M8
-rondas: 0
+status: done
+runner: local
+depends: [039]
+milestone: M8
+rounds: 0
 ---
 # Detalle por tarea: la columna Rondas va al final
 

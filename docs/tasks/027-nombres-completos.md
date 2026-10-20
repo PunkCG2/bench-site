@@ -1,9 +1,9 @@
 ---
 id: 027
-estado: hecha
-ejecuta: claude
-depende: [025]
-rondas: 0
+status: done
+runner: claude
+depends: [025]
+rounds: 0
 ---
 # Nombre completo del modelo como etiqueta e id
 

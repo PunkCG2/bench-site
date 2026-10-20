@@ -1,10 +1,10 @@
 ---
 id: 033
-estado: hecha
-ejecuta: local
-depende: [032]
-hito: M7
-rondas: 0
+status: done
+runner: local
+depends: [032]
+milestone: M7
+rounds: 0
 ---
 # Ancho máximo 1280 px y colores de semáforo
 

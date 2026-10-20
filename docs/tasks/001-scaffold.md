@@ -1,9 +1,9 @@
 ---
 id: 001
-estado: hecha
-ejecuta: local
-depende: []
-rondas: 0
+status: done
+runner: local
+depends: []
+rounds: 0
 ---
 # Crear el proyecto Vite vanilla con Vitest
 

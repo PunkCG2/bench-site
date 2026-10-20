@@ -1,9 +1,9 @@
 ---
 id: 024
-estado: hecha
-ejecuta: claude
-depende: [023]
-rondas: 0
+status: done
+runner: claude
+depends: [023]
+rounds: 0
 ---
 # Arrastre del carrusel tolerante a punteros sin captura (hallado en Firefox)
 

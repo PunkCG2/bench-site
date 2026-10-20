@@ -1,10 +1,10 @@
 ---
 id: 028
-estado: hecha
-ejecuta: claude
-depende: [027]
-hito: M5
-rondas: 0
+status: done
+runner: claude
+depends: [027]
+milestone: M5
+rounds: 0
 ---
 # Actualizar el harness de este proyecto con roles, hitos, progreso y control de alcance
 

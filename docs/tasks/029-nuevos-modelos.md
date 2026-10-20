@@ -1,10 +1,10 @@
 ---
 id: 029
-estado: hecha
-ejecuta: claude
-depende: [028]
-hito: M5
-rondas: 0
+status: done
+runner: claude
+depends: [028]
+milestone: M5
+rounds: 0
 ---
 # Agregar los tres benchmarks nuevos y pulir el selector con 5 modelos
 

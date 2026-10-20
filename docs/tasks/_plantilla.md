@@ -1,10 +1,10 @@
 ---
 id: NNN
-estado: pendiente        # pendiente | en-curso | hecha | bloqueada
-ejecuta: local           # local | claude
-depende: []              # ids de tareas que deben estar hechas antes
-hito: M1                 # hito al que pertenece (ver docs/progress/progress.md)
-rondas: 0                # lo llena Claude al aprobar
+status: pending          # pending | in-progress | done | blocked
+runner: local            # local | claude-haiku | claude-sonnet | claude (quien la ejecuta primero; la escalera sube desde ahí)
+depends: []              # ids de tareas que deben estar hechas antes
+milestone: M1            # hito al que pertenece (ver docs/progress/progress.md)
+rounds: 0                # lo llena Claude al aprobar
 ---
 # Titulo corto en imperativo
 

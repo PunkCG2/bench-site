@@ -1,9 +1,9 @@
 ---
 id: 018
-estado: hecha
-ejecuta: local
-depende: [017]
-rondas: 2
+status: done
+runner: local
+depends: [017]
+rounds: 2
 ---
 # Auditar contraste, reglas del proyecto y movimiento reducido
 

@@ -1,10 +1,10 @@
 ---
 id: 034
-estado: hecha
-ejecuta: local
-depende: [033]
-hito: M7
-rondas: 0
+status: done
+runner: local
+depends: [033]
+milestone: M7
+rounds: 0
 ---
 # Lógica del veredicto: cuatro semáforos y conclusión
 

@@ -1,9 +1,9 @@
 ---
 id: 025
-estado: hecha
-ejecuta: claude
-depende: [024]
-rondas: 0
+status: done
+runner: claude
+depends: [024]
+rounds: 0
 ---
 # Pruebas que no suponen exactamente dos modelos
 

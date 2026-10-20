@@ -1,10 +1,10 @@
 ---
 id: 040
-estado: pendiente
-ejecuta: local
-depende: [039]
-hito: M8
-rondas: 0
+status: pending
+runner: local
+depends: [039]
+milestone: M8
+rounds: 0
 ---
 # Aviso en Metodología: las notas no son un desempeño real
 

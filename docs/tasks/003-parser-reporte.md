@@ -1,9 +1,9 @@
 ---
 id: 003
-estado: hecha
-ejecuta: local
-depende: [001]
-rondas: 0
+status: done
+runner: local
+depends: [001]
+rounds: 0
 ---
 # Escribir el parser de reportes de benchmark
 

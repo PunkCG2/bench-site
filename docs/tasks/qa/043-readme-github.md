@@ -1,10 +1,10 @@
 ---
 id: 043
-estado: hecha
-ejecuta: claude
-depende: [040, 041, 042]
-hito: M8
-rondas: 0
+status: done
+runner: claude
+depends: [040, 041, 042]
+milestone: M8
+rounds: 0
 ---
 # README para GitHub (bilingüe) con capturas y mapa del harness en docs/
 

@@ -1,9 +1,9 @@
 ---
 id: 012
-estado: hecha
-ejecuta: claude
-depende: [011]
-rondas: 0
+status: done
+runner: claude
+depends: [011]
+rounds: 0
 ---
 # Convertir las columnas en carrusel en pantallas estrechas
 

@@ -1,9 +1,9 @@
 ---
 id: 009
-estado: hecha
-ejecuta: local
-depende: [002, 006, 007]
-rondas: 0
+status: done
+runner: local
+depends: [002, 006, 007]
+rounds: 0
 ---
 # Construir el header estático y el footer
 

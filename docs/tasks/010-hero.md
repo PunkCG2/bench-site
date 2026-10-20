@@ -1,9 +1,9 @@
 ---
 id: 010
-estado: hecha
-ejecuta: local
-depende: [005, 008, 009]
-rondas: 1
+status: done
+runner: local
+depends: [005, 008, 009]
+rounds: 1
 ---
 # Construir el hero con cifras animadas
 

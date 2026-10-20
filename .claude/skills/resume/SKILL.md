@@ -5,7 +5,7 @@ description: Informa dónde quedó el proyecto y lo retoma desde ahí. Úsala cu
 
 # Resume: retomar donde quedó
 
-1. Lee `docs/progress/progress.md`, el `estado` de cada tarea en `docs/tasks/` y `docs/tasks/qa/` (con los registros `qa-<hito>.md`), `git status`, `git branch` y `docs/harness-notes.md`.
+1. Lee `docs/progress/progress.md`, el `status` de cada tarea en `docs/tasks/` y `docs/tasks/qa/` (con los registros `qa-<hito>.md`), `git status`, `git branch` y `docs/harness-notes.md`.
 2. Informa en pocas líneas:
    - el último hito terminado y si el usuario ya lo probó;
    - el hito actual: tareas hechas y pendientes;

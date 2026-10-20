@@ -1,10 +1,10 @@
 ---
 id: 030
-estado: hecha
-ejecuta: local
-depende: [029]
-hito: M6
-rondas: 0
+status: done
+runner: local
+depends: [029]
+milestone: M6
+rounds: 0
 ---
 # Helper de arrastre con mouse para tiras con scroll horizontal
 

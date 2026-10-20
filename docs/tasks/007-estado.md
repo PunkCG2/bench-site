@@ -1,9 +1,9 @@
 ---
 id: 007
-estado: hecha
-ejecuta: local
-depende: [004, 006]
-rondas: 0
+status: done
+runner: local
+depends: [004, 006]
+rounds: 0
 ---
 # Crear el estado de la aplicación (modelo, tema, idioma)
 

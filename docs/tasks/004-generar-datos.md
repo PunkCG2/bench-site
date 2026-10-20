@@ -1,9 +1,9 @@
 ---
 id: 004
-estado: hecha
-ejecuta: local
-depende: [003]
-rondas: 0
+status: done
+runner: local
+depends: [003]
+rounds: 0
 ---
 # Generar benchmarks.json con `npm run data`
 

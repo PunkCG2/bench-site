@@ -1,9 +1,9 @@
 ---
 id: 021
-estado: hecha
-ejecuta: claude
-depende: [020]
-rondas: 0
+status: done
+runner: claude
+depends: [020]
+rounds: 0
 ---
 # Ajustes de la segunda revisión visual
 

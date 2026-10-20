@@ -1,9 +1,9 @@
 ---
 id: 019
-estado: hecha
-ejecuta: claude
-depende: [018]
-rondas: 0
+status: done
+runner: claude
+depends: [018]
+rounds: 0
 ---
 # Ajustes de presentación tras la revisión visual
 

@@ -1,10 +1,10 @@
 ---
 id: 032
-estado: hecha
-ejecuta: local
-depende: [031]
-hito: M6
-rondas: 0
+status: done
+runner: local
+depends: [031]
+milestone: M6
+rounds: 0
 ---
 # Scrollbar del selector: delgada como la de móvil en escritorio
 

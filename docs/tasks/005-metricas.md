@@ -1,9 +1,9 @@
 ---
 id: 005
-estado: hecha
-ejecuta: local
-depende: [004]
-rondas: 0
+status: done
+runner: local
+depends: [004]
+rounds: 0
 ---
 # Calcular las métricas derivadas del benchmark
 

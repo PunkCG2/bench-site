@@ -1,9 +1,9 @@
 ---
 id: 016
-estado: hecha
-ejecuta: local
-depende: [005, 009]
-rondas: 2
+status: done
+runner: local
+depends: [005, 009]
+rounds: 2
 ---
 # Construir las secciones de hallazgos y metodología
 

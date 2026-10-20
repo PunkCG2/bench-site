@@ -1,10 +1,10 @@
 ---
 id: 039
-estado: pendiente
-ejecuta: local
-depende: [038]
-hito: M7
-rondas: 0
+status: pending
+runner: local
+depends: [038]
+milestone: M7
+rounds: 0
 ---
 # El título del header nunca se parte en varias líneas
 

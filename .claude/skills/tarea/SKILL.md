@@ -5,22 +5,22 @@ description: Ejecuta una tarea de docs/tasks/ delegando la implementacion al mod
 
 # Ciclo: worker local → comprobaciones → revisión de Claude
 
-Entrada: ruta de una tarea o `siguiente` (la primera con `estado: pendiente` cuyas dependencias estén `hecha`, por orden de hito; busca en `docs/tasks/` y en `docs/tasks/qa/`).
+Entrada: ruta de una tarea o `siguiente` (la primera con `status: pending` cuyas `depends` estén todas en `done`, por orden de hito; busca en `docs/tasks/` y en `docs/tasks/qa/`).
 
 ## 1. Preparar
 - Lee la tarea. Si le faltan alcance o criterios verificables, complétalos antes de delegar.
 - `git status` debe estar limpio y en `main`. Si no lo está, detente y avisa.
-- Cambia la tarea a `estado: en-curso`, rama `task/NNN-nombre`, y anota la tarea actual en `docs/progress/progress.md`.
+- Cambia la tarea a `status: in-progress`, rama `task/NNN-nombre`, y anota la tarea actual en `docs/progress/progress.md`.
 
-## 2. Delegar (si `ejecuta: local`, no implementes tú)
+## 2. Delegar (si `runner` no es `claude`, no implementes tú)
 ```
 python .harness/run_worker.py docs/tasks/NNN-nombre.md
 ```
 El script usa el rol de `.harness/roles/implementer.md`, arranca el proxy y, al terminar, corre `scripts/scope-guard.ps1`
 (borra temporales evidentes y avisa de archivos fuera de "Archivos en alcance"; su resultado queda al final del log).
-Crea la rama `task/NNN-nombre`, corre el worker local (3 intentos, luego escala), el control de alcance y `npm test`, y termina con un `REVIEW BRIEF`. Puede tardar varios minutos: lanzalo en segundo plano y no toques el arbol mientras corre. Si no hay modelo cargado (codigo 3) pregunta al usuario cual y relanza con `--model`. `scripts/delegar-local.ps1` queda como respaldo. Si el worker se desbordó o no dejó archivos, no repitas la misma tarea: **pártela** en
+Crea la rama `task/NNN-nombre`, corre el worker local (3 intentos, luego escala), el control de alcance y `npm test`, y termina con un `REVIEW BRIEF`. Puede tardar varios minutos: lanzalo en segundo plano y no toques el arbol mientras corre. Si no hay modelo cargado (codigo 3) pregunta al usuario cual y relanza con `--model`. Código 4 (escalera agotada): los cambios quedan sin commit en la rama; lee el resumen y el log y termina tú la tarea o explica el bloqueo al usuario. Código 6 (ya hay otra ejecución activa): no lances otra (L-030); espera a que termine o pregunta al usuario si la detiene. `scripts/delegar-local.ps1` queda como respaldo. Si el worker se desbordó o no dejó archivos, no repitas la misma tarea: **pártela** en
 rondas `NNN-nombre.fix-K.md` (código y estilos primero, pruebas después, un archivo por llamada).
-Si `ejecuta: claude`, impleméntala tú en la rama y salta al paso 3.
+Con `runner: claude-haiku` o `claude-sonnet` añade `--start <runner>` al comando del worker. Si `runner: claude`, impleméntala tú en la rama y salta al paso 3.
 
 ## 3. Revisar (barato en tokens)
 - Lee el resumen del worker y el resultado del control de alcance en `docs/tasks/logs/`.
@@ -37,7 +37,7 @@ pequeño o explícale el bloqueo al usuario.
 ## 5. Aprobar
 - `git switch main`, `git merge --squash task/NNN-nombre`, `git commit -m "NNN: <resumen>"`, `git branch -D task/NNN-nombre`.
 - Con el dev server abierto, toca los archivos que cambiaron para que Vite no sirva CSS/JS viejo: `git diff --name-only HEAD~1 HEAD | xargs touch` (si algun archivo fue borrado, ignora el error).
-- En la tarea: `estado: hecha`, `rondas: K` y 1–2 líneas en "Notas de revisión". Commit.
+- En la tarea: `status: done`, `rounds: K` y 1–2 líneas en "Notas de revisión". Commit.
 - **Notas del harness:** si la tarea necesitó más de una ronda, o algo del propio harness falló (worker en bucle, criterio
   malo, permiso, pregunta que faltaba), añade una entrada a `docs/harness-notes.md`.
 - **Sign de guardrails:** si una ronda de corrección, una escalada o un defecto repetible tuvo una causa que una regla corta

@@ -1,10 +1,10 @@
 ---
 id: 035
-estado: pendiente
-ejecuta: local
-depende: [033]
-hito: M7
-rondas: 0
+status: pending
+runner: local
+depends: [033]
+milestone: M7
+rounds: 0
 ---
 # Estilos de la sección de veredicto
 

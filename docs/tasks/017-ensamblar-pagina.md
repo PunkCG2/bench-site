@@ -1,9 +1,9 @@
 ---
 id: 017
-estado: hecha
-ejecuta: local
-depende: [007, 009, 010, 011, 012, 013, 015, 016]
-rondas: 2
+status: done
+runner: local
+depends: [007, 009, 010, 011, 012, 013, 015, 016]
+rounds: 2
 ---
 # Ensamblar la página completa
 

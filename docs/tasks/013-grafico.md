@@ -1,9 +1,9 @@
 ---
 id: 013
-estado: hecha
-ejecuta: claude
-depende: [007, 008, 009]
-rondas: 0
+status: done
+runner: claude
+depends: [007, 008, 009]
+rounds: 0
 ---
 # Construir los gráficos de comparación entre modos
 

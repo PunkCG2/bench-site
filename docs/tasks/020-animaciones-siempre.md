@@ -1,9 +1,9 @@
 ---
 id: 020
-estado: hecha
-ejecuta: claude
-depende: [019]
-rondas: 0
+status: done
+runner: claude
+depends: [019]
+rounds: 0
 ---
 # Animaciones que no dependen de prefers-reduced-motion
 

@@ -1,10 +1,10 @@
 ---
 id: 037
-estado: hecha
-ejecuta: local
-depende: [036]
-hito: M7
-rondas: 0
+status: done
+runner: local
+depends: [036]
+milestone: M7
+rounds: 0
 ---
 # Montar el veredicto bajo el hero
 

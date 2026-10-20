@@ -1,9 +1,9 @@
 ---
 id: 026
-estado: hecha
-ejecuta: local
-depende: [025]
-rondas: 0
+status: done
+runner: local
+depends: [025]
+rounds: 0
 ---
 # Script de comprobación de layout en varios navegadores
 

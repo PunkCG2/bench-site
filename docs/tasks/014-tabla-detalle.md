@@ -1,9 +1,9 @@
 ---
 id: 014
-estado: hecha
-ejecuta: local
-depende: [008, 009]
-rondas: 2
+status: done
+runner: local
+depends: [008, 009]
+rounds: 2
 ---
 # Construir la tabla de detalle por tarea
 

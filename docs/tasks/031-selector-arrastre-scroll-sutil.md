@@ -1,10 +1,10 @@
 ---
 id: 031
-estado: hecha
-ejecuta: local
-depende: [030]
-hito: M6
-rondas: 0
+status: done
+runner: local
+depends: [030]
+milestone: M6
+rounds: 0
 ---
 # Selector de modelo: arrastrable con mouse y scrollbar sutil
 

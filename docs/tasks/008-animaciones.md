@@ -1,9 +1,9 @@
 ---
 id: 008
-estado: hecha
-ejecuta: local
-depende: [002]
-rondas: 0
+status: done
+runner: local
+depends: [002]
+rounds: 0
 ---
 # Crear utilidades de animación (contador y aparición)
 

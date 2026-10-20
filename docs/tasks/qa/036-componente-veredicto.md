@@ -1,10 +1,10 @@
 ---
 id: 036
-estado: hecha
-ejecuta: local
-depende: [034, 035]
-hito: M7
-rondas: 0
+status: done
+runner: local
+depends: [034, 035]
+milestone: M7
+rounds: 0
 ---
 # Componente de veredicto con textos es/en
 

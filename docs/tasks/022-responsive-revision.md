@@ -1,9 +1,9 @@
 ---
 id: 022
-estado: hecha
-ejecuta: claude
-depende: [021]
-rondas: 0
+status: done
+runner: claude
+depends: [021]
+rounds: 0
 ---
 # Revisión responsive con navegador real (Opera GX vía Playwright)
 

@@ -1,9 +1,9 @@
 ---
 id: 023
-estado: hecha
-ejecuta: claude
-depende: [022]
-rondas: 0
+status: done
+runner: claude
+depends: [022]
+rounds: 0
 ---
 # Ids de la tabla sin superposición (hallado al revisar en Edge)
 

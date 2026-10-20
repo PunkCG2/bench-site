@@ -14,13 +14,13 @@ description: Convierte docs/spec.md y docs/diseno.md en archivos de tarea dentro
    - Cada criterio de aceptación debe comprobarse con un comando (`npm test`, `npm run build`) o con un hecho concreto.
      Antes de escribirlo contrástalo con lo que el diseño ya garantiza (un criterio demasiado estricto genera fallos falsos).
    - Las pruebas van en la misma tarea que el código que cubren o en la siguiente del mismo hito.
-   - Marca `ejecuta: claude` solo cuando la tarea dependa de criterio de diseño difícil de especificar. El resto va con `ejecuta: local`.
+   - Marca `runner: claude` solo cuando la tarea dependa de criterio de diseño difícil de especificar; `runner: claude-haiku` o `claude-sonnet` si se sabe que es demasiado pesada para el worker local. El resto va con `runner: local`.
 
-3. Crea `docs/tasks/NNN-nombre-corto.md` siguiendo la plantilla (incluye `hito:`), numerados en orden de dependencia.
+3. Crea `docs/tasks/NNN-nombre-corto.md` siguiendo la plantilla (incluye `milestone:`), numerados en orden de dependencia.
 
 4. **Propón hitos.** Un hito es un punto donde una funcionalidad queda completa y el usuario puede **probarla a mano**
    (por ejemplo en el navegador). Para cada uno: id, objetivo, tareas, **cómo probarlo** (pasos concretos) y criterio de
    terminado. Escríbelos en `docs/progress/progress.md`.
 
-5. Muestra al usuario una tabla con id, título, ejecuta, dependencias e hito, y los hitos, y **espera su aprobación**.
+5. Muestra al usuario una tabla con id, título, runner, dependencias e hito, y los hitos, y **espera su aprobación**.
    No ejecutes ninguna tarea desde esta skill.
