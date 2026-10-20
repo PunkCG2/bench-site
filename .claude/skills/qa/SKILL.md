@@ -22,4 +22,6 @@ Entrada: lo que el usuario vio al probar (texto libre, capturas), normalmente al
 5. **Aprobación.** Muestra la tabla (id, ítem, severidad, tarea, ejecuta) y **espera el visto bueno**. No ejecutes nada desde aquí.
 6. **Después.** Con el visto bueno, `/tarea` sobre cada una. Al terminar pide al usuario la prueba a ojo de lo corregido:
    el hito no se da por cerrado mientras queden ítems abiertos en `docs/tasks/qa/qa-<hito>.md`.
-7. Si un ítem revela un fallo del harness o del stack (no del proyecto), añade una entrada en `docs/harness-notes.md`.
+7. Por cada **fallo** que una regla corta habría evitado, propón un sign para `docs/guardrails.md` (formato en ese archivo;
+   necesita evidencia y el usuario lo aprueba antes de añadirlo).
+8. Si un ítem revela un fallo del harness o del stack (no del proyecto), añade una entrada en `docs/harness-notes.md`.

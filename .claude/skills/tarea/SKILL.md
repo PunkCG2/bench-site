@@ -27,7 +27,7 @@ Si `ejecuta: claude`, impleméntala tú en la rama y salta al paso 3.
 - `git status` (sin archivos sueltos) y `git diff main...task/NNN-nombre --stat`; el diff completo solo donde las comprobaciones no ven.
 - Ejecuta tú `npm test` y `npm run build`. Si el worker llegó a `max turns` o dio error, juzga por los archivos y las
   comprobaciones, no por el estado de salida.
-- Revisa cada criterio de aceptación. Si un criterio fallido en realidad estaba mal planteado, corrígelo y anótalo.
+- Revisa cada criterio de aceptación y cada sign de `docs/guardrails.md`. Si un criterio fallido en realidad estaba mal planteado, corrígelo y anótalo.
 
 ## 4. Corregir (máx. 3 rondas)
 Si algo falla, crea `NNN-nombre.fix-K.md` junto a la tarea (misma carpeta) con correcciones numeradas y concretas (archivo, qué está mal, qué se
@@ -40,6 +40,11 @@ pequeño o explícale el bloqueo al usuario.
 - En la tarea: `estado: hecha`, `rondas: K` y 1–2 líneas en "Notas de revisión". Commit.
 - **Notas del harness:** si la tarea necesitó más de una ronda, o algo del propio harness falló (worker en bucle, criterio
   malo, permiso, pregunta que faltaba), añade una entrada a `docs/harness-notes.md`.
+- **Sign de guardrails:** si una ronda de corrección, una escalada o un defecto repetible tuvo una causa que una regla corta
+  habría evitado, propón UN sign al usuario con la forma `- Cuando <situación>: <regla>. Evidencia: <tarea, salida de la
+  comprobación o test>`. Añádelo a la sección `Signs` de `docs/guardrails.md` solo si el usuario lo aprueba. Sin evidencia,
+  no hay sign. No añadas un sign que repita una comprobación o `[scope] protected`; si una comprobación puede hacerlo
+  cumplir, propón eso. Si ya hay 20 signs, propón fusionar o retirar uno antes.
 - Actualiza `docs/progress/progress.md`.
 
 ## 6. Fin de hito

@@ -10,6 +10,7 @@ Stack: Vite + JavaScript vanilla, CSS sin frameworks, Vitest para tests.
 - Como se ve: docs/diseno.md
 - Tareas: docs/tasks/ (una por archivo; el estado va en el frontmatter). Las que salen de una revisión a ojo (`/qa`) van en docs/tasks/qa/. Progreso e hitos: docs/progress/progress.md
 - Roles del harness: .harness/roles/. Notas de lo que falle del harness: docs/harness-notes.md
+- Reglas aprendidas de fallos ("signs"): docs/guardrails.md. El worker las recibe en cada tarea.
 
 ## Reglas
 - Los datos salen solo de src/data/benchmarks.json, que se genera con `npm run data`. Nunca escribas cifras a mano.

@@ -6,7 +6,7 @@ base_branch = "main"
 
 [template]
 path = "E:\\IA\\harness-template"
-version = "cfa6e4d"   # commit de la plantilla con el que se alineo este proyecto (para /sync)
+version = "96d2eb0"   # commit de la plantilla con el que se alineo este proyecto (para /sync)
 stack = "web"
 
 [sync]
